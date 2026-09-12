@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.astro/
+src/generated/github.json
+src/generated/linkedin.json
+.sites-runtime/

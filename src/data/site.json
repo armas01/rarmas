@@ -1,0 +1,9 @@
+{
+  "identity": {"name":"Rodo Armas","title":"Strategy & Planning Coordinator · Uber Eats, LatAm"},
+  "links": {"linkedin":"https://www.linkedin.com/in/rodoarmas/","github":"https://github.com/armas01","cvUrl":null},
+  "hero": {"eyebrow":"Rodo Armas","title":"Strategy, with a builder’s mindset.","description":"I’m a Strategy & Planning Coordinator at Uber Eats, LatAm. Outside the day job, I enjoy testing useful software and robotics ideas."},
+  "focus": ["Strategy and business decisions","Useful software","Systems worth understanding"],
+  "timeline": [{"role":"Strategy & Planning Coordinator","organization":"Uber Eats, LatAm","date":null,"description":"Working at the intersection of strategy and planning.","verified":true,"current":true}],
+  "interests": ["Robotics and hardware","Small software and game experiments","Trying useful ideas"],
+  "assets": {"hero":"src/assets/hero-santiago.png","heroStatus":"owner-supplied","heroAttribution":null}
+}

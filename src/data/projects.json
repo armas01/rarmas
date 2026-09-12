@@ -1,0 +1,4 @@
+[
+  {"id":"lucas","name":"Lucas","repository":null,"draft":false,"problem":"A weekend experiment in making personal-finance help feel more approachable.","contribution":"Built with a team during Platanus Hack 25.","description":"An AI personal-finance helper made in 36 hours as a hackathon prototype.","technologies":[],"url":"https://grupo-29-platanus-client.vercel.app/","type":"Prototype","source":"GitHub profile README, 2026-09-12"},
+  {"id":"optimization","name":"Optimization project","repository":"ICS1113","draft":true,"problem":null,"contribution":null,"description":null,"technologies":["Python"],"url":"https://github.com/armas01/ICS1113","type":"Course project","source":"Repository metadata only"}
+]

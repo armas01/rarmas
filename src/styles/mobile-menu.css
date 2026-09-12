@@ -1,0 +1,9 @@
+.mobile-menu { display: none; }
+
+@media (max-width: 800px) {
+  .mobile-menu { display: block; position: relative; }
+  .mobile-menu summary { cursor: pointer; font-size: .82rem; list-style: none; }
+  .mobile-menu summary::-webkit-details-marker { display: none; }
+  .mobile-menu nav { position: absolute; right: 0; top: 2rem; width: 180px; display: grid; gap: .9rem; padding: 1rem; border-radius: 14px; color: var(--ink); background: #fff; box-shadow: 0 16px 40px rgba(0,0,0,.25); }
+  .site-header > nav, .site-header > .connect { display: none; }
+}

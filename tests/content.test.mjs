@@ -1,0 +1,4 @@
+import test from 'node:test'; import assert from 'node:assert/strict'; import site from '../src/data/site.json' with { type: 'json' }; import posts from '../src/data/linkedin.json' with { type: 'json' };
+test('external links use HTTPS',()=>{for(const url of Object.values(site.links).filter(Boolean)) assert.equal(new URL(url).protocol,'https:')});
+test('posts are canonical and unique',()=>{const urls=posts.map((post)=>post.canonicalUrl);assert.equal(new Set(urls).size,urls.length);for(const post of posts){assert.ok(!post.draft);assert.ok(!Number.isNaN(Date.parse(post.publishedAt)));assert.equal(new URL(post.canonicalUrl).protocol,'https:')}});
+test('LinkedIn sync never exposes secrets to browser code',async()=>{const source=await import('node:fs/promises').then((fs)=>fs.readFile(new URL('../scripts/sync-linkedin.mjs',import.meta.url),'utf8'));assert.ok(!source.includes('PUBLIC_LINKEDIN'));assert.ok(source.includes('api.linkedin.com/rest/posts'));});

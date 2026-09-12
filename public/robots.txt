@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rarmas.cl/sitemap-index.xml

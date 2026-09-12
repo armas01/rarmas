@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import { readFile } from 'node:fs/promises';
+import site from '../data/site.json';
+import projects from '../data/projects.json';
+import posts from '../data/linkedin.json';
+import heroImage from '../assets/hero-santiago.png';
+const project = projects.find((item) => !item.draft)!;
+type Post = { id:string; canonicalUrl:string; publishedAt:string; text:string; topic?:string; draft:boolean };
+let linkedInPosts = posts as Post[];
+try { linkedInPosts = JSON.parse(await readFile(new URL('../generated/linkedin.json', import.meta.url), 'utf8')); } catch {}
+const updates = linkedInPosts.filter((post) => !post.draft).sort((a,b) => Date.parse(b.publishedAt)-Date.parse(a.publishedAt)).slice(0,3);
+---
+<BaseLayout>
+  <header class="site-header">
+    <a class="wordmark" href="#top" aria-label="Rodo Armas, home"><span class="logo-frame"><img class="logo-image" src="/logo.png" alt="" width="31" height="31"/></span> Rodo Armas</a>
+    <nav aria-label="Main navigation"><a href="#focus">Focus</a><a href="#work">Work</a><a href="#trajectory">Trajectory</a><a href="#beyond">Beyond</a></nav>
+    <details class="mobile-menu"><summary>Menu</summary><nav aria-label="Mobile navigation"><a href="#focus">Focus</a><a href="#work">Work</a><a href="#trajectory">Trajectory</a><a href="#beyond">Beyond</a><a href="#connect">Connect</a></nav></details>
+    <a class="header-cta" href="#connect">Let’s connect <i>↗</i></a>
+  </header>
+
+  <main id="main">
+    <section id="top" class="hero">
+      <div class="hero-scene" aria-hidden="true"><Image class="hero-photo" src={heroImage} alt="" widths={[640,960,1280,1672]} sizes="100vw" format="webp" quality={82} loading="eager" fetchpriority="high"/><div class="hero-light"></div></div>
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="hero-copy"><p class="kicker"><span></span> Santiago · Strategy & building</p><h1>Strategy,<br/><em>built</em> to move.</h1><p class="hero-lede">I work in Strategy & Planning at Uber Eats across LatAm—and build practical software and robotics projects to understand how ideas behave in the real world.</p><div class="hero-actions"><a class="pill pill-light" href="#work">See selected work <span>↓</span></a><a class="ghost-link" href="#focus">How I think <span>↘</span></a></div></div>
+      <div class="hero-side"><span>01</span><p>Clarity for complex decisions.<br/>Curiosity made tangible.</p></div><a class="scroll-cue" href="#focus" aria-label="Scroll to focus"><span></span> Scroll</a>
+    </section>
+
+    <section id="focus" class="manifesto shell">
+      <div class="section-index"><span>01</span><p>What I focus on</p></div>
+      <div class="manifesto-copy"><h2>Good strategy turns<br/>complexity into <em>motion.</em></h2><p>I like finding the signal in messy systems: framing the decision, understanding the trade-offs, and making the next step clear enough to act on.</p></div>
+      <div class="focus-orbit" aria-label="Three connected areas of focus"><div class="focus-center">Where I<br/>do my best<br/>work</div>{site.focus.map((item,index) => <article><span>0{index+1}</span><h3>{item}</h3></article>)}</div>
+    </section>
+
+    <section id="work" class="work">
+      <div class="work-head shell"><div class="section-index light"><span>02</span><p>Selected work</p></div><h2>Ideas are better<br/>when they <em>exist.</em></h2><p>A compact selection, because one real project says more than a wall of filler.</p></div>
+      <article class="project shell"><div class="project-visual" aria-hidden="true"><div class="phone"><div class="phone-top"></div><span class="lucas-mark">L</span><p>What would you like<br/>to understand?</p><div class="chat-line wide"></div><div class="chat-line"></div></div><div class="project-halo"></div><p class="visual-note">36 hours<br/>one working prototype</p></div><div class="project-copy"><p class="meta"><span>{project.type}</span> Platanus Hack 25</p><h3>{project.name}</h3><p class="project-lede">{project.problem}</p><p>{project.contribution} {project.description}</p><dl><div><dt>Context</dt><dd>Hackathon build</dd></div><div><dt>Shape</dt><dd>Team prototype</dd></div><div><dt>Intent</dt><dd>Useful finance help</dd></div></dl><a class="pill pill-blue" href={project.url} target="_blank" rel="noreferrer">Open Lucas <span>↗</span></a></div></article>
+    </section>
+
+    <section id="trajectory" class="trajectory shell">
+      <div class="section-index"><span>03</span><p>Trajectory</p></div><div class="trajectory-title"><h2>Built from systems,<br/>people and <em>practice.</em></h2><p>Only the parts of the story that are verified are published here. The rest can arrive when it is ready.</p></div>
+      <div class="timeline">{site.timeline.filter((item) => item.verified).map((item) => <article><div class="time-mark"><span></span><i></i></div><div><p class="meta">{item.current ? 'Current role' : item.date}</p><h3>{item.role}</h3><p class="org">{item.organization}</p><p>{item.description}</p></div></article>)}<article class="timeline-future"><div class="time-mark"><span></span></div><div><p class="meta">More context</p><h3>The fuller path</h3><p>Education, research, teaching and earlier roles will appear once their wording and dates are confirmed.</p></div></article></div>
+      {site.links.cvUrl ? <a class="cv-link" href={site.links.cvUrl}>Download CV ↗</a> : <span class="cv-link disabled" aria-disabled="true">CV · coming soon</span>}
+    </section>
+
+    <section id="beyond" class="beyond"><div class="beyond-backdrop" aria-hidden="true"><div class="electric-orb"></div><div class="grid-plane"></div></div><div class="beyond-copy shell"><div class="section-index light"><span>04</span><p>Beyond the job title</p></div><h2>Curiosity is<br/>a useful <em>habit.</em></h2><p>Some questions belong in a spreadsheet. Others need a circuit, a controller, a small game, or a prototype you can put in someone’s hands.</p><ul>{site.interests.map((interest,index) => <li><span>0{index+1}</span><p>{interest}</p><i>↗</i></li>)}</ul></div></section>
+
+    <section id="notes" class="notes shell"><div class="section-index"><span>05</span><p>Selected updates</p></div><div class="notes-title"><h2>Thinking,<br/><em>out loud.</em></h2><p>Short observations, experiments and things worth sharing.</p></div>{updates.length ? <div class="post-grid">{updates.map((post) => <a href={post.canonicalUrl} target="_blank" rel="noreferrer"><p class="meta">{new Intl.DateTimeFormat('en',{dateStyle:'medium'}).format(new Date(post.publishedAt))}{post.topic ? ` · ${post.topic}` : ''}</p><h3>{post.text}</h3><span>Read on LinkedIn ↗</span></a>)}</div> : <a class="empty-update" href={site.links.linkedin} target="_blank" rel="noreferrer"><div><p class="meta">Updates live elsewhere, for now</p><h3>Follow the next idea on LinkedIn.</h3></div><span>↗</span></a>}</section>
+  </main>
+
+  <footer id="connect"><div class="footer-orb" aria-hidden="true"></div><div class="footer-content"><p class="kicker"><span></span> Open to a good conversation</p><h2>Have an idea<br/>worth <em>exploring?</em></h2><div class="footer-links"><a class="pill pill-light" href={site.links.linkedin} target="_blank" rel="noreferrer">Connect on LinkedIn <span>↗</span></a><a class="ghost-link" href={site.links.github} target="_blank" rel="noreferrer">See GitHub <span>↗</span></a></div><div class="footer-base"><a class="wordmark" href="#top"><span class="logo-frame"><img class="logo-image" src="/logo.png" alt="" width="31" height="31"/></span> Rodo Armas</a><p>Santiago, Chile · {new Date().getFullYear()}</p><p>Strategy with a builder’s mindset.</p></div></div></footer>
+  <script>
+    document.querySelectorAll('.mobile-menu a').forEach((link) => link.addEventListener('click', () => (link.closest('details') as HTMLDetailsElement).open = false));
+    const hero = document.querySelector<HTMLElement>('.hero');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+    let ticking = false;
+    const updateHero = () => { if (!hero || reduced.matches) return; const progress = Math.min(1, scrollY / Math.max(1, hero.offsetHeight)); hero.style.setProperty('--hero-progress', String(progress)); ticking = false; };
+    addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(updateHero); ticking = true; } }, { passive: true });
+    updateHero();
+  </script>
+</BaseLayout>
