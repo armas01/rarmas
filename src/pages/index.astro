@@ -1,10 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import Section from '../components/layout/Section.astro';
 import { content } from '../content/schema';
+
+// Temporary scaffold: empty sections so navbar behaviour is testable.
+const ids = [...content.nav.links.map((l) => l.href.slice(1)), 'contact'];
 ---
 
 <BaseLayout>
+  <Navbar />
   <main id="main">
-    <h1 class="display">{content.hero.headline}</h1>
+    <section id="top"></section>
+    <h1 class="display shell" style="padding-top: calc(var(--nav-h) + 48px)">
+      {content.hero.headline}
+    </h1>
+    {ids.map((id) => (
+      <Section id={id}>
+        <div class="shell" style="min-height:40vh">
+          {id}
+        </div>
+      </Section>
+    ))}
   </main>
+  <Footer />
 </BaseLayout>

@@ -1,0 +1,281 @@
+---
+import { content } from '../../content/schema';
+import Button from '../ui/Button.astro';
+const { links, cta } = content.nav;
+---
+
+<header class="nav" data-nav data-state="top">
+  <div class="nav-inner">
+    <a href="#top" class="nav-brand">
+      <img src="/logo.png" alt="" width="28" height="28" />
+      <span>Rodo Armas</span>
+    </a>
+    <nav aria-label="Main" class="nav-links">
+      {links.map((l) => (
+        <a href={l.href}>{l.label}</a>
+      ))}
+      <span class="nav-indicator" aria-hidden="true"></span>
+    </nav>
+    <div class="nav-cta">
+      <Button variant="primary" magnetic href={cta.href}>
+        {cta.label}
+      </Button>
+    </div>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-menu" type="button">
+      <span class="visually-hidden">Menu</span>
+      <span class="burger" aria-hidden="true">
+        <i></i>
+        <i></i>
+      </span>
+    </button>
+  </div>
+  <div id="mobile-menu" class="nav-overlay" hidden>
+    <div class="overlay-links">
+      {links.map((l, i) => (
+        <a href={l.href} style={`--i:${i}`}>
+          {l.label}
+        </a>
+      ))}
+    </div>
+    <div class="overlay-cta" style={`--i:${links.length}`}>
+      <Button variant="light" href={cta.href}>
+        {cta.label}
+      </Button>
+    </div>
+  </div>
+  <div class="nav-progress" aria-hidden="true">
+    <span></span>
+  </div>
+</header>
+
+<script>
+  import { initNavbar } from '../../scripts/navbar';
+  const el = document.querySelector<HTMLElement>('[data-nav]');
+  if (el) initNavbar(el);
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    height: var(--nav-h);
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+  .nav[data-hidden] {
+    transform: translateY(-120%);
+  }
+  .nav-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5, 24px);
+    height: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: clamp(20px, 4vw, 48px);
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition:
+      max-width var(--dur-3) var(--ease-out),
+      margin var(--dur-3) var(--ease-out),
+      height var(--dur-3) var(--ease-out),
+      border-radius var(--dur-3) var(--ease-out),
+      background-color var(--dur-3) var(--ease-out),
+      border-color var(--dur-3) var(--ease-out),
+      backdrop-filter var(--dur-3) var(--ease-out);
+  }
+  .nav[data-state='floating'] .nav-inner {
+    max-width: 880px;
+    height: calc(var(--nav-h) - 12px);
+    margin-top: 12px;
+    border-radius: 999px;
+    background: rgb(20 20 22 / 0.72);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    border: 1px solid var(--line);
+    padding-inline: 20px;
+  }
+  @media (max-width: 919px) {
+    .nav[data-state='floating'] .nav-inner {
+      margin-inline: 12px;
+    }
+  }
+  .nav-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  .nav-brand img {
+    border-radius: 6px;
+  }
+  .nav-links {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+  .nav-links a {
+    position: relative;
+    z-index: 1;
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color var(--dur-2) var(--ease-out);
+  }
+  .nav-links a:hover,
+  .nav-links a[aria-current='true'] {
+    color: var(--text);
+  }
+  .nav-links a:focus-visible,
+  .nav-toggle:focus-visible,
+  .nav-brand:focus-visible,
+  .overlay-links a:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  .nav-indicator {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 34px;
+    width: var(--ind-w, 0);
+    transform: translate(var(--ind-x, 0), -50%);
+    border-radius: var(--radius-pill);
+    background: var(--surface-2);
+    opacity: 0;
+    transition:
+      transform var(--dur-3) var(--ease-out),
+      width var(--dur-3) var(--ease-out),
+      opacity var(--dur-2) var(--ease-out);
+  }
+  .nav-indicator[data-active='true'] {
+    opacity: 1;
+  }
+  .nav-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .burger {
+    position: relative;
+    width: 22px;
+    height: 12px;
+  }
+  .burger i {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: currentColor;
+    transition:
+      transform var(--dur-3) var(--ease-out),
+      top var(--dur-3) var(--ease-out);
+  }
+  .burger i:nth-child(1) {
+    top: 0;
+  }
+  .burger i:nth-child(2) {
+    top: 10px;
+  }
+  .nav-toggle[aria-expanded='true'] .burger i:nth-child(1) {
+    top: 5px;
+    transform: rotate(45deg);
+  }
+  .nav-toggle[aria-expanded='true'] .burger i:nth-child(2) {
+    top: 5px;
+    transform: rotate(-45deg);
+  }
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-7, 40px);
+    padding: calc(var(--nav-h) + 24px) clamp(20px, 6vw, 48px) 48px;
+    background: var(--bg);
+  }
+  .nav-overlay[hidden] {
+    display: none;
+  }
+  .overlay-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .overlay-links a {
+    align-self: flex-start;
+    font-size: clamp(2rem, 9vw, 3rem);
+    font-weight: 800;
+    letter-spacing: var(--tracking-display, -0.03em);
+    line-height: 1.15;
+    border-radius: 12px;
+  }
+  .overlay-links a,
+  .overlay-cta {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  :global(html.menu-open) .overlay-links a,
+  :global(html.menu-open) .overlay-cta {
+    animation: nav-rise var(--dur-3) var(--ease-out) both;
+    animation-delay: calc(var(--i) * 50ms + 60ms);
+  }
+  @keyframes nav-rise {
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .nav-progress {
+    position: absolute;
+    inset: auto 0 0 0;
+    z-index: 3;
+    height: 2px;
+    pointer-events: none;
+  }
+  .nav-progress span {
+    display: block;
+    height: 100%;
+    background: var(--accent-gradient);
+    transform: scaleX(var(--progress, 0));
+    transform-origin: left;
+  }
+  :global(html.menu-open) {
+    overflow: hidden;
+  }
+  @media (max-width: 767px) {
+    .nav-links,
+    .nav-cta {
+      display: none;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .overlay-links a,
+    .overlay-cta {
+      opacity: 1;
+      transform: none;
+      animation: none !important;
+    }
+  }
+</style>

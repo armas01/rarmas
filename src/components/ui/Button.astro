@@ -1,0 +1,88 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'ghost' | 'light';
+  magnetic?: boolean;
+  external?: boolean;
+  class?: string;
+}
+const { href, variant = 'primary', magnetic = false, external = false, class: cls } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={['btn', `btn-${variant}`, cls]}
+  data-motion={magnetic ? 'magnetic' : undefined}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noreferrer' : undefined}
+>
+  <span class="btn-label">
+    <slot />
+  </span>
+  {external && (
+    <span class="btn-arrow" aria-hidden="true">
+      ↗
+    </span>
+  )}
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    min-height: 48px;
+    padding: 0 var(--space-5, 24px);
+    border-radius: var(--radius-pill);
+    border: 1px solid transparent;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-2) var(--ease-out),
+      color var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out);
+  }
+  .btn:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 8px 32px -8px rgb(255 255 255 / 0.35);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--line);
+  }
+  .btn-ghost:hover {
+    background: var(--surface-2);
+    border-color: var(--muted);
+  }
+  .btn-light {
+    background: #fff;
+    color: #0a0a0b;
+  }
+  .btn-light:hover {
+    box-shadow: 0 8px 32px -8px rgb(0 0 0 / 0.3);
+  }
+  .btn-arrow {
+    display: inline-block;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .btn:hover .btn-arrow {
+    transform: translate(2px, -2px);
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+</style>

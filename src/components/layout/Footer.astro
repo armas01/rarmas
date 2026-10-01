@@ -1,0 +1,67 @@
+---
+import { content } from '../../content/schema';
+import site from '../../data/site.json';
+import Button from '../ui/Button.astro';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer-inner" data-motion="reveal-up">
+      <div class="footer-brand">
+        <a href="#top" class="brand">
+          <img src="/logo.png" alt="" width="28" height="28" />
+          <span>Rodo Armas</span>
+        </a>
+        <p class="note">{content.contact.footerNote}</p>
+      </div>
+      <div class="footer-links">
+        <Button href={site.links.linkedin} variant="ghost" external>
+          LinkedIn
+        </Button>
+        <Button href={site.links.github} variant="ghost" external>
+          GitHub
+        </Button>
+      </div>
+    </div>
+    <p class="copy">© {year} Rodo Armas</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: var(--space-9, 80px) var(--space-7, 40px);
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6, 32px);
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: -0.02em;
+  }
+  .note {
+    margin: var(--space-4, 16px) 0 0;
+    max-width: 36ch;
+    color: var(--muted);
+  }
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .copy {
+    margin: var(--space-8, 64px) 0 0;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+</style>

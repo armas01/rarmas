@@ -1,0 +1,21 @@
+---
+interface Props {
+  value: number;
+  suffix?: string;
+}
+const { value, suffix = '' } = Astro.props;
+const text = `${value}${suffix}`;
+---
+
+<span class="counter">
+  <span class="visually-hidden">{text}</span>
+  <span aria-hidden="true" data-motion="counter" data-motion-to={value} data-motion-suffix={suffix}>
+    {text}
+  </span>
+</span>
+
+<style>
+  .counter {
+    font-variant-numeric: tabular-nums;
+  }
+</style>
