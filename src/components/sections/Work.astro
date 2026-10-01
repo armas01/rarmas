@@ -1,0 +1,151 @@
+---
+import Section from '../layout/Section.astro';
+import Tag from '../ui/Tag.astro';
+import Button from '../ui/Button.astro';
+import { content } from '../../content/schema';
+
+const { work } = content;
+const hues = [222, 268, 188];
+---
+
+<Section id="work" labelledby="work-title">
+  <div class="shell">
+    <p class="eyebrow">{work.eyebrow}</p>
+    <h2 id="work-title" class="h2 work-title" data-motion="reveal-words">
+      {work.title}
+    </h2>
+    <div class="work-stack" data-motion="stack-cards">
+      {work.projects.map((p, i) => (
+        <article class="card" data-card style={`--hue:${hues[i % hues.length]}`}>
+          <div class="copy">
+            <Tag>{p.tag}</Tag>
+            <h3 class="card-title">{p.title}</h3>
+            <p class="summary">{p.summary}</p>
+            <Button href={p.href} variant="ghost">
+              {p.cta}
+            </Button>
+          </div>
+          <div class="visual" aria-hidden="true">
+            <span class="v v1"></span>
+            <span class="v v2"></span>
+            <span class="v v3"></span>
+            <span class="ring"></span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Section>
+
+<style>
+  .work-title {
+    margin-top: var(--space-4);
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .work-stack {
+    margin-top: var(--space-8);
+    display: grid;
+    gap: 10vh;
+  }
+  .card {
+    position: sticky;
+    top: calc(var(--nav-h) + 24px);
+    min-height: min(78svh, 680px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: var(--radius-3);
+    overflow: hidden;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    transform-origin: top center;
+    will-change: transform;
+  }
+  .copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: clamp(28px, 5vw, 72px);
+  }
+  .card-title {
+    font-size: clamp(1.75rem, 3.6vw, 3rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: var(--tracking-display);
+    text-wrap: balance;
+  }
+  .summary {
+    max-width: 44ch;
+    color: var(--muted);
+    font-size: clamp(1rem, 1.3vw, 1.125rem);
+    line-height: 1.55;
+    margin-bottom: var(--space-3);
+  }
+  .visual {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(100% 100% at 70% 0%, hsl(var(--hue) 80% 40% / 0.35), transparent 70%), var(--surface-2);
+  }
+  .v {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(36px);
+  }
+  .v1 {
+    width: 60%;
+    aspect-ratio: 1;
+    right: -8%;
+    top: -6%;
+    background: hsl(var(--hue) 90% 60%);
+    opacity: 0.8;
+  }
+  .v2 {
+    width: 46%;
+    aspect-ratio: 1;
+    left: 6%;
+    bottom: 4%;
+    background: hsl(calc(var(--hue) + 55) 85% 58%);
+    opacity: 0.75;
+  }
+  .v3 {
+    width: 26%;
+    aspect-ratio: 1;
+    left: 40%;
+    top: 40%;
+    background: var(--text);
+    opacity: 0.5;
+  }
+  .ring {
+    position: absolute;
+    width: 70%;
+    aspect-ratio: 1;
+    left: 15%;
+    top: 15%;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    box-shadow:
+      0 0 0 40px rgb(255 255 255 / 0.03),
+      0 0 0 90px rgb(255 255 255 / 0.02);
+  }
+  .card:nth-child(2) .ring {
+    border-radius: 32%;
+    transform: rotate(18deg);
+  }
+  .card:nth-child(3) .ring {
+    border-radius: 50% 0 50% 0;
+    transform: rotate(-12deg);
+  }
+  @media (max-width: 767px) {
+    .card {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 220px;
+      min-height: 0;
+    }
+    .work-stack {
+      gap: 6vh;
+    }
+  }
+</style>

@@ -1,0 +1,205 @@
+---
+import Tag from '../ui/Tag.astro';
+import Button from '../ui/Button.astro';
+import { content } from '../../content/schema';
+
+const { hero } = content;
+---
+
+<section id="top" class="hero" data-motion="hero-scale cursor-glow" aria-labelledby="hero-title">
+  <div class="hero-frame" data-hero-frame>
+    <div class="orb orb-a" aria-hidden="true"></div>
+    <div class="orb orb-b" aria-hidden="true"></div>
+    <div class="grid" aria-hidden="true"></div>
+    <div class="glow" data-glow aria-hidden="true"></div>
+
+    <div class="shell hero-inner">
+      <div class="hero-copy">
+        <Tag>{hero.eyebrow}</Tag>
+        <h1 id="hero-title" class="display" data-motion="reveal-words" data-motion-trigger="load">
+          {hero.headline}
+        </h1>
+        <p class="lede" data-motion="reveal-up" data-motion-delay="0.5">
+          {hero.lede}
+        </p>
+        <div class="actions" data-motion="reveal-up" data-motion-delay="0.7">
+          <Button href={hero.primary.href} magnetic>
+            {hero.primary.label}
+          </Button>
+          <Button href={hero.secondary.href} variant="ghost">
+            {hero.secondary.label}
+          </Button>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#stats" aria-label="Scroll to next section">
+        <span class="line" aria-hidden="true"></span>
+        <span class="arrow" aria-hidden="true">
+          ↓
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100svh;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    padding: 0;
+  }
+  .hero-frame {
+    position: relative;
+    flex: 1;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: radial-gradient(120% 90% at 50% 0%, var(--surface-2) 0%, var(--bg) 62%), var(--bg);
+    transform-origin: center top;
+    will-change: transform;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .orb-a {
+    width: min(60vw, 720px);
+    aspect-ratio: 1;
+    top: -12%;
+    right: -8%;
+    background: radial-gradient(circle at 30% 30%, var(--accent-a), transparent 70%);
+    animation: drift-a 20s ease-in-out infinite alternate;
+  }
+  .orb-b {
+    width: min(55vw, 640px);
+    aspect-ratio: 1;
+    bottom: -18%;
+    left: -10%;
+    background: radial-gradient(circle at 60% 40%, var(--accent-b), transparent 70%);
+    opacity: 0.45;
+    animation: drift-b 26s ease-in-out infinite alternate;
+  }
+  @keyframes drift-a {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(-8%, 10%, 0) scale(1.15);
+    }
+  }
+  @keyframes drift-b {
+    from {
+      transform: translate3d(0, 0, 0) scale(1.1);
+    }
+    to {
+      transform: translate3d(12%, -8%, 0) scale(0.95);
+    }
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--text) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--text) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(80% 70% at 50% 40%, var(--text) 30%, transparent 100%);
+  }
+  .glow {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 480px;
+    height: 480px;
+    margin: -240px 0 0 -240px;
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0.55;
+    background: radial-gradient(circle, var(--accent-a) 0%, transparent 65%);
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding-top: calc(var(--nav-h) + var(--space-8));
+    padding-bottom: clamp(40px, 8vh, 88px);
+  }
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    max-width: min(100%, 1040px);
+  }
+  .hero-copy h1 {
+    text-wrap: balance;
+  }
+  .lede {
+    max-width: 52ch;
+    font-size: clamp(1.0625rem, 1.6vw, 1.375rem);
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+  .scroll-cue {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--muted);
+    padding: var(--space-2);
+    border-radius: var(--radius-pill);
+  }
+  .scroll-cue:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: 4px;
+  }
+  .line {
+    position: relative;
+    display: block;
+    width: 1px;
+    height: 72px;
+    overflow: hidden;
+    background: var(--line);
+  }
+  .line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent-gradient);
+    animation: cue 2.2s var(--ease-out) infinite;
+  }
+  @keyframes cue {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+  .arrow {
+    font-size: 1rem;
+    line-height: 1;
+  }
+  @media (max-width: 640px) {
+    .scroll-cue {
+      display: none;
+    }
+  }
+</style>

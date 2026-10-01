@@ -1,0 +1,72 @@
+---
+import Section from '../layout/Section.astro';
+import Counter from '../ui/Counter.astro';
+import { content } from '../../content/schema';
+
+const { stats } = content;
+---
+
+<Section id="stats">
+  <div class="shell">
+    <div class="stats" data-motion="reveal-up" data-motion-stagger="0.08">
+      {stats.map((s) => (
+        <div class="stat">
+          <div class="value gradient-text">
+            <Counter value={s.value} suffix={s.suffix} />
+          </div>
+          <p class="label">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</Section>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-block: 1px solid var(--line);
+  }
+  .stat {
+    padding: var(--space-7) var(--space-5);
+    border-inline-start: 1px solid var(--line);
+  }
+  .stat:first-child {
+    border-inline-start: 0;
+    padding-inline-start: 0;
+  }
+  .value {
+    display: inline-block;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    padding-bottom: 0.08em;
+  }
+  .label {
+    margin-top: var(--space-3);
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+  @media (max-width: 767px) {
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stat,
+    .stat:first-child {
+      padding: var(--space-6) var(--space-4);
+      border-inline-start: 0;
+      border-block-end: 1px solid var(--line);
+    }
+    .stat:nth-child(even) {
+      border-inline-start: 1px solid var(--line);
+    }
+    .stat:nth-child(odd) {
+      padding-inline-start: 0;
+    }
+    .stat:nth-last-child(-n + 2) {
+      border-block-end: 0;
+    }
+  }
+</style>

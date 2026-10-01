@@ -1,0 +1,216 @@
+---
+import Section from '../layout/Section.astro';
+import { content } from '../../content/schema';
+
+const { story } = content;
+---
+
+<Section id="story" labelledby="story-title">
+  <div class="shell">
+    <h2 id="story-title" class="eyebrow">
+      {story.eyebrow}
+    </h2>
+    <div class="story-stage" data-motion="pin-story" data-active-index="0">
+      <div class="chapters">
+        {story.chapters.map((c, i) => (
+          <article class="chapter" data-chapter data-active={i === 0 ? '' : undefined}>
+            <p class="kicker eyebrow">{c.kicker}</p>
+            <h3 class="chapter-title">{c.title}</h3>
+            <p class="chapter-body">{c.body}</p>
+          </article>
+        ))}
+        <div class="dots">
+          {story.chapters.map(() => (
+            <span class="dot" data-dot role="presentation" />
+          ))}
+        </div>
+      </div>
+      <div class="story-visual" data-shape aria-hidden="true">
+        <span class="blob b1"></span>
+        <span class="blob b2"></span>
+        <span class="blob b3"></span>
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .story-stage {
+    margin-top: var(--space-7);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+  .chapters {
+    position: relative;
+    display: grid;
+    gap: var(--space-9);
+  }
+  .chapter-title {
+    margin-top: var(--space-4);
+    font-size: clamp(2rem, 4.4vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.04;
+    letter-spacing: var(--tracking-display);
+  }
+  .chapter-body {
+    margin-top: var(--space-5);
+    max-width: 46ch;
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .kicker {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .dots {
+    display: none;
+  }
+  .story-visual {
+    position: relative;
+    width: 100%;
+    max-width: 560px;
+    aspect-ratio: 1;
+    justify-self: center;
+    border-radius: var(--radius-3);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: radial-gradient(90% 90% at 50% 0%, var(--surface-2), var(--surface) 70%);
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(44px);
+    transition:
+      transform 1s var(--ease-out),
+      filter 1s var(--ease-out);
+    will-change: transform;
+  }
+  .b1 {
+    width: 62%;
+    aspect-ratio: 1;
+    left: 4%;
+    top: 6%;
+    background: var(--accent-a);
+    opacity: 0.85;
+  }
+  .b2 {
+    width: 52%;
+    aspect-ratio: 1;
+    right: 2%;
+    bottom: 8%;
+    background: var(--accent-b);
+    opacity: 0.8;
+  }
+  .b3 {
+    width: 34%;
+    aspect-ratio: 1;
+    left: 38%;
+    top: 36%;
+    background: var(--text);
+    opacity: 0.55;
+    filter: blur(36px);
+  }
+  /* state 0 is the default; states 1-3 move, scale and re-hue the blobs */
+  [data-active-index='1'] .b1 {
+    transform: translate(55%, 30%) scale(0.8);
+    filter: blur(44px) hue-rotate(40deg);
+  }
+  [data-active-index='1'] .b2 {
+    transform: translate(-70%, -40%) scale(1.25);
+    filter: blur(44px) hue-rotate(-30deg);
+  }
+  [data-active-index='1'] .b3 {
+    transform: translate(-60%, -50%) scale(1.5);
+  }
+  [data-active-index='2'] .b1 {
+    transform: translate(20%, 70%) scale(1.3);
+    filter: blur(52px) hue-rotate(90deg);
+  }
+  [data-active-index='2'] .b2 {
+    transform: translate(-20%, -60%) scale(0.7);
+    filter: blur(40px) hue-rotate(60deg);
+  }
+  [data-active-index='2'] .b3 {
+    transform: translate(60%, -30%) scale(0.8);
+  }
+  [data-active-index='3'] .b1 {
+    transform: translate(30%, 10%) scale(1.6);
+    filter: blur(56px) hue-rotate(-40deg);
+  }
+  [data-active-index='3'] .b2 {
+    transform: translate(-30%, -10%) scale(1.4);
+    filter: blur(56px) hue-rotate(20deg);
+  }
+  [data-active-index='3'] .b3 {
+    transform: translate(0, 0) scale(2);
+    opacity: 0.35;
+  }
+
+  :global(html.js-motion) .story-stage {
+    height: 100svh;
+    margin-top: 0;
+  }
+  :global(html.js-motion) .chapters {
+    height: 100%;
+    display: block;
+  }
+  :global(html.js-motion) .chapter {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(32px);
+    pointer-events: none;
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      transform var(--dur-2) var(--ease-out);
+  }
+  :global(html.js-motion) .chapter[data-active] {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  :global(html.js-motion) .dots {
+    position: absolute;
+    left: 0;
+    bottom: clamp(24px, 8svh, 72px);
+    display: flex;
+    gap: var(--space-2);
+  }
+  .dot {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-pill);
+    background: var(--line);
+    transition:
+      width var(--dur-1) var(--ease-out),
+      background var(--dur-1) var(--ease-out);
+  }
+  .dot[aria-current='step'] {
+    width: 32px;
+    background: var(--accent-gradient);
+  }
+  @media (max-width: 899px) {
+    .story-stage {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+    :global(html.js-motion) .story-stage {
+      grid-template-rows: minmax(0, 1fr) auto;
+      padding-block: calc(var(--nav-h) + var(--space-4)) var(--space-5);
+      align-items: stretch;
+    }
+    :global(html.js-motion) .story-visual {
+      order: -1;
+      max-width: min(100%, 38svh);
+    }
+  }
+</style>

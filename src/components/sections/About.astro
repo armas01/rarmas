@@ -1,0 +1,29 @@
+---
+import Section from '../layout/Section.astro';
+import { content } from '../../content/schema';
+
+const { about } = content;
+---
+
+<Section id="about" labelledby="about-title">
+  <div class="shell">
+    <h2 id="about-title" class="eyebrow">
+      {about.eyebrow}
+    </h2>
+    <p class="about-body" data-motion="scrub-words">
+      {about.body}
+    </p>
+  </div>
+</Section>
+
+<style>
+  .about-body {
+    margin-top: var(--space-6);
+    max-width: 1000px;
+    font-size: clamp(1.75rem, 3.6vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    text-wrap: pretty;
+  }
+</style>
