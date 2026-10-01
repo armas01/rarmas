@@ -3,7 +3,11 @@ import Tag from '../ui/Tag.astro';
 import Button from '../ui/Button.astro';
 import { content } from '../../content/schema';
 
-const { hero } = content;
+interface Props {
+  hero?: typeof content.hero;
+  next?: string;
+}
+const { hero = content.hero, next = '#stats' } = Astro.props;
 ---
 
 <section id="top" class="hero" data-motion="hero-scale cursor-glow" aria-labelledby="hero-title">
@@ -31,7 +35,7 @@ const { hero } = content;
           </Button>
         </div>
       </div>
-      <a class="scroll-cue" href="#stats" aria-label="Scroll to next section">
+      <a class="scroll-cue" href={next} aria-label="Scroll to next section">
         <span class="line" aria-hidden="true"></span>
         <span class="arrow" aria-hidden="true">
           ↓

@@ -4,10 +4,20 @@ import raw from './content.json';
 const Text = z.string().min(1);
 const Link = z.object({ label: Text, href: Text });
 
+const Meta = z.object({ title: Text, description: Text });
+const Hero = z.object({ eyebrow: Text, headline: Text, lede: Text, primary: Link, secondary: Link });
+
 export const ContentSchema = z.object({
-  meta: z.object({ title: Text, description: Text }),
-  nav: z.object({ links: z.array(Link).min(1), cta: Link }),
-  hero: z.object({ eyebrow: Text, headline: Text, lede: Text, primary: Link, secondary: Link }),
+  meta: Meta,
+  lifeMeta: Meta,
+  nav: z.object({
+    views: z.array(Link).length(2),
+    links: z.array(Link).min(1),
+    lifeLinks: z.array(Link).min(1),
+    cta: Link,
+  }),
+  hero: Hero,
+  lifeHero: Hero,
   stats: z.array(z.object({ value: z.number(), suffix: z.string(), label: Text })).length(4),
   about: z.object({
     eyebrow: Text,

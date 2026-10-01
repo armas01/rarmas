@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import Life from '../components/sections/Life.astro';
+import Photography from '../components/sections/Photography.astro';
+import Contact from '../components/sections/Contact.astro';
+import { content } from '../content/schema';
+---
+
+<BaseLayout title={content.lifeMeta.title} description={content.lifeMeta.description}>
+  <Navbar view="life" />
+  <main id="main">
+    <Hero hero={content.lifeHero} next="#life" />
+    <Life />
+    <Photography />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>
