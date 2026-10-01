@@ -75,3 +75,19 @@ test('no serious accessibility violations', async ({ page }) => {
   const serious = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
   expect(serious.map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
 });
+
+for (const [w, h] of [
+  [390, 844],
+  [360, 640],
+  [1440, 900],
+]) {
+  test(`no horizontal overflow at ${w}x${h}`, async ({ page }) => {
+    await page.setViewportSize({ width: w, height: h });
+    await page.goto('/');
+    const { scrollW, clientW } = await page.evaluate(() => ({
+      scrollW: document.documentElement.scrollWidth,
+      clientW: document.documentElement.clientWidth,
+    }));
+    expect(scrollW).toBeLessThanOrEqual(clientW);
+  });
+}

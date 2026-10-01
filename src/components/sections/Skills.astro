@@ -46,6 +46,8 @@ const { skills } = content;
   .rows {
     margin-top: var(--space-8);
     display: grid;
+    /* minmax(0, …) stops the nowrap marquee track from stretching the column (and the page) */
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-4);
   }
   .row :global(li) {
