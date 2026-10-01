@@ -10,7 +10,7 @@ export const revealUp: MotionModule = (el, { gsap, options }) => {
     ease: 'expo.out',
     stagger: Number(options.stagger ?? 0),
     delay: Number(options.delay ?? 0),
-    scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+    ...(options.trigger === 'load' ? {} : { scrollTrigger: { trigger: el, start: 'top 88%', once: true } }),
     onComplete: () => {
       el.dataset.motionState = 'done';
     },

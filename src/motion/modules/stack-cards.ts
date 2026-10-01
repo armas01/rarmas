@@ -5,8 +5,8 @@ export const stackCards: MotionModule = (el, { gsap }) => {
   const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
   const tweens = cards.slice(0, -1).map((card, i) =>
     gsap.to(card, {
-      scale: 0.9,
-      filter: 'brightness(.55)',
+      scale: 0.92,
+      filter: 'brightness(.7)',
       ease: 'none',
       scrollTrigger: {
         trigger: cards[i + 1],

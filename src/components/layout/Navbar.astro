@@ -7,7 +7,7 @@ const { links, cta } = content.nav;
 <header class="nav" data-nav data-state="top">
   <div class="nav-inner">
     <a href="#top" class="nav-brand">
-      <img src="/logo.png" alt="" width="28" height="28" />
+      <img src="/logo.png" alt="" width="32" height="32" />
       <span>Rodo Armas</span>
     </a>
     <nav aria-label="Main" class="nav-links">
@@ -112,7 +112,11 @@ const { links, cta } = content.nav;
     white-space: nowrap;
   }
   .nav-brand img {
-    border-radius: 6px;
+    box-sizing: border-box;
+    padding: 4px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid rgb(0 0 0 / 0.08);
   }
   .nav-links {
     position: relative;

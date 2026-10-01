@@ -34,6 +34,7 @@ select {
 }
 a {
   color: inherit;
+  text-decoration: none;
 }
 section[id] {
   scroll-margin-top: calc(var(--nav-h) + 16px);

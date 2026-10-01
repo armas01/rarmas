@@ -19,10 +19,10 @@ const { hero } = content;
         <h1 id="hero-title" class="display" data-motion="reveal-words" data-motion-trigger="load">
           {hero.headline}
         </h1>
-        <p class="lede" data-motion="reveal-up" data-motion-delay="0.5">
+        <p class="lede" data-motion="reveal-up" data-motion-trigger="load" data-motion-delay="0.5">
           {hero.lede}
         </p>
-        <div class="actions" data-motion="reveal-up" data-motion-delay="0.7">
+        <div class="actions" data-motion="reveal-up" data-motion-trigger="load" data-motion-delay="0.7">
           <Button href={hero.primary.href} magnetic>
             {hero.primary.label}
           </Button>

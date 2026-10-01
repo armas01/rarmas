@@ -1,0 +1,336 @@
+---
+import Section from '../layout/Section.astro';
+import { content } from '../../content/schema';
+
+const { bento } = content;
+---
+
+<Section id="bento" theme="light" labelledby="bento-title">
+  <div class="shell">
+    <p class="eyebrow">{bento.eyebrow}</p>
+    <h2 id="bento-title" class="h2 bento-title" data-motion="reveal-words">
+      {bento.title}
+    </h2>
+    <div class="bento" data-motion="reveal-up" data-motion-stagger="0.07">
+      {bento.tiles.map((t, i) => (
+        <article class={`tile tile-${t.size} v-${t.visual}`} data-motion="tilt">
+          <div class="art" aria-hidden="true">
+            {t.visual === 'gradient' && <span class="conic" />}
+            {t.visual === 'pulse' && (
+              <>
+                <span class="ring r1" />
+                <span class="ring r2" />
+                <span class="ring r3" />
+              </>
+            )}
+            {t.visual === 'chart' && (
+              <svg viewBox="0 0 200 80" preserveAspectRatio="none">
+                <polyline pathLength="100" points="0,68 24,56 48,62 76,34 104,44 132,20 160,28 200,6" />
+              </svg>
+            )}
+            {t.visual === 'orbit' && (
+              <>
+                <span class="core" />
+                <span class="orbit o1">
+                  <i />
+                </span>
+                <span class="orbit o2">
+                  <i />
+                </span>
+                <span class="orbit o3">
+                  <i />
+                </span>
+              </>
+            )}
+            {t.visual === 'grid' && <span class="dots" />}
+            {t.visual === 'number' && <span class="num gradient-text">{String(i + 1).padStart(2, '0')}</span>}
+          </div>
+          <div class="copy">
+            <h3 class="tile-title">{t.title}</h3>
+            <p class="tile-body">{t.body}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Section>
+
+<style>
+  .bento-title {
+    margin-top: var(--space-4);
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .bento {
+    margin-top: var(--space-8);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(220px, auto);
+    grid-auto-flow: dense;
+    gap: var(--space-4);
+  }
+  .tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 300px;
+    border-radius: 28px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .tile-sm {
+    grid-column: span 1;
+  }
+  .tile-md {
+    grid-column: span 2;
+  }
+  .tile-lg {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .art {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 52%;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .v-gradient .art {
+    inset: 0;
+    height: auto;
+  }
+  .copy {
+    position: relative;
+    padding: clamp(20px, 2.4vw, 32px);
+    display: grid;
+    gap: var(--space-2);
+  }
+  .tile-title {
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+  .tile-lg .tile-title {
+    font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  }
+  .tile-body {
+    max-width: 42ch;
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  /* gradient */
+  .conic {
+    position: absolute;
+    width: 120%;
+    aspect-ratio: 1;
+    left: -10%;
+    top: -35%;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--accent-a), var(--accent-b), #22d3ee, var(--accent-a));
+    filter: blur(48px);
+    opacity: 0.55;
+    animation: spin 18s linear infinite;
+  }
+  /* pulse */
+  .ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 40%;
+    aspect-ratio: 1;
+    margin: -20% 0 0 -20%;
+    border-radius: 50%;
+    border: 1.5px solid var(--accent-a);
+    opacity: 0;
+    animation: pulse 3.6s var(--ease-out) infinite;
+  }
+  .r2 {
+    animation-delay: 1.2s;
+    border-color: var(--accent-b);
+  }
+  .r3 {
+    animation-delay: 2.4s;
+  }
+  /* chart */
+  svg {
+    position: absolute;
+    inset: 18% 8% auto;
+    width: 84%;
+    height: 64%;
+    overflow: visible;
+  }
+  polyline {
+    fill: none;
+    stroke: var(--accent-a);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    vector-effect: non-scaling-stroke;
+    animation: draw 5s var(--ease-out) infinite;
+  }
+  /* orbit */
+  .core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 22px;
+    height: 22px;
+    margin: -11px 0 0 -11px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    box-shadow: 0 0 28px var(--accent-b);
+  }
+  .orbit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 50%;
+    border: 1px dashed var(--line);
+    animation: spin 10s linear infinite;
+  }
+  .orbit i {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    border-radius: 50%;
+    background: var(--accent-a);
+  }
+  .o1 {
+    width: 60px;
+    height: 60px;
+    margin: -30px 0 0 -30px;
+  }
+  .o2 {
+    width: 100px;
+    height: 100px;
+    margin: -50px 0 0 -50px;
+    animation-duration: 16s;
+    animation-direction: reverse;
+  }
+  .o2 i {
+    background: var(--accent-b);
+  }
+  .o3 {
+    width: 140px;
+    height: 140px;
+    margin: -70px 0 0 -70px;
+    animation-duration: 24s;
+  }
+  /* grid */
+  .dots {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgb(10 10 11 / 0.22) 1.5px, transparent 1.6px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(180deg, #000, transparent 75%);
+  }
+  .dots::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, transparent 35%, var(--accent-a) 50%, transparent 65%);
+    background-size: 250% 100%;
+    opacity: 0.6;
+    animation: sweep 6s ease-in-out infinite;
+    -webkit-mask-image: radial-gradient(circle, #000 1.5px, transparent 1.6px);
+    -webkit-mask-size: 22px 22px;
+    mask-image: radial-gradient(circle, #000 1.5px, transparent 1.6px);
+    mask-size: 22px 22px;
+  }
+  /* number */
+  .num {
+    position: absolute;
+    right: 6%;
+    top: 0;
+    font-size: clamp(4rem, 7vw, 6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    padding-bottom: 0.08em;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(0.25);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+  @keyframes draw {
+    0% {
+      stroke-dashoffset: 100;
+    }
+    60%,
+    85% {
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dashoffset: -100;
+    }
+  }
+  @keyframes sweep {
+    0% {
+      background-position: 120% 0;
+    }
+    100% {
+      background-position: -120% 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .conic,
+    .ring,
+    polyline,
+    .orbit,
+    .dots::after {
+      animation: none;
+    }
+    polyline {
+      stroke-dashoffset: 0;
+    }
+    .ring {
+      opacity: 0.4;
+    }
+  }
+  @media (max-width: 899px) {
+    .bento {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .tile-lg,
+    .tile-md {
+      grid-column: span 2;
+    }
+    .tile-lg {
+      grid-row: span 1;
+      min-height: 320px;
+    }
+  }
+  @media (max-width: 559px) {
+    .bento {
+      grid-template-columns: 1fr;
+    }
+    .tile-sm,
+    .tile-md,
+    .tile-lg {
+      grid-column: span 1;
+    }
+  }
+</style>

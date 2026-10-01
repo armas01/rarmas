@@ -63,6 +63,16 @@ describe('modules A', () => {
     if (name.includes('words')) expect(split.revert).toHaveBeenCalled();
   });
 
+  it('reveal-up with trigger=load has no scrollTrigger', () => {
+    document.body.innerHTML = '<div id="el"></div>';
+    const { ctx } = makeCtx();
+    ctx.options = { trigger: 'load', delay: '0.5' };
+    modules['reveal-up'](document.getElementById('el')!, ctx);
+    const cfg = ctx.gsap.to.mock.calls[0][1];
+    expect(cfg.scrollTrigger).toBeUndefined();
+    expect(cfg.delay).toBe(0.5);
+  });
+
   it.each(['magnetic', 'tilt', 'cursor-glow'])('%s removes pointer listeners on cleanup', (name) => {
     document.body.innerHTML = '<div id="el"><span data-glow></span></div>';
     const el = document.getElementById('el')!;

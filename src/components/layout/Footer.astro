@@ -10,7 +10,7 @@ const year = new Date().getFullYear();
     <div class="footer-inner" data-motion="reveal-up">
       <div class="footer-brand">
         <a href="#top" class="brand">
-          <img src="/logo.png" alt="" width="28" height="28" />
+          <img src="/logo.png" alt="" width="32" height="32" />
           <span>Rodo Armas</span>
         </a>
         <p class="note">{content.contact.footerNote}</p>
@@ -29,6 +29,13 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
+  .brand img {
+    box-sizing: border-box;
+    padding: 4px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid rgb(0 0 0 / 0.08);
+  }
   .footer {
     padding-block: var(--space-9, 80px) var(--space-7, 40px);
     border-top: 1px solid var(--line);

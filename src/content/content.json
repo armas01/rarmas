@@ -117,7 +117,7 @@
         "size": "md",
         "visual": "grid"
       },
-      { "title": "Magna", "body": "Sunt in culpa qui officia deserunt.", "size": "sm", "visual": "number" }
+      { "title": "Magna", "body": "Sunt in culpa qui officia deserunt.", "size": "md", "visual": "number" }
     ]
   },
   "skills": {
