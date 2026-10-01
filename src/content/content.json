@@ -1,0 +1,182 @@
+{
+  "meta": {
+    "title": "Lorem Ipsum - Personal Site",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor."
+  },
+  "nav": {
+    "links": [
+      { "label": "About", "href": "#about" },
+      { "label": "Story", "href": "#story" },
+      { "label": "Work", "href": "#work" },
+      { "label": "Skills", "href": "#skills" },
+      { "label": "Timeline", "href": "#timeline" },
+      { "label": "Writing", "href": "#writing" }
+    ],
+    "cta": { "label": "Let's talk", "href": "#contact" }
+  },
+  "hero": {
+    "eyebrow": "Lorem ipsum",
+    "headline": "Lorem ipsum dolor sit amet.",
+    "lede": "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "primary": { "label": "Lorem ipsum", "href": "#work" },
+    "secondary": { "label": "Dolor sit", "href": "#about" }
+  },
+  "stats": [
+    { "value": 12, "suffix": "+", "label": "Lorem ipsum" },
+    { "value": 3, "suffix": "", "label": "Dolor sit amet" },
+    { "value": 98, "suffix": "%", "label": "Consectetur elit" },
+    { "value": 40, "suffix": "k", "label": "Sed do eiusmod" }
+  ],
+  "about": {
+    "eyebrow": "About",
+    "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse."
+  },
+  "story": {
+    "eyebrow": "Story",
+    "chapters": [
+      {
+        "kicker": "01",
+        "title": "Lorem ipsum dolor",
+        "body": "Sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore."
+      },
+      {
+        "kicker": "02",
+        "title": "Ut enim ad minim",
+        "body": "Veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo."
+      },
+      {
+        "kicker": "03",
+        "title": "Duis aute irure",
+        "body": "Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla."
+      },
+      {
+        "kicker": "04",
+        "title": "Excepteur sint",
+        "body": "Occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit."
+      }
+    ]
+  },
+  "work": {
+    "eyebrow": "Work",
+    "title": "Lorem ipsum dolor sit amet",
+    "projects": [
+      {
+        "tag": "Lorem",
+        "title": "Ipsum dolor",
+        "summary": "Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+        "href": "#",
+        "cta": "Lorem ipsum"
+      },
+      {
+        "tag": "Dolor",
+        "title": "Sit amet",
+        "summary": "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+        "href": "#",
+        "cta": "Lorem ipsum"
+      },
+      {
+        "tag": "Amet",
+        "title": "Consectetur",
+        "summary": "Duis aute irure dolor in reprehenderit in voluptate velit esse.",
+        "href": "#",
+        "cta": "Lorem ipsum"
+      }
+    ]
+  },
+  "bento": {
+    "eyebrow": "Approach",
+    "title": "Lorem ipsum dolor sit",
+    "tiles": [
+      {
+        "title": "Lorem ipsum",
+        "body": "Dolor sit amet consectetur adipiscing elit.",
+        "size": "lg",
+        "visual": "gradient"
+      },
+      {
+        "title": "Dolor sit",
+        "body": "Sed do eiusmod tempor incididunt ut labore.",
+        "size": "sm",
+        "visual": "pulse"
+      },
+      {
+        "title": "Amet elit",
+        "body": "Ut enim ad minim veniam quis nostrud.",
+        "size": "sm",
+        "visual": "chart"
+      },
+      {
+        "title": "Tempor",
+        "body": "Duis aute irure dolor in reprehenderit.",
+        "size": "md",
+        "visual": "orbit"
+      },
+      {
+        "title": "Labore",
+        "body": "Excepteur sint occaecat cupidatat non proident.",
+        "size": "md",
+        "visual": "grid"
+      },
+      { "title": "Magna", "body": "Sunt in culpa qui officia deserunt.", "size": "sm", "visual": "number" }
+    ]
+  },
+  "skills": {
+    "eyebrow": "Skills",
+    "title": "Lorem ipsum dolor sit",
+    "rows": [
+      ["Lorem", "Ipsum", "Dolor", "Amet", "Elit", "Tempor", "Labore"],
+      ["Magna", "Aliqua", "Veniam", "Nostrud", "Ullamco", "Laboris", "Nisi"]
+    ],
+    "interests": [
+      { "title": "Lorem ipsum", "body": "Dolor sit amet, consectetur adipiscing elit." },
+      { "title": "Dolor sit", "body": "Sed do eiusmod tempor incididunt ut labore." },
+      { "title": "Amet elit", "body": "Ut enim ad minim veniam, quis nostrud." }
+    ]
+  },
+  "timeline": {
+    "eyebrow": "Timeline",
+    "title": "Lorem ipsum dolor sit",
+    "entries": [
+      {
+        "date": "2025 - Now",
+        "role": "Lorem Ipsum",
+        "org": "Dolor Sit",
+        "body": "Consectetur adipiscing elit, sed do eiusmod tempor."
+      },
+      {
+        "date": "2022 - 2025",
+        "role": "Dolor Amet",
+        "org": "Consectetur",
+        "body": "Ut enim ad minim veniam, quis nostrud exercitation."
+      },
+      {
+        "date": "2019 - 2022",
+        "role": "Sit Elit",
+        "org": "Adipiscing",
+        "body": "Duis aute irure dolor in reprehenderit in voluptate."
+      },
+      {
+        "date": "2016 - 2019",
+        "role": "Amet Tempor",
+        "org": "Eiusmod",
+        "body": "Excepteur sint occaecat cupidatat non proident."
+      }
+    ]
+  },
+  "writing": {
+    "eyebrow": "Writing",
+    "title": "Lorem ipsum dolor sit",
+    "cta": "Lorem ipsum",
+    "placeholders": [
+      { "date": "Jan 1, 2026", "title": "Lorem ipsum dolor sit amet", "href": "#" },
+      { "date": "Feb 1, 2026", "title": "Consectetur adipiscing elit", "href": "#" },
+      { "date": "Mar 1, 2026", "title": "Sed do eiusmod tempor", "href": "#" }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "headline": "Lorem ipsum dolor sit.",
+    "cta": { "label": "Lorem ipsum", "href": "#top" },
+    "footerNote": "Lorem ipsum dolor sit amet."
+  }
+}

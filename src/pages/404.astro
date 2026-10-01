@@ -1,4 +1,32 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="Page not found — Rodo Armas"><main class="not-found"><p class="eyebrow dark">404</p><h1>Wrong turn.</h1><p>That page isn’t here.</p><a class="button" href="/">Back home</a></main></BaseLayout>
+
+<BaseLayout title="Page not found">
+  <main id="main" class="not-found shell">
+    <p class="eyebrow">404</p>
+    <h1 class="display">Lorem ipsum.</h1>
+    <a class="back" href="/">
+      Back home
+    </a>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+  .back {
+    padding: 14px 28px;
+    border-radius: var(--radius-pill);
+    background: var(--accent-gradient);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+</style>

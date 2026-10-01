@@ -4,3 +4,5 @@ dist/
 src/generated/github.json
 src/generated/linkedin.json
 .sites-runtime/
+test-results/
+playwright-report/

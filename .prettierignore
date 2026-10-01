@@ -1,0 +1,9 @@
+dist
+node_modules
+.astro
+package-lock.json
+src/generated
+src/data
+tests/content.test.mjs
+scripts/sync-*.mjs
+docs
