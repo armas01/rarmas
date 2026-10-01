@@ -1,0 +1,132 @@
+---
+import Section from '../layout/Section.astro';
+import Button from '../ui/Button.astro';
+import { content } from '../../content/schema';
+
+const { photography } = content;
+const external = /^https?:/.test(photography.cta.href);
+---
+
+<Section id="photography" theme="light" labelledby="photography-title">
+  <div class="shell">
+    <div class="head">
+      <div>
+        <p class="eyebrow">{photography.eyebrow}</p>
+        <h2 id="photography-title" class="h2 photo-title" data-motion="reveal-words">
+          {photography.title}
+        </h2>
+        <p class="lede">{photography.body}</p>
+      </div>
+      <Button href={photography.cta.href} variant="ghost" external={external}>
+        {photography.cta.label}
+      </Button>
+    </div>
+    <ul class="gallery" data-motion="reveal-up" data-motion-stagger="0.06">
+      {photography.photos.map((p, i) => (
+        <li class={`frame f${(i % 6) + 1}`}>
+          {p.src ? (
+            <img src={p.src} alt={p.alt} loading="lazy" decoding="async" />
+          ) : (
+            <div class="placeholder" role="img" aria-label={p.alt}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 7h3l2-3h6l2 3h3v13H4z" />
+                <circle cx="12" cy="13" r="4" />
+              </svg>
+            </div>
+          )}
+          {p.caption && <span class="caption">{p.caption}</span>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
+
+<style>
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-5);
+  }
+  .photo-title {
+    margin-top: var(--space-4);
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .lede {
+    margin-top: var(--space-4);
+    max-width: 44ch;
+    color: var(--muted);
+  }
+  .gallery {
+    list-style: none;
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: clamp(160px, 18vw, 260px);
+    grid-auto-flow: dense;
+    gap: var(--space-4);
+  }
+  .frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-3);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .f1 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+  .frame:hover img {
+    transform: scale(1.04);
+  }
+  .placeholder {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(120% 90% at 20% 10%, rgb(120 140 255 / 0.18), transparent 60%),
+      radial-gradient(100% 80% at 90% 100%, rgb(255 160 120 / 0.16), transparent 60%);
+  }
+  .placeholder svg {
+    width: 36px;
+    height: 36px;
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    opacity: 0.7;
+  }
+  .caption {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgb(255 255 255 / 0.8);
+    color: #0a0a0b;
+  }
+  @media (max-width: 899px) {
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 160px;
+    }
+    .f6 {
+      grid-column: span 2;
+    }
+  }
+</style>
