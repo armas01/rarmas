@@ -17,6 +17,7 @@
     "build": "astro build",
     "budget": "node scripts/check-budget.mjs",
     "preview": "astro preview --host 127.0.0.1",
+    "preview:ci": "node scripts/serve-dist.mjs",
     "format": "prettier --write .",
     "lint": "eslint ."
   },
@@ -30,6 +31,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
     "eslint": "10.11.0",
     "eslint-plugin-astro": "3.2.1",
     "happy-dom": "20.14.5",

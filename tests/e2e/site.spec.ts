@@ -1,0 +1,77 @@
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+const sections = ['about', 'story', 'work', 'skills', 'timeline', 'writing'];
+
+test('nav links land each section below the navbar', async ({ page }) => {
+  await page.goto('/');
+  for (const id of sections) {
+    await page.locator(`header nav[aria-label="Main"] a[href="#${id}"]`).click();
+    await expect
+      .poll(
+        async () => {
+          const navBottom = await page
+            .locator('header[data-nav]')
+            .evaluate((el) => el.getBoundingClientRect().bottom);
+          const top = await page.locator(`#${id}`).evaluate((el) => el.getBoundingClientRect().top);
+          return top >= navBottom - 2 && top < 400;
+        },
+        { timeout: 4000 },
+      )
+      .toBe(true);
+  }
+});
+
+test('mobile menu: open, trap, Esc, closes on widen', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  const toggle = page.locator('.nav-toggle');
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.locator('#mobile-menu')).toBeVisible();
+  for (let i = 0; i < 12; i++) await page.keyboard.press('Tab');
+  expect(await page.evaluate(() => !!document.activeElement?.closest('header'))).toBe(true);
+  await page.keyboard.press('Escape');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(toggle).toBeFocused();
+  await toggle.click();
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await expect(page.locator('html')).not.toHaveClass(/menu-open/);
+});
+
+test.describe('reduced motion', () => {
+  test.use({ reducedMotion: 'reduce' });
+  test('every section heading is visible without scrolling animations', async ({ page }) => {
+    await page.goto('/');
+    for (const h of await page.locator('main h1, main h2').all()) {
+      await h.scrollIntoViewIfNeeded();
+      await expect(h).toBeVisible();
+      expect(Number(await h.evaluate((el) => getComputedStyle(el).opacity))).toBe(1);
+    }
+  });
+});
+
+test.describe('no javascript', () => {
+  test.use({ javaScriptEnabled: false });
+  test('content is visible', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('#contact h2')).toBeVisible();
+  });
+});
+
+test('content becomes visible if the motion bundle fails to load', async ({ page }) => {
+  await page.route(/\/_astro\/.*\.js$/, (r) => r.abort());
+  await page.goto('/');
+  await page.waitForTimeout(3000);
+  await expect(page.locator('html')).not.toHaveClass(/js-motion/);
+  expect(Number(await page.locator('#work h2').evaluate((el) => getComputedStyle(el).opacity))).toBe(1);
+});
+
+test('no serious accessibility violations', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  const results = await new AxeBuilder({ page }).analyze();
+  const serious = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
+  expect(serious.map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
+});

@@ -7,3 +7,5 @@ src/data
 tests/content.test.mjs
 scripts/sync-*.mjs
 docs
+.superpowers
+.ice
