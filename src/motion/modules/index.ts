@@ -7,6 +7,10 @@ import { cursorGlow } from './cursor-glow';
 import { heroScale } from './hero-scale';
 import { magnetic } from './magnetic';
 import { tilt } from './tilt';
+import { pinStory } from './pin-story';
+import { stackCards } from './stack-cards';
+import { drawLine } from './draw-line';
+import { marquee } from './marquee';
 
 export const modules: Record<string, MotionModule> = {
   'reveal-words': revealWords,
@@ -17,4 +21,8 @@ export const modules: Record<string, MotionModule> = {
   'hero-scale': heroScale,
   magnetic,
   tilt,
+  'pin-story': pinStory,
+  'stack-cards': stackCards,
+  'draw-line': drawLine,
+  marquee,
 };
