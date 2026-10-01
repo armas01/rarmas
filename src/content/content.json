@@ -120,7 +120,7 @@
       {
         "tag": "Robotics",
         "title": "An autonomous bench-press spotter",
-        "summary": "My robotics capstone: mechanics, electronics and control logic that detect a failed rep and step in to help, all for under $100.",
+        "summary": "My robotics capstone: a team build where I led the mechanical design. Mechanics, electronics and control logic that detect a failed rep and step in to help, all for under $100.",
         "href": "#story",
         "cta": "Read the story"
       }
@@ -181,7 +181,18 @@
         "Case solving",
         "Storytelling"
       ],
-      ["Agentic AI", "Python", "React", "Java", "C++", "Robotics", "3D printing", "LaTeX"]
+      [
+        "Agentic AI",
+        "Python",
+        "React",
+        "Java",
+        "C++",
+        "Robotics",
+        "Fusion 360",
+        "ROS",
+        "3D printing",
+        "LaTeX"
+      ]
     ],
     "interests": [
       {
@@ -222,9 +233,9 @@
       },
       {
         "date": "2021 - 2026",
-        "role": "Industrial Engineering + IT Diploma",
+        "role": "Industrial Engineer, IT specialization",
         "org": "Pontificia Universidad Católica de Chile",
-        "body": "Top 1.4% of my class, robotics specialization with distinction, and a certificate in astronomy for fun."
+        "body": "Engineer's degree completed in 2026, plus a Bachelor of Science in Engineering with distinction, a major in Robotics and a certificate in astronomy for fun. Top 1.4% of my class."
       }
     ]
   },
