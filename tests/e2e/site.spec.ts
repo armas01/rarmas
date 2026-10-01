@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const sections = ['about', 'story', 'work', 'skills', 'timeline', 'writing'];
+const sections = ['about', 'story', 'work', 'skills', 'timeline', 'photography'];
 
 test('nav links land each section below the navbar', async ({ page }) => {
   await page.goto('/');

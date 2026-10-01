@@ -44,11 +44,13 @@ export const ContentSchema = z.object({
     title: Text,
     entries: z.array(z.object({ date: Text, role: Text, org: Text, body: Text })).length(4),
   }),
-  writing: z.object({
+  photography: z.object({
     eyebrow: Text,
     title: Text,
-    cta: Text,
-    placeholders: z.array(z.object({ date: Text, title: Text, href: Text })).length(3),
+    body: Text,
+    cta: Link,
+    // src: a path under public/ (e.g. "/photos/andes.jpg"); null renders a placeholder tile.
+    photos: z.array(z.object({ src: Text.nullable(), alt: Text, caption: z.string() })).min(1),
   }),
   contact: z.object({ eyebrow: Text, headline: Text, cta: Link, footerNote: Text }),
 });
