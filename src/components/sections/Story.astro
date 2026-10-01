@@ -151,15 +151,15 @@ const { story } = content;
     opacity: 0.35;
   }
 
-  :global(html.js-motion) .story-stage {
+  :global(html.js-motion:not(.reduced-motion)) .story-stage {
     height: 100svh;
     margin-top: 0;
   }
-  :global(html.js-motion) .chapters {
+  :global(html.js-motion:not(.reduced-motion)) .chapters {
     height: 100%;
     display: block;
   }
-  :global(html.js-motion) .chapter {
+  :global(html.js-motion:not(.reduced-motion)) .chapter {
     position: absolute;
     inset: 0;
     display: flex;
@@ -172,12 +172,12 @@ const { story } = content;
       opacity var(--dur-2) var(--ease-out),
       transform var(--dur-2) var(--ease-out);
   }
-  :global(html.js-motion) .chapter[data-active] {
+  :global(html.js-motion:not(.reduced-motion)) .chapter[data-active] {
     opacity: 1;
     transform: none;
     pointer-events: auto;
   }
-  :global(html.js-motion) .dots {
+  :global(html.js-motion:not(.reduced-motion)) .dots {
     position: absolute;
     left: 0;
     bottom: clamp(24px, 8svh, 72px);
@@ -203,37 +203,37 @@ const { story } = content;
       grid-template-columns: 1fr;
       gap: var(--space-6);
     }
-    :global(html.js-motion) .story-stage {
+    :global(html.js-motion:not(.reduced-motion)) .story-stage {
       grid-template-rows: 36svh minmax(0, 1fr);
       gap: var(--space-4);
       padding-block: calc(var(--nav-h) + var(--space-4)) var(--space-5);
       align-items: stretch;
     }
-    :global(html.js-motion) .story-visual {
+    :global(html.js-motion:not(.reduced-motion)) .story-visual {
       order: -1;
       width: 100%;
       max-width: none;
       height: 100%;
       aspect-ratio: auto;
     }
-    :global(html.js-motion) .chapters {
+    :global(html.js-motion:not(.reduced-motion)) .chapters {
       min-height: 0;
     }
-    :global(html.js-motion) .chapter {
+    :global(html.js-motion:not(.reduced-motion)) .chapter {
       inset: 0 0 32px 0;
       justify-content: flex-start;
       overflow: hidden;
     }
-    :global(html.js-motion) .chapter-title {
+    :global(html.js-motion:not(.reduced-motion)) .chapter-title {
       margin-top: var(--space-2);
       font-size: clamp(1.625rem, 7vw, 2rem);
     }
-    :global(html.js-motion) .chapter-body {
+    :global(html.js-motion:not(.reduced-motion)) .chapter-body {
       margin-top: var(--space-3);
       font-size: 1rem;
       line-height: 1.5;
     }
-    :global(html.js-motion) .dots {
+    :global(html.js-motion:not(.reduced-motion)) .dots {
       bottom: 0;
     }
   }

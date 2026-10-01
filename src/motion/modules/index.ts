@@ -12,6 +12,14 @@ import { stackCards } from './stack-cards';
 import { drawLine } from './draw-line';
 import { marquee } from './marquee';
 
+/** Modules that have a gentle, non-spatial variant and may run under prefers-reduced-motion. */
+export const reducedSafe: ReadonlySet<string> = new Set([
+  'reveal-up',
+  'reveal-words',
+  'counter',
+  'draw-line',
+]);
+
 export const modules: Record<string, MotionModule> = {
   'reveal-words': revealWords,
   'reveal-up': revealUp,

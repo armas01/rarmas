@@ -9,6 +9,8 @@ export interface MotionContext {
   ScrollTrigger: typeof ST;
   SplitText: typeof Split;
   finePointer: boolean;
+  /** true when prefers-reduced-motion matches: modules must use gentle, non-spatial motion only */
+  reduced: boolean;
   /** data-motion-* attributes of the element, camelCased without the prefix (e.g. data-motion-delay → delay) */
   options: Record<string, string>;
 }

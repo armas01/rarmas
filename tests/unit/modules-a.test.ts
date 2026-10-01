@@ -27,6 +27,7 @@ function makeCtx(finePointer = true) {
     SplitText: { create: vi.fn(() => split) },
     finePointer,
     options: {},
+    reduced: false,
   };
   return { ctx, kills, split };
 }
@@ -71,6 +72,41 @@ describe('modules A', () => {
     const cfg = ctx.gsap.to.mock.calls[0][1];
     expect(cfg.scrollTrigger).toBeUndefined();
     expect(cfg.delay).toBe(0.5);
+  });
+
+  it('reduced reveal-up fades opacity only, with no y', () => {
+    document.body.innerHTML = '<div id="el"></div>';
+    const { ctx, kills } = makeCtx();
+    ctx.reduced = true;
+    const cleanup = modules['reveal-up'](document.getElementById('el')!, ctx) as () => void;
+    const setVars = ctx.gsap.set.mock.calls[0][1];
+    const cfg = ctx.gsap.to.mock.calls[0][1];
+    expect(setVars).not.toHaveProperty('y');
+    expect(cfg.opacity).toBe(1);
+    expect(cfg).not.toHaveProperty('y');
+    expect(cfg.duration).toBe(0.6);
+    expect(cfg.ease).toBe('power1.out');
+    cleanup();
+    for (const t of kills) expect(t.kill).toHaveBeenCalled();
+  });
+
+  it('reduced reveal-words fades the element without SplitText', () => {
+    document.body.innerHTML = '<h1 id="el">Lorem ipsum dolor</h1>';
+    const el = document.getElementById('el')!;
+    const { ctx, kills } = makeCtx();
+    ctx.reduced = true;
+    ctx.options = { trigger: 'load' };
+    const cleanup = modules['reveal-words'](el, ctx) as () => void;
+    expect(ctx.SplitText.create).not.toHaveBeenCalled();
+    const cfg = ctx.gsap.to.mock.calls[0][1];
+    expect(cfg.opacity).toBe(1);
+    expect(cfg.duration).toBe(0.6);
+    expect(cfg.scrollTrigger).toBeUndefined();
+    expect(el.hasAttribute('aria-label')).toBe(false);
+    cfg.onComplete();
+    expect(el.dataset.motionState).toBe('done');
+    cleanup();
+    for (const t of kills) expect(t.kill).toHaveBeenCalled();
   });
 
   it.each(['magnetic', 'tilt', 'cursor-glow'])('%s removes pointer listeners on cleanup', (name) => {

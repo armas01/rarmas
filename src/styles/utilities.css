@@ -45,3 +45,11 @@ html.js-motion [data-motion~='reveal-up'][data-motion-stagger]:not([data-motion-
   opacity: 0;
   transform: translateY(28px);
 }
+
+/* Reduced motion: fade only, no spatial movement */
+html.js-motion.reduced-motion [data-motion~='reveal-up']:not([data-motion-state='done']),
+html.js-motion.reduced-motion
+  [data-motion~='reveal-up'][data-motion-stagger]:not([data-motion-state='done'])
+  > * {
+  transform: none;
+}

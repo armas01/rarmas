@@ -45,12 +45,35 @@ describe('registry', () => {
     expect(ok).toHaveBeenCalled();
     expect(document.getElementById('x')!.dataset.motionState).toBe('done');
   });
-  it('does not run modules when reduced, and marks elements done', () => {
+  it('when reduced, runs only reducedSafe modules with ctx.reduced true', () => {
+    document.body.innerHTML =
+      '<div id="x" data-motion="a"></div><div id="y" data-motion="b"></div><div id="z" data-motion="a b"></div>';
+    const a = vi.fn();
+    const b = vi.fn();
+    createRegistry({
+      modules: { a, b },
+      deps,
+      reduced: true,
+      reducedSafe: new Set(['a']),
+    }).start();
+    expect(a).toHaveBeenCalledTimes(2);
+    for (const call of a.mock.calls) expect(call[1].reduced).toBe(true);
+    expect(b).not.toHaveBeenCalled();
+    expect(document.getElementById('y')!.dataset.motionState).toBe('done');
+    expect(document.getElementById('z')!.dataset.motionState).toBe('done');
+  });
+  it('reduced with no reducedSafe runs nothing and reveals', () => {
     document.body.innerHTML = '<div id="x" data-motion="a"></div>';
     const a = vi.fn();
     createRegistry({ modules: { a }, deps, reduced: true }).start();
     expect(a).not.toHaveBeenCalled();
     expect(document.getElementById('x')!.dataset.motionState).toBe('done');
+  });
+  it('when not reduced, passes ctx.reduced false', () => {
+    document.body.innerHTML = '<div data-motion="a"></div>';
+    const a = vi.fn();
+    createRegistry({ modules: { a }, deps, reduced: false, reducedSafe: new Set(['a']) }).start();
+    expect(a.mock.calls[0][1].reduced).toBe(false);
   });
   it('ignores unknown module names but reveals element', () => {
     document.body.innerHTML = '<div id="x" data-motion="nope"></div>';

@@ -21,8 +21,9 @@ export function readOptions(el: HTMLElement): Record<string, string> {
 
 export interface RegistryOptions {
   modules: Record<string, MotionModule>;
-  deps: Omit<MotionContext, 'options'>;
+  deps: Omit<MotionContext, 'options' | 'reduced'>;
   reduced: boolean;
+  reducedSafe?: ReadonlySet<string>;
   root?: ParentNode;
   onError?: (name: string, error: unknown, el: HTMLElement) => void;
 }
@@ -38,13 +39,13 @@ export function createRegistry(opts: RegistryOptions): { start(): void; destroy(
       const root = opts.root ?? document;
       const els = root.querySelectorAll<HTMLElement>('[data-motion]');
       els.forEach((el) => {
-        if (opts.reduced) {
-          revealFinal(el);
-          return;
-        }
         const names = (el.dataset.motion ?? '').split(/\s+/).filter(Boolean);
         const options = readOptions(el);
         for (const name of names) {
+          if (opts.reduced && !(opts.reducedSafe?.has(name) && opts.modules[name])) {
+            revealFinal(el);
+            continue;
+          }
           const mod = opts.modules[name];
           if (!mod) {
             opts.onError?.(name, new Error('unknown motion module'), el);
@@ -52,7 +53,7 @@ export function createRegistry(opts: RegistryOptions): { start(): void; destroy(
             continue;
           }
           try {
-            const cleanup = mod(el, { ...opts.deps, options });
+            const cleanup = mod(el, { ...opts.deps, options, reduced: opts.reduced });
             if (typeof cleanup === 'function') cleanups.push(cleanup);
           } catch (error) {
             opts.onError?.(name, error, el);

@@ -14,7 +14,7 @@ vi.mock('lenis', () => ({
     scrollTo() {}
   },
 }));
-vi.mock('../../src/motion/modules/index', () => ({ modules: {} }));
+vi.mock('../../src/motion/modules/index', () => ({ modules: {}, reducedSafe: new Set<string>() }));
 
 describe('boot', () => {
   it('adds motion-ready and refreshes ScrollTrigger after fonts load and on resize', async () => {

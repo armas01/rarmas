@@ -24,8 +24,8 @@ const { title = content.meta.title, description = content.meta.description } = A
     <script is:inline>
       (function () {
         const d = document.documentElement;
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         d.classList.add('js-motion');
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('reduced-motion');
         setTimeout(function () {
           if (!d.classList.contains('motion-ready')) d.classList.remove('js-motion');
         }, 2500);

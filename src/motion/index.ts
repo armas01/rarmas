@@ -3,7 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { createRegistry } from './registry';
 import { startLenis } from './lenis';
-import { modules } from './modules/index';
+import { modules, reducedSafe } from './modules/index';
 import { reducedMotion, finePointer } from './prefers';
 
 export interface BootEnv {
@@ -19,6 +19,7 @@ export function boot(env: BootEnv) {
     modules,
     deps: { gsap, ScrollTrigger, SplitText, finePointer: finePointer() },
     reduced: env.reduced,
+    reducedSafe,
     onError: (name, error) => {
       if (import.meta.env.DEV) console.error(`[motion:${name}]`, error);
     },

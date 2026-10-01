@@ -41,12 +41,26 @@ test('mobile menu: open, trap, Esc, closes on widen', async ({ page }) => {
 
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' });
-  test('every section heading is visible without scrolling animations', async ({ page }) => {
+  test('every section heading fades in', async ({ page }) => {
     await page.goto('/');
     for (const h of await page.locator('main h1, main h2').all()) {
       await h.scrollIntoViewIfNeeded();
       await expect(h).toBeVisible();
-      expect(Number(await h.evaluate((el) => getComputedStyle(el).opacity))).toBe(1);
+      await expect
+        .poll(async () => Number(await h.evaluate((el) => getComputedStyle(el).opacity)), {
+          timeout: 3000,
+        })
+        .toBe(1);
+    }
+  });
+  test('uses gentle fallback: no lenis, no pinning, all story chapters visible', async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveClass(/reduced-motion/);
+    await expect(page.locator('html')).not.toHaveClass(/lenis/);
+    expect(await page.evaluate(() => document.querySelectorAll('.pin-spacer').length)).toBe(0);
+    for (const c of await page.locator('#story [data-chapter]').all()) {
+      await c.scrollIntoViewIfNeeded();
+      await expect(c).toBeVisible();
     }
   });
 });
