@@ -7,7 +7,7 @@ describe('content', () => {
   it('placeholder content parses', () => {
     expect(content.hero.headline.length).toBeGreaterThan(0);
     expect(content.stats).toHaveLength(4);
-    expect(content.story.chapters).toHaveLength(4);
+    expect(content.life.interests).toHaveLength(3);
     expect(content.work.projects).toHaveLength(3);
     expect(content.bento.tiles).toHaveLength(6);
     expect(content.timeline.entries).toHaveLength(4);

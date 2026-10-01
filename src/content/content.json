@@ -1,168 +1,96 @@
 {
   "meta": {
-    "title": "Rodo Armas — Strategy, engineering & agentic AI",
-    "description": "Rodo Armas is a Strategy & Planning Coordinator at Uber Eats LatAm, an industrial engineer from PUC Chile, and a builder of agentic strategy tools. Robotics, photography and the mountains keep the thinking sharp."
+    "title": "Rodo Armas — Strategy & agentic AI",
+    "description": "Strategy & Planning Coordinator at Uber Eats LatAm. Industrial engineer from PUC Chile with a robotics major, building with AI agents."
   },
   "nav": {
     "links": [
-      {
-        "label": "About",
-        "href": "#about"
-      },
-      {
-        "label": "Story",
-        "href": "#story"
-      },
-      {
-        "label": "Work",
-        "href": "#work"
-      },
-      {
-        "label": "Skills",
-        "href": "#skills"
-      },
-      {
-        "label": "Timeline",
-        "href": "#timeline"
-      },
-      {
-        "label": "Photography",
-        "href": "#photography"
-      }
+      { "label": "About", "href": "#about" },
+      { "label": "Work", "href": "#work" },
+      { "label": "Skills", "href": "#skills" },
+      { "label": "Timeline", "href": "#timeline" },
+      { "label": "Life", "href": "#life" },
+      { "label": "Photography", "href": "#photography" }
     ],
-    "cta": {
-      "label": "Let's talk",
-      "href": "#contact"
-    }
+    "cta": { "label": "Let's talk", "href": "#contact" }
   },
   "hero": {
     "eyebrow": "Rodo Armas · Santiago, Chile",
     "headline": "Curiosity, engineered.",
-    "lede": "Engineer by training, strategist by choice, and a little bit of everything by curiosity. Robots taught me how systems behave, a camera taught me what to look at, and AI agents let me think at a new scale. Strategy is where it all comes together.",
-    "primary": {
-      "label": "See my work",
-      "href": "#work"
-    },
-    "secondary": {
-      "label": "About me",
-      "href": "#about"
-    }
+    "lede": "Strategy & Planning at Uber Eats. Engineer at heart. I pair strategic thinking with AI agents to turn ideas into action.",
+    "primary": { "label": "See my work", "href": "#work" },
+    "secondary": { "label": "About me", "href": "#about" }
   },
   "stats": [
-    {
-      "value": 1,
-      "suffix": "",
-      "label": "National #1 score on Chile's university admission test"
-    },
-    {
-      "value": 13,
-      "suffix": "",
-      "label": "Rank out of 931 in my engineering class"
-    },
-    {
-      "value": 36,
-      "suffix": "h",
-      "label": "To ship an AI finance analyst at Platanus Hack"
-    },
-    {
-      "value": 4,
-      "suffix": "",
-      "label": "Years teaching across five university courses"
-    }
+    { "value": 1, "suffix": "", "label": "National #1 score, university admission test" },
+    { "value": 13, "suffix": "", "label": "Class rank out of 931 at PUC" },
+    { "value": 36, "suffix": "h", "label": "To ship an AI MVP at Platanus Hack" },
+    { "value": 4, "suffix": "", "label": "Years teaching at university" }
   ],
   "about": {
     "eyebrow": "About",
-    "body": "I studied Industrial Engineering at PUC Chile, specialized in robotics, and fell for strategy along the way. I collect skills the way other people collect stamps, because each one gives me a new way to see a problem. Building a machine teaches patience with complexity. Framing a photo teaches what to leave out. Skiing a run you haven't tried teaches you to commit. Lately I've added a new one: designing AI agents that research, model and draft alongside me, so I can spend my own thinking on the questions that matter most. Today I bring all of it to Strategy & Planning at Uber Eats LatAm."
-  },
-  "story": {
-    "eyebrow": "Story",
-    "chapters": [
-      {
-        "kicker": "01",
-        "title": "Numbers → clarity",
-        "body": "A national #1 score on Chile's university admission test was the first clue: I love finding the order hidden inside a problem."
-      },
-      {
-        "kicker": "02",
-        "title": "Robots → systems",
-        "body": "Build a machine that has to catch a falling barbell and you learn that every part talks to every other part. I still think about businesses that way."
-      },
-      {
-        "kicker": "03",
-        "title": "Teaching → simplicity",
-        "body": "Four years as a teaching assistant, the last two leading the team, showed me that if I can't explain it simply, I don't understand it yet."
-      },
-      {
-        "kicker": "04",
-        "title": "Agents → leverage",
-        "body": "At Uber Eats I pair strategic thinking with AI agents I design myself, and point everything I've learned at problems that matter."
-      }
-    ]
+    "body": "Industrial engineer from PUC Chile with a robotics major. Today I coordinate Strategy & Planning at Uber Eats LatAm, where I build with AI agents so more of my time goes to the decisions that matter.",
+    "portrait": { "src": null, "alt": "Portrait of Rodo Armas" }
   },
   "work": {
     "eyebrow": "Work",
-    "title": "Where my ideas become real",
+    "title": "Where ideas become real",
     "projects": [
       {
         "tag": "Strategy · Work in progress",
         "title": "Strategy & Planning at Uber Eats",
-        "summary": "Planning, pricing and growth questions across Latin American markets, from first diagnosis to a decision. The full story is coming soon.",
+        "summary": "Planning and growth questions across Latin America, from diagnosis to decision. Full story coming soon.",
         "href": "#timeline",
         "cta": "See the timeline"
       },
       {
         "tag": "Agentic AI",
         "title": "Agentic strategy & development",
-        "summary": "I design AI agents that research, model and build alongside me. Lucas, an AI personal-finance analyst, went from idea to launched prototype in a 36-hour hackathon.",
+        "summary": "AI agents that research, model and build with me. Lucas, an AI finance analyst, shipped in 36 hours.",
         "href": "https://grupo-29-platanus-client.vercel.app/",
         "cta": "Try Lucas"
       },
       {
         "tag": "Robotics",
-        "title": "An autonomous bench-press spotter",
-        "summary": "My robotics capstone: mechanics, electronics and control logic that detect a failed rep and step in to help, all for under $100.",
-        "href": "#story",
-        "cta": "Read the story"
+        "title": "Autonomous bench-press spotter",
+        "summary": "Capstone team build where I led the mechanical design. Detects a failed rep and steps in, for under $100.",
+        "href": "#skills",
+        "cta": "See the toolkit"
       }
     ]
   },
   "bento": {
     "eyebrow": "Approach",
-    "title": "Every skill sharpens how I think",
+    "title": "How I work",
     "tiles": [
       {
         "title": "Think in systems",
-        "body": "Robotics taught me to follow every cause to its effect, in machines and in markets.",
+        "body": "Every cause has an effect, in machines and in markets.",
         "size": "lg",
         "visual": "gradient"
       },
       {
         "title": "Work with agents",
-        "body": "AI agents take the legwork so my attention goes to judgment.",
+        "body": "AI does the legwork. I do the judgment.",
         "size": "sm",
         "visual": "pulse"
       },
+      { "title": "Let data speak", "body": "Good numbers end debates.", "size": "sm", "visual": "chart" },
       {
-        "title": "Let data speak",
-        "body": "Good numbers end debates and start better ones.",
-        "size": "sm",
-        "visual": "chart"
-      },
-      {
-        "title": "Frame what matters",
-        "body": "Photography is the art of choosing what stays in the picture. So is strategy.",
+        "title": "Frame the problem",
+        "body": "Decide what stays in the picture.",
         "size": "md",
         "visual": "orbit"
       },
       {
-        "title": "Prototype the idea",
-        "body": "An idea feels different once it runs. I'd rather test it in 36 hours than debate it for 36 days.",
+        "title": "Prototype fast",
+        "body": "Test it in 36 hours, not 36 days.",
         "size": "md",
         "visual": "grid"
       },
       {
-        "title": "Commit to the line",
-        "body": "Skiing, tennis and adventure trips teach the same lesson: read the terrain, then go.",
+        "title": "Explain it simply",
+        "body": "Four years of teaching made it a habit.",
         "size": "md",
         "visual": "number"
       }
@@ -170,32 +98,10 @@
   },
   "skills": {
     "eyebrow": "Skills",
-    "title": "The toolkit behind the thinking",
+    "title": "The toolkit",
     "rows": [
-      [
-        "Strategy",
-        "Planning",
-        "Forecasting",
-        "Market sizing",
-        "Scenario design",
-        "Case solving",
-        "Storytelling"
-      ],
-      ["Agentic AI", "Python", "React", "Java", "C++", "Robotics", "3D printing", "LaTeX"]
-    ],
-    "interests": [
-      {
-        "title": "Photography",
-        "body": "Always carrying a camera. It trains me to notice what everyone else walks past."
-      },
-      {
-        "title": "Robotics & making",
-        "body": "Motors, sensors and 3D-printed parts. Nothing beats an idea you can hold."
-      },
-      {
-        "title": "Ski, tennis & adventure",
-        "body": "Mountains, courts and new trails. The best way I know to reset and get bold."
-      }
+      ["Strategy", "Planning", "Forecasting", "Market sizing", "Scenario design", "Case solving"],
+      ["Agentic AI", "Python", "React", "Java", "C++", "Robotics", "ROS", "Fusion 360"]
     ]
   },
   "timeline": {
@@ -206,76 +112,60 @@
         "date": "2025 - Now",
         "role": "Strategy & Planning Coordinator",
         "org": "Uber Eats, LatAm",
-        "body": "Coordinator since July 2026 after joining as an intern in September 2025. Diagnostics, forecasting and scenario work for markets across the region."
+        "body": "Coordinator since July 2026, after joining as an intern in 2025."
       },
       {
         "date": "2025 - 2026",
         "role": "Competitions & hackathons",
         "org": "BCG · Itaú · Platanus Hack",
-        "body": "Finalist at the BCG Case Competition 2026 and the Itaú Trading Challenge 2025, and an AI finance MVP launched in 36 hours at Platanus Hack 2025."
+        "body": "Finalist at BCG and Itaú; shipped an AI MVP at Platanus Hack."
       },
       {
         "date": "2022 - 2025",
         "role": "Lead Teaching Assistant",
         "org": "Pontificia Universidad Católica de Chile",
-        "body": "Led the Manufacturing Processes TA team and taught Software Engineering, Optimization, Calculus and Programming."
+        "body": "Led the Manufacturing Processes TA team; taught four other courses."
       },
       {
         "date": "2021 - 2026",
-        "role": "Industrial Engineering + IT Diploma",
+        "role": "Industrial Engineer, IT specialization",
         "org": "Pontificia Universidad Católica de Chile",
-        "body": "Top 1.4% of my class, robotics specialization with distinction, and a certificate in astronomy for fun."
+        "body": "Top 1.4% of my class. B.Sc. with distinction, major in Robotics."
       }
+    ]
+  },
+  "linkedin": {
+    "eyebrow": "Latest on LinkedIn",
+    "title": "What I'm sharing",
+    "cta": "Follow on LinkedIn"
+  },
+  "life": {
+    "eyebrow": "Off the clock",
+    "title": "Life outside work",
+    "interests": [
+      { "title": "Photography", "body": "Always carrying a camera." },
+      { "title": "Robotics & making", "body": "Motors, sensors and 3D-printed parts." },
+      { "title": "Ski, tennis & adventure", "body": "Mountains, courts and new trails." }
     ]
   },
   "photography": {
     "eyebrow": "Photography",
-    "title": "What I see when I slow down",
-    "body": "Photography is how I practice noticing. A full gallery is on its way.",
-    "cta": {
-      "label": "See the full gallery",
-      "href": "#photography"
-    },
+    "title": "Through my lens",
+    "body": "A full gallery is on its way.",
+    "cta": { "label": "See the full gallery", "href": "#photography" },
     "photos": [
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      }
+      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
+      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
+      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
+      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
+      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
+      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" }
     ]
   },
   "contact": {
     "eyebrow": "Contact",
     "headline": "Bring me a hard question.",
-    "cta": {
-      "label": "rodoarmas@gmail.com",
-      "href": "mailto:rodoarmas@gmail.com"
-    },
-    "footerNote": "Built in Santiago. Every photo here is my own."
+    "cta": { "label": "rodoarmas@gmail.com", "href": "mailto:rodoarmas@gmail.com" },
+    "footerNote": "Built in Santiago. Photos are my own."
   }
 }
