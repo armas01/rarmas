@@ -5,27 +5,70 @@
   },
   "nav": {
     "links": [
-      { "label": "About", "href": "#about" },
-      { "label": "Story", "href": "#story" },
-      { "label": "Work", "href": "#work" },
-      { "label": "Skills", "href": "#skills" },
-      { "label": "Timeline", "href": "#timeline" },
-      { "label": "Photography", "href": "#photography" }
+      {
+        "label": "About",
+        "href": "#about"
+      },
+      {
+        "label": "Story",
+        "href": "#story"
+      },
+      {
+        "label": "Work",
+        "href": "#work"
+      },
+      {
+        "label": "Skills",
+        "href": "#skills"
+      },
+      {
+        "label": "Timeline",
+        "href": "#timeline"
+      },
+      {
+        "label": "Photography",
+        "href": "#photography"
+      }
     ],
-    "cta": { "label": "Let's talk", "href": "#contact" }
+    "cta": {
+      "label": "Let's talk",
+      "href": "#contact"
+    }
   },
   "hero": {
     "eyebrow": "Rodo Armas · Santiago, Chile",
     "headline": "Curiosity, engineered.",
     "lede": "Engineer by training, strategist by choice, and a little bit of everything by curiosity. Robots taught me how systems behave, a camera taught me what to look at, and AI agents let me think at a new scale. Strategy is where it all comes together.",
-    "primary": { "label": "See my work", "href": "#work" },
-    "secondary": { "label": "About me", "href": "#about" }
+    "primary": {
+      "label": "See my work",
+      "href": "#work"
+    },
+    "secondary": {
+      "label": "About me",
+      "href": "#about"
+    }
   },
   "stats": [
-    { "value": 1, "suffix": "", "label": "National #1 score on Chile's university admission test" },
-    { "value": 13, "suffix": "", "label": "Rank out of 931 in my engineering class" },
-    { "value": 36, "suffix": "h", "label": "To ship an AI finance analyst at Platanus Hack" },
-    { "value": 4, "suffix": "", "label": "Years teaching across five university courses" }
+    {
+      "value": 1,
+      "suffix": "",
+      "label": "National #1 score on Chile's university admission test"
+    },
+    {
+      "value": 13,
+      "suffix": "",
+      "label": "Rank out of 931 in my engineering class"
+    },
+    {
+      "value": 36,
+      "suffix": "h",
+      "label": "To ship an AI finance analyst at Platanus Hack"
+    },
+    {
+      "value": 4,
+      "suffix": "",
+      "label": "Years teaching across five university courses"
+    }
   ],
   "about": {
     "eyebrow": "About",
@@ -52,7 +95,7 @@
       {
         "kicker": "04",
         "title": "Agents → leverage",
-        "body": "At Uber Eats, and as a BCG Case Competition 2026 finalist, I pair strategic thinking with AI agents I design myself, and point everything I've learned at problems that matter."
+        "body": "At Uber Eats I pair strategic thinking with AI agents I design myself, and point everything I've learned at problems that matter."
       }
     ]
   },
@@ -167,9 +210,9 @@
       },
       {
         "date": "2025 - 2026",
-        "role": "Finalist",
-        "org": "BCG Case Competition · Itaú Trading Challenge",
-        "body": "Finalist at the BCG Case Competition 2026 and the Itaú Trading Challenge 2025, plus a launched AI MVP at Platanus Hack 2025."
+        "role": "Competitions & hackathons",
+        "org": "BCG · Itaú · Platanus Hack",
+        "body": "Finalist at the BCG Case Competition 2026 and the Itaú Trading Challenge 2025, and an AI finance MVP launched in 36 hours at Platanus Hack 2025."
       },
       {
         "date": "2022 - 2025",
@@ -189,20 +232,50 @@
     "eyebrow": "Photography",
     "title": "What I see when I slow down",
     "body": "Photography is how I practice noticing. A full gallery is on its way.",
-    "cta": { "label": "See the full gallery", "href": "#photography" },
+    "cta": {
+      "label": "See the full gallery",
+      "href": "#photography"
+    },
     "photos": [
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" }
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      }
     ]
   },
   "contact": {
     "eyebrow": "Contact",
     "headline": "Bring me a hard question.",
-    "cta": { "label": "rodoarmas@gmail.com", "href": "mailto:rodoarmas@gmail.com" },
+    "cta": {
+      "label": "rodoarmas@gmail.com",
+      "href": "mailto:rodoarmas@gmail.com"
+    },
     "footerNote": "Built in Santiago. Every photo here is my own."
   }
 }
