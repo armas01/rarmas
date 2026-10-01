@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const sections = ['about', 'story', 'work', 'skills', 'timeline', 'photography'];
+const sections = ['about', 'work', 'skills', 'timeline', 'life', 'photography'];
 
 test('nav links land each section below the navbar', async ({ page }) => {
   await page.goto('/');
@@ -59,7 +59,7 @@ test.describe('reduced motion', () => {
     await expect(page.locator('html')).not.toHaveClass(/reduced-motion/);
     await expect(page.locator('html')).toHaveClass(/lenis/);
     await expect
-      .poll(() => page.evaluate(() => document.querySelectorAll('.pin-spacer').length))
+      .poll(() => page.evaluate(() => document.querySelectorAll('#about .word').length))
       .toBeGreaterThan(0);
   });
 });

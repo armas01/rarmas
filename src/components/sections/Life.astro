@@ -1,0 +1,78 @@
+---
+import Section from '../layout/Section.astro';
+import { content } from '../../content/schema';
+
+const { life } = content;
+---
+
+<Section id="life" theme="light" labelledby="life-title">
+  <div class="shell">
+    <p class="eyebrow">{life.eyebrow}</p>
+    <h2 id="life-title" class="h2 life-title" data-motion="reveal-words">
+      {life.title}
+    </h2>
+    <ul class="interests" data-motion="reveal-up" data-motion-stagger="0.08">
+      {life.interests.map((it, i) => (
+        <li class="interest" data-motion="tilt">
+          <span class="idx">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="i-title">{it.title}</h3>
+          <p class="i-body">{it.body}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
+
+<style>
+  .life-title {
+    margin-top: var(--space-4);
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .interests {
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+  .interest {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: clamp(24px, 3vw, 40px);
+    min-height: 260px;
+    border-radius: var(--radius-3);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .idx {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .i-title {
+    margin-top: auto;
+    font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+  .i-body {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    max-width: 38ch;
+  }
+  @media (max-width: 899px) {
+    .interests {
+      grid-template-columns: 1fr;
+    }
+    .interest {
+      min-height: 200px;
+    }
+  }
+</style>

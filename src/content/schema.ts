@@ -9,10 +9,11 @@ export const ContentSchema = z.object({
   nav: z.object({ links: z.array(Link).min(1), cta: Link }),
   hero: z.object({ eyebrow: Text, headline: Text, lede: Text, primary: Link, secondary: Link }),
   stats: z.array(z.object({ value: z.number(), suffix: z.string(), label: Text })).length(4),
-  about: z.object({ eyebrow: Text, body: Text }),
-  story: z.object({
+  about: z.object({
     eyebrow: Text,
-    chapters: z.array(z.object({ kicker: Text, title: Text, body: Text })).length(4),
+    body: Text,
+    // src: a path under public/ (e.g. "/me.jpg"); null renders a placeholder frame.
+    portrait: z.object({ src: Text.nullable(), alt: Text }),
   }),
   work: z.object({
     eyebrow: Text,
@@ -37,12 +38,17 @@ export const ContentSchema = z.object({
     eyebrow: Text,
     title: Text,
     rows: z.tuple([z.array(Text).min(4), z.array(Text).min(4)]),
-    interests: z.array(z.object({ title: Text, body: Text })).length(3),
   }),
   timeline: z.object({
     eyebrow: Text,
     title: Text,
     entries: z.array(z.object({ date: Text, role: Text, org: Text, body: Text })).length(4),
+  }),
+  linkedin: z.object({ eyebrow: Text, title: Text, cta: Text }),
+  life: z.object({
+    eyebrow: Text,
+    title: Text,
+    interests: z.array(z.object({ title: Text, body: Text })).length(3),
   }),
   photography: z.object({
     eyebrow: Text,

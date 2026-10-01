@@ -5,11 +5,12 @@ import Footer from '../components/layout/Footer.astro';
 import Hero from '../components/sections/Hero.astro';
 import Stats from '../components/sections/Stats.astro';
 import About from '../components/sections/About.astro';
-import Story from '../components/sections/Story.astro';
 import Work from '../components/sections/Work.astro';
 import Bento from '../components/sections/Bento.astro';
 import Skills from '../components/sections/Skills.astro';
 import Timeline from '../components/sections/Timeline.astro';
+import LinkedIn from '../components/sections/LinkedIn.astro';
+import Life from '../components/sections/Life.astro';
 import Photography from '../components/sections/Photography.astro';
 import Contact from '../components/sections/Contact.astro';
 ---
@@ -17,14 +18,17 @@ import Contact from '../components/sections/Contact.astro';
 <BaseLayout>
   <Navbar />
   <main id="main">
+    <!-- Professional -->
     <Hero />
     <Stats />
     <About />
-    <Story />
     <Work />
     <Bento />
     <Skills />
     <Timeline />
+    <LinkedIn />
+    <!-- Personal -->
+    <Life />
     <Photography />
     <Contact />
   </main>

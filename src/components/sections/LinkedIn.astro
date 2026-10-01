@@ -1,0 +1,107 @@
+---
+// Shows the newest LinkedIn post. Source order: src/generated/linkedin.json (written by
+// `npm run sync` from the official API when credentials exist; the deploy workflow runs it
+// daily), then the curated fallback in src/data/linkedin.json.
+import { readFile } from 'node:fs/promises';
+import Section from '../layout/Section.astro';
+import Button from '../ui/Button.astro';
+import { content } from '../../content/schema';
+import { selectPosts } from '../../content/posts';
+import fallbackPosts from '../../data/linkedin.json';
+import site from '../../data/site.json';
+
+const { linkedin } = content;
+let generated: unknown = undefined;
+try {
+  generated = JSON.parse(await readFile(new URL('../../generated/linkedin.json', import.meta.url), 'utf8'));
+} catch {}
+const [latest] = selectPosts(generated, fallbackPosts, []);
+---
+
+<Section id="linkedin" labelledby="linkedin-title">
+  <div class="shell">
+    <div class="head">
+      <div>
+        <p class="eyebrow">{linkedin.eyebrow}</p>
+        <h2 id="linkedin-title" class="h2 li-title" data-motion="reveal-words">
+          {linkedin.title}
+        </h2>
+      </div>
+      <Button href={site.links.linkedin} variant="ghost" external>
+        {linkedin.cta}
+      </Button>
+    </div>
+    {latest ? (
+      <a class="post" href={latest.href} target="_blank" rel="noreferrer" data-motion="reveal-up">
+        <p class="date">{latest.date}</p>
+        <p class="text">{latest.title}</p>
+        <span class="read">
+          Read on LinkedIn <span aria-hidden="true">↗</span>
+        </span>
+      </a>
+    ) : (
+      <a class="post empty" href={site.links.linkedin} target="_blank" rel="noreferrer">
+        <p class="text">New posts will appear here.</p>
+      </a>
+    )}
+  </div>
+</Section>
+
+<style>
+  .head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-5);
+  }
+  .li-title {
+    margin-top: var(--space-4);
+    max-width: 16ch;
+    text-wrap: balance;
+  }
+  .post {
+    margin-top: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 860px;
+    padding: clamp(24px, 4vw, 48px);
+    border-radius: var(--radius-3);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      transform var(--dur-1) var(--ease-out),
+      box-shadow var(--dur-1) var(--ease-out);
+  }
+  .post:hover,
+  .post:focus-visible {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 48px -16px rgb(0 0 0 / 0.4);
+  }
+  .date {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .text {
+    font-size: clamp(1.125rem, 1.8vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    white-space: pre-line;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    overflow: hidden;
+  }
+  .read {
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+</style>
