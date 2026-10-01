@@ -70,9 +70,8 @@ section[id] {
   white-space: nowrap;
   border: 0;
 }
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
-  }
+/* Only applies when RESPECT_REDUCED_MOTION is on (see src/motion/prefers.ts) */
+html.reduced-motion * {
+  animation: none !important;
+  transition: none !important;
 }

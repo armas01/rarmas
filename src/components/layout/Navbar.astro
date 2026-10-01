@@ -274,12 +274,10 @@ const { links, cta } = content.nav;
       display: inline-flex;
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .overlay-links a,
-    .overlay-cta {
-      opacity: 1;
-      transform: none;
-      animation: none !important;
-    }
+  :global(html.reduced-motion) .overlay-links a,
+  :global(html.reduced-motion) .overlay-cta {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
   }
 </style>

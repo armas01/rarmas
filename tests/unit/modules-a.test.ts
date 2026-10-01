@@ -141,6 +141,8 @@ describe('modules A', () => {
     modules['reveal-words'](el, ctx);
     expect(el.hasAttribute('aria-label')).toBe(false);
     for (const w of split.words) expect(w.hasAttribute('aria-hidden')).toBe(false);
+    // SplitText adds aria-label by default, which is prohibited on <p>
+    expect(ctx.SplitText.create).toHaveBeenCalledWith(el, expect.objectContaining({ aria: 'none' }));
   });
 
   it('scrub-words keeps text readable', () => {
@@ -150,6 +152,7 @@ describe('modules A', () => {
     modules['scrub-words'](el, ctx);
     expect(el.hasAttribute('aria-label')).toBe(false);
     for (const w of split.words) expect(w.hasAttribute('aria-hidden')).toBe(false);
+    expect(ctx.SplitText.create).toHaveBeenCalledWith(el, expect.objectContaining({ aria: 'none' }));
   });
 
   it('counter sets no aria-label, starts at 0 and restores final text on cleanup', () => {

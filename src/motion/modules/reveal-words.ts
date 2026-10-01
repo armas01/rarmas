@@ -20,7 +20,12 @@ export const revealWords: MotionModule = (el, { gsap, SplitText, options, reduce
   }
   const isHeading = /^H[1-6]$/.test(el.tagName);
   if (isHeading) el.setAttribute('aria-label', (el.textContent ?? '').trim());
-  const split = SplitText.create(el, { type: 'words', mask: 'words', wordsClass: 'word' });
+  const split = SplitText.create(el, {
+    type: 'words',
+    mask: 'words',
+    wordsClass: 'word',
+    aria: isHeading ? 'auto' : 'none',
+  });
   if (isHeading) split.words.forEach((w: Element) => w.setAttribute('aria-hidden', 'true'));
   const tween = gsap.from(split.words, {
     yPercent: 110,

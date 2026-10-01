@@ -41,7 +41,7 @@ test('mobile menu: open, trap, Esc, closes on widen', async ({ page }) => {
 
 test.describe('reduced motion', () => {
   test.use({ reducedMotion: 'reduce' });
-  test('every section heading fades in', async ({ page }) => {
+  test('every section heading becomes visible', async ({ page }) => {
     await page.goto('/');
     for (const h of await page.locator('main h1, main h2').all()) {
       await h.scrollIntoViewIfNeeded();
@@ -53,15 +53,14 @@ test.describe('reduced motion', () => {
         .toBe(1);
     }
   });
-  test('uses gentle fallback: no lenis, no pinning, all story chapters visible', async ({ page }) => {
+  // RESPECT_REDUCED_MOTION is false (owner's choice): the OS setting is ignored
+  test('plays the full animations even when the OS asks for reduced motion', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('html')).toHaveClass(/reduced-motion/);
-    await expect(page.locator('html')).not.toHaveClass(/lenis/);
-    expect(await page.evaluate(() => document.querySelectorAll('.pin-spacer').length)).toBe(0);
-    for (const c of await page.locator('#story [data-chapter]').all()) {
-      await c.scrollIntoViewIfNeeded();
-      await expect(c).toBeVisible();
-    }
+    await expect(page.locator('html')).not.toHaveClass(/reduced-motion/);
+    await expect(page.locator('html')).toHaveClass(/lenis/);
+    await expect
+      .poll(() => page.evaluate(() => document.querySelectorAll('.pin-spacer').length))
+      .toBeGreaterThan(0);
   });
 });
 
@@ -83,11 +82,27 @@ test('content becomes visible if the motion bundle fails to load', async ({ page
 });
 
 test('no serious accessibility violations', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
-  const results = await new AxeBuilder({ page }).analyze();
-  const serious = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
-  expect(serious.map((v) => `${v.id}: ${v.nodes.length}`)).toEqual([]);
+  // The About paragraph's words start dim and brighten with scroll: scan its settled state
+  await page.evaluate(() => {
+    const p = document.querySelector('.about-body')!;
+    window.scrollTo(0, p.getBoundingClientRect().bottom + scrollY - innerHeight * 0.3);
+  });
+  await expect
+    .poll(() => page.$eval('.about-body .word:last-child', (el) => getComputedStyle(el).opacity))
+    .toBe('1');
+  // Re-scan until fades triggered by the scroll finish; a persistent violation still fails
+  await expect
+    .poll(
+      async () => {
+        const results = await new AxeBuilder({ page }).analyze();
+        return results.violations
+          .filter((v) => v.impact === 'serious' || v.impact === 'critical')
+          .map((v) => `${v.id}: ${v.nodes.length}`);
+      },
+      { timeout: 5000 },
+    )
+    .toEqual([]);
 });
 
 for (const [w, h] of [

@@ -295,20 +295,18 @@ const { bento } = content;
       background-position: -120% 0;
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .conic,
-    .ring,
-    polyline,
-    .orbit,
-    .dots::after {
-      animation: none;
-    }
-    polyline {
-      stroke-dashoffset: 0;
-    }
-    .ring {
-      opacity: 0.4;
-    }
+  :global(html.reduced-motion) .conic,
+  :global(html.reduced-motion) .ring,
+  :global(html.reduced-motion) polyline,
+  :global(html.reduced-motion) .orbit,
+  :global(html.reduced-motion) .dots::after {
+    animation: none;
+  }
+  :global(html.reduced-motion) polyline {
+    stroke-dashoffset: 0;
+  }
+  :global(html.reduced-motion) .ring {
+    opacity: 0.4;
   }
   @media (max-width: 899px) {
     .bento {

@@ -4,6 +4,7 @@ import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/utilities.css';
 import { content } from '../content/schema';
+import { RESPECT_REDUCED_MOTION } from '../motion/prefers';
 interface Props {
   title?: string;
   description?: string;
@@ -21,11 +22,12 @@ const { title = content.meta.title, description = content.meta.description } = A
     <link rel="canonical" href={new URL(Astro.url.pathname, 'https://rarmas.cl')} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{title}</title>
-    <script is:inline>
+    <script is:inline define:vars={{ respectReduced: RESPECT_REDUCED_MOTION }}>
       (function () {
         const d = document.documentElement;
         d.classList.add('js-motion');
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('reduced-motion');
+        if (respectReduced && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+          d.classList.add('reduced-motion');
         setTimeout(function () {
           if (!d.classList.contains('motion-ready')) d.classList.remove('js-motion');
         }, 2500);
