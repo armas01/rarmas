@@ -10,15 +10,12 @@ import Bento from '../components/sections/Bento.astro';
 import Skills from '../components/sections/Skills.astro';
 import Timeline from '../components/sections/Timeline.astro';
 import LinkedIn from '../components/sections/LinkedIn.astro';
-import Life from '../components/sections/Life.astro';
-import Photography from '../components/sections/Photography.astro';
 import Contact from '../components/sections/Contact.astro';
 ---
 
 <BaseLayout>
-  <Navbar />
+  <Navbar view="pro" />
   <main id="main">
-    <!-- Professional -->
     <Hero />
     <Stats />
     <About />
@@ -27,9 +24,6 @@ import Contact from '../components/sections/Contact.astro';
     <Skills />
     <Timeline />
     <LinkedIn />
-    <!-- Personal -->
-    <Life />
-    <Photography />
     <Contact />
   </main>
   <Footer />

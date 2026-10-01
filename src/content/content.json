@@ -3,34 +3,113 @@
     "title": "Rodo Armas — Strategy & agentic AI",
     "description": "Strategy & Planning Coordinator at Uber Eats LatAm. Industrial engineer from PUC Chile with a robotics major, building with AI agents."
   },
+  "lifeMeta": {
+    "title": "Rodo Armas — Off the clock",
+    "description": "Photography, robotics, skiing, tennis and adventure: Rodo Armas outside work."
+  },
   "nav": {
-    "links": [
-      { "label": "About", "href": "#about" },
-      { "label": "Work", "href": "#work" },
-      { "label": "Skills", "href": "#skills" },
-      { "label": "Timeline", "href": "#timeline" },
-      { "label": "Life", "href": "#life" },
-      { "label": "Photography", "href": "#photography" }
+    "views": [
+      {
+        "label": "Professional",
+        "href": "/"
+      },
+      {
+        "label": "Personal",
+        "href": "/life/"
+      }
     ],
-    "cta": { "label": "Let's talk", "href": "#contact" }
+    "links": [
+      {
+        "label": "About",
+        "href": "#about"
+      },
+      {
+        "label": "Projects",
+        "href": "#work"
+      },
+      {
+        "label": "Skills",
+        "href": "#skills"
+      },
+      {
+        "label": "Timeline",
+        "href": "#timeline"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "#linkedin"
+      }
+    ],
+    "lifeLinks": [
+      {
+        "label": "Interests",
+        "href": "#life"
+      },
+      {
+        "label": "Photography",
+        "href": "#photography"
+      }
+    ],
+    "cta": {
+      "label": "Let's talk",
+      "href": "#contact"
+    }
   },
   "hero": {
     "eyebrow": "Rodo Armas · Santiago, Chile",
     "headline": "Curiosity, engineered.",
     "lede": "Strategy & Planning at Uber Eats. Engineer at heart. I pair strategic thinking with AI agents to turn ideas into action.",
-    "primary": { "label": "See my work", "href": "#work" },
-    "secondary": { "label": "About me", "href": "#about" }
+    "primary": {
+      "label": "See my work",
+      "href": "#work"
+    },
+    "secondary": {
+      "label": "About me",
+      "href": "#about"
+    }
+  },
+  "lifeHero": {
+    "eyebrow": "Rodo Armas · Off the clock",
+    "headline": "Life, in focus.",
+    "lede": "Photography, robotics, mountains and courts. The things that keep me curious.",
+    "primary": {
+      "label": "See my photos",
+      "href": "#photography"
+    },
+    "secondary": {
+      "label": "Interests",
+      "href": "#life"
+    }
   },
   "stats": [
-    { "value": 1, "suffix": "", "label": "National #1 score, university admission test" },
-    { "value": 13, "suffix": "", "label": "Class rank out of 931 at PUC" },
-    { "value": 36, "suffix": "h", "label": "To ship an AI MVP at Platanus Hack" },
-    { "value": 4, "suffix": "", "label": "Years teaching at university" }
+    {
+      "value": 1,
+      "suffix": "",
+      "label": "National #1 score, university admission test"
+    },
+    {
+      "value": 13,
+      "suffix": "",
+      "label": "Class rank out of 931 at PUC"
+    },
+    {
+      "value": 36,
+      "suffix": "h",
+      "label": "To ship an AI MVP at Platanus Hack"
+    },
+    {
+      "value": 4,
+      "suffix": "",
+      "label": "Years teaching at university"
+    }
   ],
   "about": {
     "eyebrow": "About",
     "body": "Industrial engineer from PUC Chile with a robotics major. Today I coordinate Strategy & Planning at Uber Eats LatAm, where I build with AI agents so more of my time goes to the decisions that matter.",
-    "portrait": { "src": null, "alt": "Portrait of Rodo Armas" }
+    "portrait": {
+      "src": null,
+      "alt": "Portrait of Rodo Armas"
+    }
   },
   "work": {
     "eyebrow": "Work",
@@ -75,7 +154,12 @@
         "size": "sm",
         "visual": "pulse"
       },
-      { "title": "Let data speak", "body": "Good numbers end debates.", "size": "sm", "visual": "chart" },
+      {
+        "title": "Let data speak",
+        "body": "Good numbers end debates.",
+        "size": "sm",
+        "visual": "chart"
+      },
       {
         "title": "Frame the problem",
         "body": "Decide what stays in the picture.",
@@ -140,32 +224,71 @@
     "cta": "Follow on LinkedIn"
   },
   "life": {
-    "eyebrow": "Off the clock",
-    "title": "Life outside work",
+    "eyebrow": "Interests",
+    "title": "What keeps me curious",
     "interests": [
-      { "title": "Photography", "body": "Always carrying a camera." },
-      { "title": "Robotics & making", "body": "Motors, sensors and 3D-printed parts." },
-      { "title": "Ski, tennis & adventure", "body": "Mountains, courts and new trails." }
+      {
+        "title": "Photography",
+        "body": "Always carrying a camera."
+      },
+      {
+        "title": "Robotics & making",
+        "body": "Motors, sensors and 3D-printed parts."
+      },
+      {
+        "title": "Ski, tennis & adventure",
+        "body": "Mountains, courts and new trails."
+      }
     ]
   },
   "photography": {
     "eyebrow": "Photography",
     "title": "Through my lens",
     "body": "A full gallery is on its way.",
-    "cta": { "label": "See the full gallery", "href": "#photography" },
+    "cta": {
+      "label": "See the full gallery",
+      "href": "#photography"
+    },
     "photos": [
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" },
-      { "src": null, "alt": "Photo coming soon", "caption": "Coming soon" }
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      },
+      {
+        "src": null,
+        "alt": "Photo coming soon",
+        "caption": "Coming soon"
+      }
     ]
   },
   "contact": {
     "eyebrow": "Contact",
     "headline": "Bring me a hard question.",
-    "cta": { "label": "rodoarmas@gmail.com", "href": "mailto:rodoarmas@gmail.com" },
+    "cta": {
+      "label": "rodoarmas@gmail.com",
+      "href": "mailto:rodoarmas@gmail.com"
+    },
     "footerNote": "Built in Santiago. Photos are my own."
   }
 }

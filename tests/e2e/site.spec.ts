@@ -1,26 +1,30 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const sections = ['about', 'work', 'skills', 'timeline', 'life', 'photography'];
+const views: [string, string[]][] = [
+  ['/', ['about', 'work', 'skills', 'timeline', 'linkedin']],
+  ['/life/', ['life', 'photography']],
+];
 
-test('nav links land each section below the navbar', async ({ page }) => {
-  await page.goto('/');
-  for (const id of sections) {
-    await page.locator(`header nav[aria-label="Main"] a[href="#${id}"]`).click();
-    await expect
-      .poll(
-        async () => {
-          const navBottom = await page
-            .locator('header[data-nav]')
-            .evaluate((el) => el.getBoundingClientRect().bottom);
-          const top = await page.locator(`#${id}`).evaluate((el) => el.getBoundingClientRect().top);
-          return top >= navBottom - 2 && top < 400;
-        },
-        { timeout: 4000 },
-      )
-      .toBe(true);
-  }
-});
+for (const [path, sections] of views)
+  test(`nav links land each section below the navbar on ${path}`, async ({ page }) => {
+    await page.goto(path);
+    for (const id of sections) {
+      await page.locator(`header nav[aria-label="Main"] a[href="#${id}"]`).click();
+      await expect
+        .poll(
+          async () => {
+            const navBottom = await page
+              .locator('header[data-nav]')
+              .evaluate((el) => el.getBoundingClientRect().bottom);
+            const top = await page.locator(`#${id}`).evaluate((el) => el.getBoundingClientRect().top);
+            return top >= navBottom - 2 && top < 400;
+          },
+          { timeout: 4000 },
+        )
+        .toBe(true);
+    }
+  });
 
 test('mobile menu: open, trap, Esc, closes on widen', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -105,18 +109,47 @@ test('no serious accessibility violations', async ({ page }) => {
     .toEqual([]);
 });
 
-for (const [w, h] of [
-  [390, 844],
-  [360, 640],
-  [1440, 900],
-]) {
-  test(`no horizontal overflow at ${w}x${h}`, async ({ page }) => {
-    await page.setViewportSize({ width: w, height: h });
-    await page.goto('/');
-    const { scrollW, clientW } = await page.evaluate(() => ({
-      scrollW: document.documentElement.scrollWidth,
-      clientW: document.documentElement.clientWidth,
-    }));
-    expect(scrollW).toBeLessThanOrEqual(clientW);
-  });
-}
+test('view switch moves between the professional and personal pages', async ({ page }) => {
+  await page.goto('/');
+  const sw = page.locator('header nav[aria-label="View"]');
+  await expect(sw.locator('a[aria-current="page"]')).toHaveText('Professional');
+  await expect(page.locator('#photography')).toHaveCount(0);
+  await sw.getByRole('link', { name: 'Personal' }).click();
+  await expect(page).toHaveURL(/\/life\/$/);
+  await expect(sw.locator('a[aria-current="page"]')).toHaveText('Personal');
+  await expect(page.locator('#photography')).toHaveCount(1);
+  await expect(page.locator('#work')).toHaveCount(0);
+});
+
+test('personal page has no serious accessibility violations', async ({ page }) => {
+  await page.goto('/life/');
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect
+    .poll(
+      async () => {
+        const results = await new AxeBuilder({ page }).analyze();
+        return results.violations
+          .filter((v) => v.impact === 'serious' || v.impact === 'critical')
+          .map((v) => `${v.id}: ${v.nodes.length}`);
+      },
+      { timeout: 6000 },
+    )
+    .toEqual([]);
+});
+
+for (const path of ['/', '/life/'])
+  for (const [w, h] of [
+    [390, 844],
+    [360, 640],
+    [1440, 900],
+  ]) {
+    test(`no horizontal overflow on ${path} at ${w}x${h}`, async ({ page }) => {
+      await page.setViewportSize({ width: w, height: h });
+      await page.goto(path);
+      const { scrollW, clientW } = await page.evaluate(() => ({
+        scrollW: document.documentElement.scrollWidth,
+        clientW: document.documentElement.clientWidth,
+      }));
+      expect(scrollW).toBeLessThanOrEqual(clientW);
+    });
+  }

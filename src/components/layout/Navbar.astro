@@ -1,7 +1,13 @@
 ---
 import { content } from '../../content/schema';
 import Button from '../ui/Button.astro';
-const { links, cta } = content.nav;
+interface Props {
+  view?: 'pro' | 'life';
+}
+const { view = 'pro' } = Astro.props;
+const { views, cta } = content.nav;
+const links = view === 'life' ? content.nav.lifeLinks : content.nav.links;
+const activeView = view === 'life' ? 1 : 0;
 ---
 
 <header class="nav" data-nav data-state="top">
@@ -10,6 +16,13 @@ const { links, cta } = content.nav;
       <img src="/logo.png" alt="" width="32" height="32" />
       <span>Rodo Armas</span>
     </a>
+    <nav aria-label="View" class="view-switch">
+      {views.map((v, i) => (
+        <a href={v.href} aria-current={i === activeView ? 'page' : undefined}>
+          {v.label}
+        </a>
+      ))}
+    </nav>
     <nav aria-label="Main" class="nav-links">
       {links.map((l) => (
         <a href={l.href}>{l.label}</a>
@@ -117,6 +130,46 @@ const { links, cta } = content.nav;
     border-radius: 10px;
     background: #fff;
     border: 1px solid rgb(0 0 0 / 0.08);
+  }
+  .view-switch {
+    display: inline-flex;
+    padding: 3px;
+    gap: 2px;
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .view-switch a {
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+    transition:
+      color var(--dur-2) var(--ease-out),
+      background-color var(--dur-2) var(--ease-out);
+  }
+  .view-switch a:hover {
+    color: var(--text);
+  }
+  .view-switch a[aria-current='page'] {
+    color: var(--bg);
+    background: var(--text);
+  }
+  .view-switch a:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  @media (max-width: 1023px) and (min-width: 768px) {
+    .nav-brand span {
+      display: none;
+    }
+  }
+  @media (max-width: 400px) {
+    .nav-brand span {
+      display: none;
+    }
   }
   .nav-links {
     position: relative;
