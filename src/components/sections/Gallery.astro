@@ -1,10 +1,10 @@
 ---
 import Section from '../layout/Section.astro';
 import Button from '../ui/Button.astro';
-import { content } from '../../content/schema';
+import type { Content } from '../../content/schema';
 
 interface Props {
-  gallery: (typeof content.galleries)[number];
+  gallery: Content['galleries'][number];
   theme?: 'light' | 'dark';
 }
 const { gallery, theme = 'light' } = Astro.props;

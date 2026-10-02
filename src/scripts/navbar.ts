@@ -140,6 +140,16 @@ export function initNavbar(root: HTMLElement, win: Window = window): () => void 
     if (e.matches) setMenu(false, false);
   };
 
+  // An explicit language choice wins over the phone's language on later visits.
+  root.querySelectorAll<HTMLElement>('[data-lang-switch]').forEach((el) =>
+    el.addEventListener('click', () => {
+      try {
+        win.localStorage.setItem('lang', el.dataset.langSwitch ?? '');
+      } catch {
+        /* storage unavailable */
+      }
+    }),
+  );
   toggle?.addEventListener('click', onToggle);
   root.addEventListener('click', onLinkClick);
   doc.addEventListener('keydown', onKey);

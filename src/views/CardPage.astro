@@ -1,0 +1,833 @@
+---
+import QRCode from 'qrcode';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import { getContent } from '../content/schema';
+import site from '../data/site.json';
+const content = getContent(Astro.currentLocale);
+
+const { card, cardMeta } = content;
+const cardUrl = 'https://rarmas.cl/card/';
+// QR is rendered at build time: no QR library ships to the browser.
+// The QR carries src=qr so stats can tell scans from shared links.
+const qrSvg = await QRCode.toString(`${cardUrl}?src=qr`, {
+  type: 'svg',
+  margin: 0,
+  errorCorrectionLevel: 'M',
+  color: { dark: '#0a0a0b', light: '#ffffff' },
+});
+const email = site.identity.email;
+---
+
+<BaseLayout title={cardMeta.title} description={cardMeta.description} image="/og/card.png">
+  {Astro.currentLocale !== 'es' && <script is:inline>
+    // Shared links point to /card/; Spanish-language phones get the Spanish card
+    // unless the visitor picked a language with the EN/ES switch.
+    (function () {
+      try {
+        const pref = localStorage.getItem('lang');
+        const es = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        if (pref !== 'en' && (pref === 'es' || /^es\b/i.test(es)))
+          location.replace('/es/card/' + location.search + location.hash);
+      } catch {
+        // storage blocked: keep English
+      }
+    })();
+  </script>}
+  <Navbar view="card" />
+  <main
+    id="main"
+    class="card-page"
+    data-card
+    data-message={card.message}
+    data-message-plain={card.messageNoEvent}
+    data-copied={card.copied}
+    data-copy-failed={card.copyFailed}
+    data-greeting-template={card.greeting}
+  >
+    <div class="bg" aria-hidden="true">
+      <span class="orb orb-a"></span>
+      <span class="orb orb-b"></span>
+    </div>
+
+    <p class="greeting" data-greeting hidden></p>
+
+    <div class="stage" data-motion="reveal-up" data-motion-trigger="load">
+      <div class="tilt" data-motion="tilt">
+        <div class="flip" data-flip>
+          <section class="face front" aria-label={content.ui.cardAria}>
+            <div class="front-top">
+              <img src="/logo.png" alt="" width="36" height="36" class="logo" />
+              <span class="loc">{card.location}</span>
+            </div>
+            <div class="front-body">
+              <h1 class="name">{card.name}</h1>
+              <p class="role">{card.role}</p>
+              <p class="org">{card.org}</p>
+            </div>
+            <p class="tagline">{card.tagline}</p>
+          </section>
+          <section class="face back" aria-label={content.ui.qrAria} aria-hidden="true">
+            <div class="qr" set:html={qrSvg} role="img" aria-label={`QR code linking to ${cardUrl}`} />
+            <p class="qr-hint">{card.qrHint}</p>
+            <p class="qr-url">rarmas.cl/card</p>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions" data-motion="reveal-up" data-motion-trigger="load" data-motion-delay="0.15">
+      <a class="act primary" href="/rodo-armas.vcf" download="Rodo Armas.vcf">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14" />
+        </svg>
+        {card.save}
+      </a>
+      <button class="act share-open" type="button" data-share-open data-owner hidden aria-haspopup="dialog">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 15V4m0 0L8 8m4-4 4 4M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6" />
+        </svg>
+        <span>{card.share}</span>
+      </button>
+      <button
+        class="act"
+        type="button"
+        aria-pressed="false"
+        data-flip-toggle
+        data-owner
+        hidden
+        data-label-back={card.flipBack}
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z" />
+        </svg>
+        <span data-flip-label>{card.flip}</span>
+      </button>
+    </div>
+
+    <ul class="links" data-motion="reveal-up" data-motion-trigger="load" data-motion-delay="0.25">
+      <li>
+        <a href={`mailto:${email}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 6h16v12H4zM4 7l8 6 8-6" />
+          </svg>
+          <span>Email</span>
+        </a>
+      </li>
+      <li>
+        <a href={site.links.linkedin} target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 10v9M5 5.5v.01M10 19v-9m0 4a4 4 0 0 1 8 0v5" />
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+      </li>
+      <li>
+        <a href={site.links.instagram} target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+            <circle cx="12" cy="12" r="3.6"></circle>
+            <path d="M16.8 7.2v.01"></path>
+          </svg>
+          <span>Instagram</span>
+        </a>
+      </li>
+    </ul>
+
+    <dialog class="sheet" data-share-sheet aria-labelledby="share-title">
+      <form method="dialog" class="sheet-inner" data-share-form>
+        <div class="sheet-head">
+          <h2 id="share-title">{card.shareTitle}</h2>
+          <button class="x" value="close" aria-label={card.close}>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6 6 18"></path>
+            </svg>
+          </button>
+        </div>
+        <label class="field">
+          <span>{card.eventLabel}</span>
+          <input
+            type="text"
+            name="event"
+            maxlength="40"
+            autocomplete="off"
+            enterkeyhint="done"
+            placeholder={card.eventPlaceholder}
+            data-share-event
+          />
+        </label>
+        <div class="preview">
+          <span class="preview-label">{card.previewLabel}</span>
+          <p class="preview-greeting" data-share-preview data-none={card.previewNone}>
+            {card.previewNone}
+          </p>
+        </div>
+        <div class="sheet-actions">
+          <a class="act primary" data-share-whatsapp target="_blank" rel="noreferrer" href="https://wa.me/">
+            {card.whatsapp}
+          </a>
+          <button type="button" class="act" data-share-copy>
+            {card.copy}
+          </button>
+          <button type="button" class="act" data-share-qr>
+            {card.showEventQr}
+          </button>
+          <button type="button" class="act wide" data-share-native hidden>
+            {card.more}
+          </button>
+        </div>
+        <textarea
+          class="visually-hidden"
+          tabindex="-1"
+          aria-hidden="true"
+          readonly
+          data-share-link
+        ></textarea>
+        <p class="dl">
+          {content.ui.printQr}
+          <button type="button" data-qr-dl="svg">
+            SVG
+          </button>
+          <button type="button" data-qr-dl="png">
+            PNG
+          </button>
+        </p>
+        <p class="status" role="status" aria-live="polite" data-share-status></p>
+      </form>
+    </dialog>
+    <section class="admin" data-admin hidden aria-labelledby="admin-title">
+      <div class="admin-head">
+        <h2 id="admin-title">Card stats</h2>
+        <div class="range" role="group" aria-label="Period">
+          <button type="button" data-range="7" aria-pressed="false">
+            7d
+          </button>
+          <button type="button" data-range="30" aria-pressed="true">
+            30d
+          </button>
+          <button type="button" data-range="90" aria-pressed="false">
+            90d
+          </button>
+          <button type="button" data-range="3650" aria-pressed="false">
+            All
+          </button>
+        </div>
+      </div>
+      <div class="admin-body" data-admin-body aria-live="polite">
+        <p class="admin-msg">Loading…</p>
+      </div>
+      <p class="admin-note">
+        Anonymous counts only: no names, IPs or devices. Your own visits aren't counted.
+      </p>
+    </section>
+
+    <p class="owner-chip" data-owner hidden>
+      {card.ownerNote}
+      <button type="button" data-owner-exit>
+        {card.ownerExit}
+      </button>
+    </p>
+
+    <nav class="more" aria-label={content.ui.moreAboutMe}>
+      <a href={content.nav.views[0].href}>
+        {content.ui.proSite} <span aria-hidden="true">→</span>
+      </a>
+      <a href={content.nav.views[1].href}>
+        {content.ui.personalSite} <span aria-hidden="true">→</span>
+      </a>
+      {site.links.cvUrl && (
+        <a href={site.links.cvUrl} target="_blank" rel="noreferrer">
+          {card.cv} <span aria-hidden="true">↓</span>
+        </a>
+      )}
+    </nav>
+  </main>
+</BaseLayout>
+
+<script>
+  import { initCard } from '../scripts/card';
+  initCard(document, window);
+</script>
+
+<style>
+  .card-page {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    padding: calc(var(--nav-h) + 16px) 16px 40px;
+    overflow: clip;
+  }
+  .bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  .orb-a {
+    width: min(110vw, 900px);
+    aspect-ratio: 1;
+    top: -30%;
+    right: -35%;
+    background: radial-gradient(
+      closest-side,
+      var(--accent-a),
+      color-mix(in srgb, var(--accent-a) 30%, transparent) 45%,
+      transparent
+    );
+  }
+  .orb-b {
+    width: min(100vw, 820px);
+    aspect-ratio: 1;
+    bottom: -35%;
+    left: -35%;
+    background: radial-gradient(
+      closest-side,
+      var(--accent-b),
+      color-mix(in srgb, var(--accent-b) 30%, transparent) 45%,
+      transparent
+    );
+  }
+  .greeting {
+    position: relative;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .greeting::before {
+    content: '👋 ';
+  }
+
+  /* --- the card --- */
+  .stage {
+    position: relative;
+    width: min(100%, 440px);
+    perspective: 1200px;
+  }
+  .tilt {
+    transform-style: preserve-3d;
+  }
+  .flip {
+    position: relative;
+    aspect-ratio: 1.6;
+    transform-style: preserve-3d;
+    transition: transform 0.9s var(--ease-out);
+  }
+  .flip[data-flipped] {
+    transform: rotateY(180deg);
+  }
+  .face {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+  }
+  .front {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(18px, 6%, 28px);
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgb(61 123 255 / 0.35), transparent 55%),
+      radial-gradient(120% 140% at 0% 100%, rgb(139 92 246 / 0.3), transparent 55%), var(--surface);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    box-shadow:
+      0 30px 80px -30px rgb(0 0 0 / 0.8),
+      inset 0 1px 0 rgb(255 255 255 / 0.08);
+  }
+  .front-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 10px;
+    background: #fff;
+  }
+  .loc {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .name {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+  }
+  .role {
+    margin-top: 8px;
+    font-weight: 600;
+    font-size: clamp(0.875rem, 3.6vw, 1rem);
+  }
+  .org {
+    color: var(--muted);
+    font-size: clamp(0.8125rem, 3.2vw, 0.9375rem);
+  }
+  .tagline {
+    font-size: clamp(0.75rem, 3vw, 0.875rem);
+    font-weight: 600;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .back {
+    transform: rotateY(180deg);
+    display: grid;
+    grid-template-columns: 46% minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    column-gap: clamp(14px, 5%, 24px);
+    padding: clamp(16px, 6%, 26px);
+    background: #fff;
+    color: #0a0a0b;
+  }
+  .qr {
+    grid-row: span 2;
+    align-self: center;
+    width: 100%;
+    aspect-ratio: 1;
+  }
+  .qr :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .qr-hint {
+    align-self: end;
+    font-weight: 700;
+    font-size: clamp(0.9375rem, 4vw, 1.125rem);
+    line-height: 1.2;
+  }
+  .qr-url {
+    align-self: start;
+    margin-top: 6px;
+    overflow-wrap: anywhere;
+    font-size: 0.8125rem;
+    color: rgb(10 10 11 / 0.6);
+  }
+
+  /* --- actions --- */
+  .actions {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: min(100%, 440px);
+  }
+  .act {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    padding: 0 16px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition:
+      transform 0.25s var(--ease-out),
+      background-color 0.25s var(--ease-out);
+  }
+  .act:active {
+    transform: scale(0.97);
+  }
+  .act:hover {
+    background: var(--surface-2);
+  }
+  .act.primary {
+    grid-column: span 2;
+    background: var(--text);
+    color: var(--bg);
+    border-color: transparent;
+  }
+  .act:focus-visible,
+  .links a:focus-visible,
+  .more a:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  .act svg,
+  .links svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .links {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: min(100%, 440px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .links a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 8px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: rgb(20 20 22 / 0.6);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: background-color 0.25s var(--ease-out);
+  }
+  .links a:hover {
+    background: var(--surface-2);
+  }
+  .more {
+    position: relative;
+    display: flex;
+    gap: var(--space-5);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .more a {
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 4px;
+  }
+  .more a:hover {
+    color: var(--text);
+  }
+
+  /* --- share sheet --- */
+  .sheet {
+    width: min(100% - 24px, 440px);
+    margin: auto auto 12px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.8);
+  }
+  .sheet[open] {
+    animation: sheet-in 0.45s var(--ease-out);
+  }
+  .sheet::backdrop {
+    background: rgb(0 0 0 / 0.55);
+    backdrop-filter: blur(4px);
+  }
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.98);
+    }
+  }
+  @media (min-width: 600px) {
+    .sheet {
+      margin: auto;
+    }
+  }
+  .sheet-inner {
+    display: grid;
+    gap: 16px;
+    padding: 20px;
+  }
+  .sheet-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sheet-head h2 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .x {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--surface-2);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .x svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .field {
+    display: grid;
+    gap: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .field input,
+  .link {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .field input:focus-visible,
+  .link:focus-visible,
+  .x:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  .preview {
+    display: grid;
+    gap: 8px;
+  }
+  .preview-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .preview-greeting {
+    font-weight: 600;
+  }
+  .preview-greeting:not([data-empty])::before {
+    content: '👋 ';
+  }
+  .preview-greeting[data-empty] {
+    color: var(--muted);
+    font-weight: 500;
+  }
+  /* Visitors get Save contact as the main action; the owner gets Share. */
+  .card-page[data-owner-mode] .act.primary:not(.sheet .act) {
+    grid-column: auto;
+    background: var(--surface);
+    color: var(--text);
+    border-color: var(--line);
+  }
+  .card-page[data-owner-mode] .share-open {
+    grid-column: 1 / -1;
+    order: -1;
+    background: var(--text);
+    color: var(--bg);
+    border-color: transparent;
+  }
+  .owner-chip {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px 10px;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .owner-chip button {
+    border: 0;
+    background: none;
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+  }
+  .owner-chip button:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  .link {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .sheet-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .sheet-actions .act.wide {
+    grid-column: 1 / -1;
+  }
+  .sheet-actions .act {
+    padding: 0 8px;
+  }
+  .sheet-actions .act.primary {
+    grid-column: 1 / -1;
+  }
+  .sheet-actions .act {
+    min-height: 48px;
+    background: var(--surface-2);
+  }
+  .sheet-actions .act.primary {
+    background: var(--text);
+  }
+  .status {
+    min-height: 1.25em;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* --- owner: QR downloads + stats --- */
+  .dl {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .dl button,
+  .range button {
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .range button[aria-pressed='true'] {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .dl button:focus-visible,
+  .range button:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  .admin {
+    position: relative;
+    width: min(100%, 440px);
+    display: grid;
+    gap: 14px;
+    padding: 18px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
+    background: rgb(20 20 22 / 0.75);
+  }
+  .admin-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .admin-head h2 {
+    font-size: 1.0625rem;
+    font-weight: 800;
+  }
+  .range {
+    display: flex;
+    gap: 4px;
+  }
+  .admin-body {
+    display: grid;
+    gap: 12px;
+  }
+  .admin :global(.tiles) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .admin :global(.tile) {
+    display: grid;
+    gap: 2px;
+    padding: 10px;
+    border-radius: 12px;
+    background: var(--surface-2);
+  }
+  .admin :global(.tile b) {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .admin :global(.tile span),
+  .admin :global(.admin-sub),
+  .admin :global(.admin-msg),
+  .admin-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .admin :global(.bars) {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 56px;
+  }
+  .admin :global(.bar) {
+    flex: 1;
+    min-width: 2px;
+    height: max(2px, var(--h));
+    border-radius: 2px;
+    background: var(--accent-gradient);
+  }
+  .admin :global(.events) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+  }
+  .admin :global(.events th),
+  .admin :global(.events td) {
+    padding: 6px 4px;
+    text-align: right;
+    border-bottom: 1px solid var(--line);
+  }
+  .admin :global(.events th:first-child),
+  .admin :global(.events td:first-child) {
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+  .admin :global(.events th) {
+    color: var(--muted);
+    font-weight: 600;
+  }
+  @media (min-width: 900px) {
+    .stage,
+    .actions,
+    .admin,
+    .links {
+      width: 480px;
+    }
+  }
+</style>

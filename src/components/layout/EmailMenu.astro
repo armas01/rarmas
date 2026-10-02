@@ -1,7 +1,8 @@
 ---
 // One menu for every mailto: link on the page: pick a mail app, Gmail, Outlook, or copy the address.
-import { content } from '../../content/schema';
+import { getContent } from '../../content/schema';
 import site from '../../data/site.json';
+const content = getContent(Astro.currentLocale);
 
 const t = content.ui.emailMenu;
 const email = site.identity.email;

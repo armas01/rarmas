@@ -28,3 +28,16 @@ describe('content', () => {
     expect(ContentSchema.safeParse(broken).success).toBe(false);
   });
 });
+
+describe('locales', () => {
+  it('Spanish content is complete and swaps paths', async () => {
+    const { getContent, otherLocalePath } = await import('../../src/content/schema');
+    const es = getContent('es');
+    expect(es.hero.headline).not.toBe(getContent('en').hero.headline);
+    expect(es.nav.views.map((v) => v.href)).toEqual(['/es/', '/es/life/', '/es/card/']);
+    expect(otherLocalePath('/', 'en')).toBe('/es/');
+    expect(otherLocalePath('/life/', 'en')).toBe('/es/life/');
+    expect(otherLocalePath('/es/card/', 'es')).toBe('/card/');
+    expect(otherLocalePath('/es/', 'es')).toBe('/');
+  });
+});

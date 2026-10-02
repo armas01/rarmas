@@ -3,7 +3,25 @@
 import { chromium } from '@playwright/test';
 import { mkdir, readFile } from 'node:fs/promises';
 
-const content = JSON.parse(await readFile(new URL('../src/content/content.json', import.meta.url), 'utf8'));
+const load = (f) => readFile(new URL(`../src/content/${f}`, import.meta.url), 'utf8').then(JSON.parse);
+const langs = [
+  [
+    '',
+    await load('content.json'),
+    {
+      pro: 'Strategy & Planning · Uber Eats · AI agents',
+      life: 'Photography · Robotics · Ski, tennis & adventure',
+    },
+  ],
+  [
+    '-es',
+    await load('content.es.json'),
+    {
+      pro: 'Strategy & Planning · Uber Eats · Agentes de IA',
+      life: 'Fotografía · Robótica · Ski, tenis y aventura',
+    },
+  ],
+];
 const font = await readFile(
   new URL(
     '../node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2',
@@ -14,26 +32,19 @@ const logo = await readFile(new URL('../public/logo.png', import.meta.url));
 const fontUrl = `data:font/woff2;base64,${font.toString('base64')}`;
 const logoUrl = `data:image/png;base64,${logo.toString('base64')}`;
 
-const views = [
-  {
-    file: 'pro',
-    eyebrow: 'rarmas.cl',
-    title: content.hero.headline,
-    sub: 'Strategy & Planning · Uber Eats · AI agents',
-  },
-  {
-    file: 'life',
-    eyebrow: 'rarmas.cl/life',
-    title: content.lifeHero.headline,
-    sub: 'Photography · Robotics · Ski, tennis & adventure',
-  },
-  {
-    file: 'card',
-    eyebrow: 'rarmas.cl/card',
-    title: content.card.name,
-    sub: `${content.card.role} · ${content.card.org}`,
-  },
-];
+const views = langs.flatMap(([suffix, content, subs]) => {
+  const prefix = suffix ? 'rarmas.cl/es' : 'rarmas.cl';
+  return [
+    { file: `pro${suffix}`, eyebrow: prefix, title: content.hero.headline, sub: subs.pro },
+    { file: `life${suffix}`, eyebrow: `${prefix}/life`, title: content.lifeHero.headline, sub: subs.life },
+    {
+      file: `card${suffix}`,
+      eyebrow: `${prefix}/card`,
+      title: content.card.name,
+      sub: `${content.card.role} · ${content.card.org}`,
+    },
+  ];
+});
 
 const html = (v) => `<!doctype html><html><head><style>
 @font-face { font-family: M; src: url(${fontUrl}) format('woff2'); font-weight: 200 800; }

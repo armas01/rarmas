@@ -447,7 +447,23 @@
       "copyFailed": "Couldn't copy here.",
       "close": "Close"
     },
-    "downloadCv": "Download CV"
+    "downloadCv": "Download CV",
+    "scrollNext": "Scroll to next section",
+    "menu": "Menu",
+    "photoSoon": "Photo coming soon",
+    "readOnLinkedIn": "Read on LinkedIn",
+    "postsSoon": "New posts will appear here.",
+    "mainNav": "Main",
+    "viewNav": "View",
+    "langSwitch": "Español",
+    "langShort": "ES",
+    "cardAria": "Business card",
+    "qrAria": "QR code to this card",
+    "moreAboutMe": "More about me",
+    "proSite": "Professional site",
+    "personalSite": "Personal",
+    "printQr": "Print-ready QR:",
+    "linkToShare": "Link to share"
   },
   "agents": {
     "eyebrow": "AI agents",

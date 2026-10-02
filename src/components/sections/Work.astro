@@ -2,7 +2,8 @@
 import Section from '../layout/Section.astro';
 import Tag from '../ui/Tag.astro';
 import Button from '../ui/Button.astro';
-import { content } from '../../content/schema';
+import { getContent } from '../../content/schema';
+const content = getContent(Astro.currentLocale);
 
 const { work } = content;
 const hues = [222, 268, 188];

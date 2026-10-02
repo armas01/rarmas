@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import Life from '../components/sections/Life.astro';
+import Gallery from '../components/sections/Gallery.astro';
+import Contact from '../components/sections/Contact.astro';
+import { getContent } from '../content/schema';
+const content = getContent(Astro.currentLocale);
+---
+
+<BaseLayout
+  title={content.lifeMeta.title}
+  description={content.lifeMeta.description}
+  image="/og/life.png"
+  track="life"
+>
+  <Navbar view="life" />
+  <main id="main">
+    <Hero hero={content.lifeHero} next="#life" />
+    <Life />
+    {content.galleries.map((g, i) => (
+      <Gallery gallery={g} theme={i % 2 ? 'light' : 'dark'} />
+    ))}
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>

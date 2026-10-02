@@ -4,13 +4,15 @@ import AxeBuilder from '@axe-core/playwright';
 const views: [string, string[]][] = [
   ['/', ['about', 'work', 'agents', 'skills', 'timeline', 'linkedin']],
   ['/life/', ['life', 'photography', 'sport', 'adventure', 'making']],
+  ['/es/', ['about', 'work', 'agents', 'skills', 'timeline', 'linkedin']],
+  ['/es/life/', ['life', 'photography', 'sport', 'adventure', 'making']],
 ];
 
 for (const [path, sections] of views)
   test(`nav links land each section below the navbar on ${path}`, async ({ page }) => {
     await page.goto(path);
     for (const id of sections) {
-      await page.locator(`header nav[aria-label="Main"] a[href="#${id}"]`).click();
+      await page.locator(`header .nav-links a[href="#${id}"]`).click();
       await expect
         .poll(
           async () => {
@@ -137,7 +139,7 @@ test('personal page has no serious accessibility violations', async ({ page }) =
     .toEqual([]);
 });
 
-for (const path of ['/', '/life/', '/card/'])
+for (const path of ['/', '/life/', '/card/', '/es/', '/es/card/'])
   for (const [w, h] of [
     [390, 844],
     [360, 640],
@@ -304,4 +306,47 @@ test('CV is downloadable', async ({ page }) => {
   const res = await page.request.get('/cv/Rodo-Armas-CV.pdf');
   expect(res.ok()).toBe(true);
   expect((await res.body()).subarray(0, 5).toString()).toBe('%PDF-');
+});
+
+test.describe('Spanish', () => {
+  test('pages are in Spanish with hreflang and a switch back to English', async ({ page }) => {
+    await page.goto('/es/life/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'es-CL');
+    await expect(page.locator('h1')).toHaveText('La vida, en foco.');
+    await expect(page.locator('link[hreflang="en"]')).toHaveAttribute('href', 'https://rarmas.cl/life/');
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      'https://rarmas.cl/og/life-es.png',
+    );
+    await page.locator('.nav-inner [data-lang-switch="en"]').click();
+    await expect(page).toHaveURL(/\/life\/$/);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  });
+  test('no serious accessibility violations on /es/', async ({ page }) => {
+    await page.goto('/es/');
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(1500);
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(
+      results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => v.id),
+    ).toEqual([]);
+  });
+});
+
+test.describe('card language', () => {
+  test.use({ locale: 'es-CL' });
+  test('a Spanish phone opening /card/ gets the Spanish card, keeping ?met=', async ({ page }) => {
+    await page.goto('/card/?met=BCG');
+    await expect(page).toHaveURL(/\/es\/card\/\?met=BCG$/);
+    await expect(page.locator('[data-greeting]')).toHaveText('Un gusto conocerte en BCG');
+    await expect(page.getByRole('link', { name: 'Guardar contacto' })).toBeVisible();
+  });
+  test('choosing English sticks', async ({ page }) => {
+    await page.goto('/es/card/');
+    await page.locator('.nav-inner [data-lang-switch="en"]').click();
+    await expect(page).toHaveURL(/\/card\/$/);
+    await page.goto('/card/');
+    await expect(page).toHaveURL(/\/card\/$/);
+    await expect(page.getByRole('link', { name: 'Save contact' })).toBeVisible();
+  });
 });

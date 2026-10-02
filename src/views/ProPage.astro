@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import Footer from '../components/layout/Footer.astro';
+import Hero from '../components/sections/Hero.astro';
+import Stats from '../components/sections/Stats.astro';
+import About from '../components/sections/About.astro';
+import Work from '../components/sections/Work.astro';
+import Bento from '../components/sections/Bento.astro';
+import Agents from '../components/sections/Agents.astro';
+import Skills from '../components/sections/Skills.astro';
+import Timeline from '../components/sections/Timeline.astro';
+import LinkedIn from '../components/sections/LinkedIn.astro';
+import Contact from '../components/sections/Contact.astro';
+---
+
+<BaseLayout track="pro">
+  <Navbar view="pro" />
+  <main id="main">
+    <Hero />
+    <Stats />
+    <About />
+    <Work />
+    <Agents />
+    <Bento />
+    <Skills />
+    <Timeline />
+    <LinkedIn />
+    <Contact />
+  </main>
+  <Footer />
+</BaseLayout>
