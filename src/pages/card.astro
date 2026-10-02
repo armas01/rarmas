@@ -19,13 +19,22 @@ const email = site.identity.email;
 
 <BaseLayout title={cardMeta.title} description={cardMeta.description} image="/og/card.png">
   <Navbar view="card" />
-  <main id="main" class="card-page">
+  <main
+    id="main"
+    class="card-page"
+    data-card
+    data-message={card.message}
+    data-message-plain={card.messageNoEvent}
+    data-copied={card.copied}
+    data-copy-failed={card.copyFailed}
+    data-greeting-template={card.greeting}
+  >
     <div class="bg" aria-hidden="true">
       <span class="orb orb-a"></span>
       <span class="orb orb-b"></span>
     </div>
 
-    <p class="greeting" data-greeting data-template={card.greeting} hidden></p>
+    <p class="greeting" data-greeting hidden></p>
 
     <div class="stage" data-motion="reveal-up" data-motion-trigger="load">
       <div class="tilt" data-motion="tilt">
@@ -58,11 +67,11 @@ const email = site.identity.email;
         </svg>
         {card.save}
       </a>
-      <button class="act" type="button" data-share data-copied="Link copied">
+      <button class="act" type="button" data-share-open aria-haspopup="dialog">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 15V4m0 0L8 8m4-4 4 4M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6" />
         </svg>
-        <span data-share-label>{card.share}</span>
+        <span>{card.share}</span>
       </button>
       <button class="act" type="button" aria-pressed="false" data-flip-toggle data-label-back={card.flipBack}>
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -101,6 +110,50 @@ const email = site.identity.email;
       </li>
     </ul>
 
+    <dialog class="sheet" data-share-sheet aria-labelledby="share-title">
+      <form method="dialog" class="sheet-inner" data-share-form>
+        <div class="sheet-head">
+          <h2 id="share-title">{card.shareTitle}</h2>
+          <button class="x" value="close" aria-label={card.close}>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 6l12 12M18 6 6 18"></path>
+            </svg>
+          </button>
+        </div>
+        <label class="field">
+          <span>{card.eventLabel}</span>
+          <input
+            type="text"
+            name="event"
+            maxlength="40"
+            autocomplete="off"
+            enterkeyhint="done"
+            placeholder={card.eventPlaceholder}
+            data-share-event
+          />
+        </label>
+        <div class="preview">
+          <span class="preview-label">{card.previewLabel}</span>
+          <p class="preview-greeting" data-share-preview hidden></p>
+          <input class="link" type="text" readonly aria-label="Link to share" data-share-link />
+        </div>
+        <div class="sheet-actions">
+          <button type="button" class="act primary" data-share-native hidden>
+            {card.shareNative}
+          </button>
+          <button type="button" class="act" data-share-copy>
+            {card.copy}
+          </button>
+          <a class="act" data-share-whatsapp target="_blank" rel="noreferrer" href="https://wa.me/">
+            {card.whatsapp}
+          </a>
+          <button type="button" class="act" data-share-qr>
+            {card.showEventQr}
+          </button>
+        </div>
+        <p class="status" role="status" aria-live="polite" data-share-status></p>
+      </form>
+    </dialog>
     <nav class="more" aria-label="More about me">
       <a href="/">
         Professional site <span aria-hidden="true">→</span>
@@ -259,7 +312,7 @@ const email = site.identity.email;
   .back {
     transform: rotateY(180deg);
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 46% minmax(0, 1fr);
     grid-template-rows: 1fr auto;
     align-items: center;
     column-gap: clamp(14px, 5%, 24px);
@@ -269,7 +322,8 @@ const email = site.identity.email;
   }
   .qr {
     grid-row: span 2;
-    height: 100%;
+    align-self: center;
+    width: 100%;
     aspect-ratio: 1;
   }
   .qr :global(svg) {
@@ -286,6 +340,7 @@ const email = site.identity.email;
   .qr-url {
     align-self: start;
     margin-top: 6px;
+    overflow-wrap: anywhere;
     font-size: 0.8125rem;
     color: rgb(10 10 11 / 0.6);
   }
@@ -386,6 +441,142 @@ const email = site.identity.email;
   }
   .more a:hover {
     color: var(--text);
+  }
+
+  /* --- share sheet --- */
+  .sheet {
+    width: min(100% - 24px, 440px);
+    margin: auto auto 12px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.8);
+  }
+  .sheet[open] {
+    animation: sheet-in 0.45s var(--ease-out);
+  }
+  .sheet::backdrop {
+    background: rgb(0 0 0 / 0.55);
+    backdrop-filter: blur(4px);
+  }
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.98);
+    }
+  }
+  @media (min-width: 600px) {
+    .sheet {
+      margin: auto;
+    }
+  }
+  .sheet-inner {
+    display: grid;
+    gap: 16px;
+    padding: 20px;
+  }
+  .sheet-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sheet-head h2 {
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .x {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--surface-2);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .x svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .field {
+    display: grid;
+    gap: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .field input,
+  .link {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .field input:focus-visible,
+  .link:focus-visible,
+  .x:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  .preview {
+    display: grid;
+    gap: 8px;
+  }
+  .preview-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .preview-greeting {
+    font-weight: 600;
+  }
+  .preview-greeting::before {
+    content: '👋 ';
+  }
+  .link {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+  .sheet-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .sheet-actions .act {
+    padding: 0 8px;
+  }
+  .sheet-actions .act.primary {
+    grid-column: 1 / -1;
+  }
+  .sheet-actions .act {
+    min-height: 48px;
+    background: var(--surface-2);
+  }
+  .sheet-actions .act.primary {
+    background: var(--text);
+  }
+  .status {
+    min-height: 1.25em;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
   }
   @media (min-width: 900px) {
     .stage,

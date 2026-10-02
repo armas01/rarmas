@@ -100,7 +100,20 @@
     "share": "Share",
     "flip": "Show QR",
     "flipBack": "Back to card",
-    "qrHint": "Scan to open this card"
+    "qrHint": "Scan to open this card",
+    "shareTitle": "Share my card",
+    "eventLabel": "Where did you meet? (optional)",
+    "eventPlaceholder": "e.g. BCG Case Competition",
+    "previewLabel": "They'll see",
+    "shareNative": "Share…",
+    "copy": "Copy link",
+    "copied": "Link copied",
+    "copyFailed": "Couldn't copy. Select the link above instead.",
+    "whatsapp": "WhatsApp",
+    "showEventQr": "Show QR",
+    "close": "Close",
+    "message": "Great meeting you at {event}! Here's my contact card:",
+    "messageNoEvent": "Here's my contact card:"
   },
   "stats": [
     {

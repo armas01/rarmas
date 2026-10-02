@@ -172,6 +172,31 @@ test.describe('card view', () => {
     expect(res.ok()).toBe(true);
     expect(await res.text()).toContain('FN:Rodo Armas');
   });
+  test('share sheet builds an event link, copies it and shows an event QR', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.goto('/card/');
+    await page.getByRole('button', { name: 'Share' }).click();
+    const sheet = page.locator('[data-share-sheet]');
+    await expect(sheet).toBeVisible();
+    await page.getByLabel('Where did you meet? (optional)').fill('BCG Finals');
+    await expect(page.locator('[data-share-link]')).toHaveValue('https://rarmas.cl/card/?met=BCG+Finals');
+    await expect(page.locator('[data-share-preview]')).toHaveText('Great meeting you at BCG Finals');
+    await expect(page.locator('[data-share-whatsapp]')).toHaveAttribute(
+      'href',
+      /wa\.me\/\?text=.*BCG%20Finals/,
+    );
+    await page.getByRole('button', { name: 'Copy link' }).click();
+    await expect(page.locator('[data-share-status]')).toHaveText(/Link copied|Couldn't copy/);
+    await page.locator('[data-share-qr]').click();
+    await expect(sheet).toBeHidden();
+    await expect(page.locator('[data-flip]')).toHaveAttribute('data-flipped', '');
+    await expect(page.locator('.qr-url')).toHaveText('rarmas.cl/card · BCG Finals');
+    await expect(page.locator('.qr svg')).toBeVisible();
+    // remembered for the next share at the same event
+    await page.reload();
+    await page.getByRole('button', { name: 'Share' }).click();
+    await expect(page.getByLabel('Where did you meet? (optional)')).toHaveValue('BCG Finals');
+  });
   test('has link-preview tags', async ({ page }) => {
     await page.goto('/card/');
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(

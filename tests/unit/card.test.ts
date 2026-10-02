@@ -20,3 +20,15 @@ describe('card', () => {
     expect(v).not.toMatch(/^TEL/m);
   });
 });
+
+describe('share links', () => {
+  it('builds personalised card links', async () => {
+    const { cardLink, shareMessage } = await import('../../src/scripts/card');
+    expect(cardLink('')).toBe('https://rarmas.cl/card/');
+    expect(cardLink('BCG Case Competition')).toBe('https://rarmas.cl/card/?met=BCG+Case+Competition');
+    expect(cardLink('Ñuñoa & Co')).toBe('https://rarmas.cl/card/?met=%C3%91u%C3%B1oa+%26+Co');
+    expect(new URL(cardLink('Ñuñoa & Co')).searchParams.get('met')).toBe('Ñuñoa & Co');
+    expect(shareMessage('BCG', 'Great meeting you at {event}!', 'Hi')).toBe('Great meeting you at BCG!');
+    expect(shareMessage('  ', 'x {event}', 'Hi')).toBe('Hi');
+  });
+});
