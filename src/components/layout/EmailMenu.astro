@@ -1,0 +1,167 @@
+---
+// One menu for every mailto: link on the page: pick a mail app, Gmail, Outlook, or copy the address.
+import { content } from '../../content/schema';
+import site from '../../data/site.json';
+
+const t = content.ui.emailMenu;
+const email = site.identity.email;
+const enc = encodeURIComponent(email);
+---
+
+<dialog class="email-menu" data-email-menu aria-labelledby="email-menu-title">
+  <form method="dialog" class="inner">
+    <div class="head">
+      <div>
+        <h2 id="email-menu-title">{t.title}</h2>
+        <p class="addr">{email}</p>
+      </div>
+      <button class="x" value="close" aria-label={t.close}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6 6 18"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="opts">
+      <a class="opt" href={`mailto:${email}`} data-email-opt="app">
+        {t.mailApp}
+      </a>
+      <a
+        class="opt"
+        href={`https://mail.google.com/mail/?view=cm&fs=1&to=${enc}`}
+        target="_blank"
+        rel="noreferrer"
+        data-email-opt="gmail"
+      >
+        {t.gmail}
+      </a>
+      <a
+        class="opt"
+        href={`https://outlook.live.com/mail/0/deeplink/compose?to=${enc}`}
+        target="_blank"
+        rel="noreferrer"
+        data-email-opt="outlook"
+      >
+        {t.outlook}
+      </a>
+      <button type="button" class="opt" data-email-copy data-copied={t.copied} data-failed={t.copyFailed}>
+        {t.copy}
+      </button>
+    </div>
+    <p class="status" role="status" aria-live="polite" data-email-status></p>
+  </form>
+</dialog>
+
+<script>
+  import { initEmailMenu } from '../../scripts/email-menu';
+  initEmailMenu(document);
+</script>
+
+<style>
+  .email-menu {
+    width: min(100% - 24px, 380px);
+    margin: auto auto 12px;
+    padding: 0;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface, #141416);
+    color: var(--text, #f5f5f7);
+    box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.8);
+  }
+  .email-menu[open] {
+    animation: em-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .email-menu::backdrop {
+    background: rgb(0 0 0 / 0.55);
+    backdrop-filter: blur(4px);
+  }
+  @keyframes em-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+  }
+  @media (min-width: 600px) {
+    .email-menu {
+      margin: auto;
+    }
+  }
+  .inner {
+    display: grid;
+    gap: 16px;
+    padding: 20px;
+  }
+  .head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  h2 {
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .addr {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 0.9375rem;
+    overflow-wrap: anywhere;
+  }
+  .x {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--surface-2);
+    color: inherit;
+    cursor: pointer;
+  }
+  .x svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .opts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .opt {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 12px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .opt:hover {
+    border-color: var(--muted);
+  }
+  .opt:focus-visible,
+  .x:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  .status {
+    min-height: 1.2em;
+    margin-top: -4px;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,97 @@
+{
+  "name": "Rodolfo Armas Saenz",
+  "headline": "Strategy & Planning Coordinator · Uber Eats LatAm",
+  "contact": ["Santiago, Chile", "rodoarmas@gmail.com", "linkedin.com/in/rodoarmas", "rarmas.cl"],
+  "sections": [
+    {
+      "title": "Experience",
+      "items": [
+        {
+          "org": "Uber Eats",
+          "place": "Santiago, Chile",
+          "roles": [
+            { "role": "Strategy & Planning Coordinator, LatAm", "date": "Jul 2026 – Present" },
+            { "role": "Strategy & Planning Intern, Central & South America", "date": "Sep 2025 – Jun 2026" }
+          ],
+          "bullets": [
+            "Built an MCP knowledge bridge that lets the team's AI agents find queries, MCP servers, docs, guides, decks and skills, turning know-how held by a few people into shared, searchable context.",
+            "Built a data-driven diagnostic comparing order dynamics across early-stage and mature stores, identifying operational bottlenecks and flagging commission overcharges.",
+            "Developed dashboards, reporting and topline forecasting assets that reduced recurring analysis and standardized planning inputs for the sub-regional S&P team.",
+            "Reached out to and onboarded 4 new restaurants in 5 business days during an internal acquisition sprint.",
+            "Supported analysis for a new-vertical expansion in Chile, restricted assortments across Andean, Central American and Caribbean markets, and onshoring scenarios for a Central American market."
+          ]
+        },
+        {
+          "org": "Pontificia Universidad Católica de Chile",
+          "place": "Santiago, Chile",
+          "roles": [
+            { "role": "Lead Teaching Assistant, Manufacturing Processes", "date": "Jul 2024 – Dec 2025" },
+            {
+              "role": "Teaching Assistant: Software Engineering, Optimization, Calculus, Programming",
+              "date": "Mar 2022 – Jul 2025"
+            }
+          ],
+          "bullets": [
+            "Coordinated with faculty and the TA team; designed evaluations, the course calendar and student guidance."
+          ]
+        },
+        {
+          "org": "Robotics capstone: autonomous bench-press spotter",
+          "place": "PUC",
+          "roles": [{ "role": "Robotics Engineer", "date": "Aug – Dec 2024" }],
+          "bullets": [
+            "Led the mechanical design of a safety system that detects a failed rep and intervenes, integrating mechanics, electronics and control logic for under $100."
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Education",
+      "items": [
+        {
+          "org": "Pontificia Universidad Católica de Chile",
+          "place": "Santiago, Chile",
+          "roles": [
+            { "role": "Industrial Engineering, Diploma in Information Technologies", "date": "2021 – 2026" }
+          ],
+          "bullets": [
+            "Ranked top 1.4% (#13 of 931) by cumulative GPA. B.Sc. in Engineering with distinction; major in Robotics with distinction.",
+            "Academic Certificate in Fundamental Astronomy. Engineering Student Council project team (IntegraCAi).",
+            "National #1 score, University Transition Test (PTU), 2021."
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Competitions",
+      "items": [
+        {
+          "org": "",
+          "place": "",
+          "roles": [],
+          "bullets": [
+            "Finalist, BCG Case Competition (2026).",
+            "Finalist, Banco Itaú Trading Challenge (2025): built and executed a trading strategy in a live-market simulation.",
+            "Platanus Hack (2025): built and launched an AI personal financial analyst MVP in a 36-hour sprint."
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Additional",
+      "items": [
+        {
+          "org": "",
+          "place": "",
+          "roles": [],
+          "bullets": [
+            "Skills: agentic AI (MCP), Python, React, Java, C++, ROS, Fusion 360, LaTeX, Agile.",
+            "Languages: Spanish (native), English (advanced, Cambridge CAE).",
+            "Outstanding Achievement award, National High School Model UN, New York (2019). Volunteer, Cumbres Vive (2019).",
+            "Interests: photography, skiing, tennis, robotics and 3D printing."
+          ]
+        }
+      ]
+    }
+  ]
+}

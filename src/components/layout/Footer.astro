@@ -19,6 +19,11 @@ const year = new Date().getFullYear();
         <Button href={site.links.linkedin} variant="ghost" external>
           LinkedIn
         </Button>
+        {site.links.cvUrl && (
+          <Button href={site.links.cvUrl} variant="ghost" external>
+            CV
+          </Button>
+        )}
         <Button href={site.links.instagram} variant="ghost" external>
           Instagram
         </Button>

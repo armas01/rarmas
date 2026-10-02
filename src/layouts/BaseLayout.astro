@@ -5,6 +5,8 @@ import '../styles/base.css';
 import '../styles/utilities.css';
 import { content } from '../content/schema';
 import { RESPECT_REDUCED_MOTION } from '../motion/prefers';
+import EmailMenu from '../components/layout/EmailMenu.astro';
+import site from '../data/site.json';
 interface Props {
   title?: string;
   description?: string;
@@ -18,6 +20,22 @@ const {
 } = Astro.props;
 const pageUrl = new URL(Astro.url.pathname, 'https://rarmas.cl');
 const imageUrl = new URL(image, 'https://rarmas.cl');
+// Structured data so search engines understand who this site is about.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Rodolfo Armas Saenz',
+  alternateName: site.identity.name,
+  url: 'https://rarmas.cl/',
+  image: new URL('/og/card.png', 'https://rarmas.cl').href,
+  email: `mailto:${site.identity.email}`,
+  jobTitle: content.card.role,
+  worksFor: { '@type': 'Organization', name: 'Uber Eats' },
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'Pontificia Universidad Católica de Chile' },
+  address: { '@type': 'PostalAddress', addressLocality: 'Santiago', addressCountry: 'CL' },
+  knowsAbout: ['Strategy', 'Planning', 'Forecasting', 'Agentic AI', 'Robotics', 'Industrial Engineering'],
+  sameAs: [site.links.linkedin, site.links.instagram, site.links.github],
+};
 ---
 
 <!doctype html>
@@ -43,6 +61,7 @@ const imageUrl = new URL(image, 'https://rarmas.cl');
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
+    <script type="application/ld+json" set:html={JSON.stringify(person)} />
     <title>{title}</title>
     <script is:inline define:vars={{ respectReduced: RESPECT_REDUCED_MOTION }}>
       (function () {
@@ -58,9 +77,10 @@ const imageUrl = new URL(image, 'https://rarmas.cl');
   </head>
   <body>
     <a class="skip-link" href="#main">
-      Skip to content
+      {content.ui.skip}
     </a>
     <slot />
+    <EmailMenu />
     <script>
       import '../motion/index';
     </script>

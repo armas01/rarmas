@@ -178,9 +178,19 @@ const compact = view === 'card';
     outline: none;
     box-shadow: var(--focus-ring);
   }
-  @media (max-width: 1023px) and (min-width: 768px) {
+  .nav-links a {
+    white-space: nowrap;
+  }
+  /* Mid widths: drop the brand name and tighten links so everything fits on one line. */
+  @media (max-width: 1199px) and (min-width: 768px) {
     .nav-brand span {
       display: none;
+    }
+    .nav-links a {
+      padding: 8px 9px;
+    }
+    .view-switch a {
+      padding: 6px 10px;
     }
   }
   @media (max-width: 400px) {
@@ -343,6 +353,18 @@ const compact = view === 'card';
     .nav-toggle {
       display: inline-flex;
     }
+  }
+  /* Tablet widths: section links move into the menu so the bar never overflows. */
+  @media (max-width: 919px) and (min-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+    .nav-toggle {
+      display: inline-flex;
+    }
+  }
+  .nav-brand img {
+    flex: none;
   }
   :global(html.reduced-motion) .overlay-links a,
   :global(html.reduced-motion) .overlay-cta {

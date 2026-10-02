@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 const views: [string, string[]][] = [
-  ['/', ['about', 'work', 'skills', 'timeline', 'linkedin']],
-  ['/life/', ['life', 'photography']],
+  ['/', ['about', 'work', 'agents', 'skills', 'timeline', 'linkedin']],
+  ['/life/', ['life', 'photography', 'sport', 'adventure', 'making']],
 ];
 
 for (const [path, sections] of views)
@@ -232,4 +232,36 @@ test.describe('card view', () => {
         results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => v.id),
       ).toEqual([]);
     });
+});
+
+test('email links open a chooser with mail app, Gmail, Outlook and copy', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/card/');
+  await page.locator('.links a[href^="mailto:"]').click();
+  const menu = page.locator('[data-email-menu]');
+  await expect(menu).toBeVisible();
+  await expect(menu.locator('[data-email-opt="gmail"]')).toHaveAttribute(
+    'href',
+    /mail\.google\.com.*rodoarmas%40gmail\.com/,
+  );
+  await expect(menu.locator('[data-email-opt="outlook"]')).toHaveAttribute(
+    'href',
+    /outlook\.live\.com.*rodoarmas%40gmail\.com/,
+  );
+  await menu.getByRole('button', { name: 'Copy address' }).click();
+  await expect(menu.locator('[data-email-status]')).toHaveText('Address copied');
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('rodoarmas@gmail.com');
+});
+
+test('structured data describes the person', async ({ page }) => {
+  await page.goto('/');
+  const data = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}');
+  expect(data['@type']).toBe('Person');
+  expect(data.sameAs).toContain('https://www.instagram.com/rodo_armass/');
+});
+
+test('CV is downloadable', async ({ page }) => {
+  const res = await page.request.get('/cv/Rodo-Armas-CV.pdf');
+  expect(res.ok()).toBe(true);
+  expect((await res.body()).subarray(0, 5).toString()).toBe('%PDF-');
 });

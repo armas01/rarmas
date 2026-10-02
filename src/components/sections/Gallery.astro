@@ -3,26 +3,37 @@ import Section from '../layout/Section.astro';
 import Button from '../ui/Button.astro';
 import { content } from '../../content/schema';
 
-const { photography } = content;
-const external = /^https?:/.test(photography.cta.href);
+interface Props {
+  gallery: (typeof content.galleries)[number];
+  theme?: 'light' | 'dark';
+}
+const { gallery, theme = 'light' } = Astro.props;
+const external = gallery.cta ? /^https?:/.test(gallery.cta.href) : false;
+const titleId = `${gallery.id}-title`;
 ---
 
-<Section id="photography" theme="light" labelledby="photography-title">
+<Section id={gallery.id} theme={theme} labelledby={titleId}>
   <div class="shell">
     <div class="head">
       <div>
-        <p class="eyebrow">{photography.eyebrow}</p>
-        <h2 id="photography-title" class="h2 photo-title" data-motion="reveal-words">
-          {photography.title}
+        <p class="eyebrow">{gallery.eyebrow}</p>
+        <h2 id={titleId} class="h2 photo-title" data-motion="reveal-words">
+          {gallery.title}
         </h2>
-        <p class="lede">{photography.body}</p>
+        <p class="lede">{gallery.body}</p>
       </div>
-      <Button href={photography.cta.href} variant="ghost" external={external}>
-        {photography.cta.label}
-      </Button>
+      {gallery.cta && (
+        <Button href={gallery.cta.href} variant="ghost" external={external}>
+          {gallery.cta.label}
+        </Button>
+      )}
     </div>
-    <ul class="gallery" data-motion="reveal-up" data-motion-stagger="0.06">
-      {photography.photos.map((p, i) => (
+    <ul
+      class:list={['gallery', `n${Math.min(gallery.photos.length, 6)}`]}
+      data-motion="reveal-up"
+      data-motion-stagger="0.06"
+    >
+      {gallery.photos.map((p, i) => (
         <li class={`frame f${(i % 6) + 1}`}>
           {p.src ? (
             <img src={p.src} alt={p.alt} loading="lazy" decoding="async" />
@@ -119,6 +130,10 @@ const external = /^https?:/.test(photography.cta.href);
     text-transform: uppercase;
     background: rgb(255 255 255 / 0.8);
     color: #0a0a0b;
+  }
+  /* 4 photos: one large tile, two beside it, one full-width banner underneath. */
+  .n4 .f4 {
+    grid-column: 1 / -1;
   }
   @media (max-width: 899px) {
     .gallery {

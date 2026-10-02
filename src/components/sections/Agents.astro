@@ -1,0 +1,227 @@
+---
+import Section from '../layout/Section.astro';
+import { content } from '../../content/schema';
+
+const { agents } = content;
+---
+
+<Section id="agents" labelledby="agents-title">
+  <div class="shell">
+    <p class="eyebrow">{agents.eyebrow}</p>
+    <h2 id="agents-title" class="h2 agents-title" data-motion="reveal-words">
+      {agents.title}
+    </h2>
+    <p class="lede" data-motion="reveal-up">
+      {agents.body}
+    </p>
+
+    <figure class="flow" data-motion="reveal-up" data-motion-stagger="0.12" aria-label={agents.title}>
+      <div class="node people">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <circle cx="9" cy="8" r="3"></circle>
+            <path d="M3 19c.8-3.3 3.2-5 6-5s5.2 1.7 6 5"></path>
+            <path d="M16 4.5a3 3 0 0 1 0 6M18 14c1.6.6 2.6 2.2 3 5"></path>
+          </svg>
+        </span>
+        <h3>{agents.left.title}</h3>
+        <p>{agents.left.body}</p>
+      </div>
+      <div class="link" aria-hidden="true">
+        <span></span>
+      </div>
+      <div class="node hub">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 3v4M12 17v4M3 12h4M17 12h4"></path>
+            <rect x="8" y="8" width="8" height="8" rx="2"></rect>
+          </svg>
+        </span>
+        <h3>{agents.hub.title}</h3>
+        <p>{agents.hub.body}</p>
+      </div>
+      <div class="link" aria-hidden="true">
+        <span></span>
+      </div>
+      <ul class="node sources">
+        {agents.sources.map((s) => (
+          <li>{s}</li>
+        ))}
+      </ul>
+    </figure>
+
+    <ul class="points" data-motion="reveal-up" data-motion-stagger="0.08">
+      {agents.points.map((p, i) => (
+        <li>
+          <span class="idx">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{p.title}</h3>
+          <p>{p.body}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Section>
+
+<style>
+  .agents-title {
+    margin-top: var(--space-4);
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .lede {
+    margin-top: var(--space-5);
+    max-width: 62ch;
+    color: var(--muted);
+    font-size: clamp(1rem, 1.4vw, 1.1875rem);
+    line-height: 1.6;
+  }
+  .flow {
+    margin: var(--space-8) 0 0;
+    display: grid;
+    grid-template-columns: 1fr 72px 1fr 72px 1.2fr;
+    align-items: center;
+  }
+  .node {
+    display: grid;
+    gap: 8px;
+    padding: clamp(20px, 2.4vw, 28px);
+    border-radius: var(--radius-3);
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .node h3 {
+    font-size: clamp(1.125rem, 1.6vw, 1.375rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .node p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--surface-2);
+  }
+  .icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hub {
+    border-color: transparent;
+    background:
+      linear-gradient(var(--surface), var(--surface)) padding-box,
+      var(--accent-gradient) border-box;
+    border: 1.5px solid transparent;
+    box-shadow: 0 20px 60px -24px rgb(61 123 255 / 0.55);
+  }
+  .hub .icon {
+    background: var(--accent-gradient);
+    color: #fff;
+  }
+  .sources {
+    margin: 0;
+    list-style: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .sources li {
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--surface-2);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  /* animated connector: a light pulse travels along a static line (transform only) */
+  .link {
+    position: relative;
+    height: 2px;
+    margin: 0 8px;
+    overflow: hidden;
+    border-radius: 2px;
+    background: var(--line);
+  }
+  .link span {
+    position: absolute;
+    inset: 0;
+    width: 40%;
+    background: var(--accent-gradient);
+    border-radius: inherit;
+    will-change: transform;
+    animation: pulse-x 2.4s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+  }
+  @keyframes pulse-x {
+    from {
+      transform: translateX(-110%);
+    }
+    to {
+      transform: translateX(260%);
+    }
+  }
+  .points {
+    margin: var(--space-7) 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+  .points li {
+    display: grid;
+    align-content: start;
+    gap: 8px;
+    padding: clamp(20px, 2.4vw, 28px);
+    border-top: 1px solid var(--line);
+  }
+  .points .idx {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+  }
+  .points h3 {
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .points p {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  @media (max-width: 899px) {
+    .flow {
+      grid-template-columns: 1fr;
+    }
+    .link {
+      justify-self: center;
+      width: 2px;
+      height: 40px;
+      margin: 6px 0;
+    }
+    .link span {
+      width: 100%;
+      height: 40%;
+      animation-name: pulse-y;
+    }
+    .points {
+      grid-template-columns: 1fr;
+    }
+  }
+  @keyframes pulse-y {
+    from {
+      transform: translateY(-110%);
+    }
+    to {
+      transform: translateY(260%);
+    }
+  }
+</style>
