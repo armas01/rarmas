@@ -15,15 +15,18 @@
     "views": [
       {
         "label": "Professional",
-        "href": "/"
+        "href": "/",
+        "short": "Pro"
       },
       {
         "label": "Personal",
-        "href": "/life/"
+        "href": "/life/",
+        "short": "Personal"
       },
       {
         "label": "Card",
-        "href": "/card/"
+        "href": "/card/",
+        "short": "Card"
       }
     ],
     "links": [

@@ -44,6 +44,12 @@
   --nav-h: 72px;
 }
 
+@media (max-width: 767px) {
+  :root {
+    --nav-h: 58px;
+  }
+}
+
 [data-theme='light'] {
   --bg: var(--light-bg);
   --text: var(--light-text);

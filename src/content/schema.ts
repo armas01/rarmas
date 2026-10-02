@@ -13,7 +13,8 @@ export const ContentSchema = z.object({
   lifeMeta: Meta,
   cardMeta: Meta,
   nav: z.object({
-    views: z.array(Link).length(3),
+    // short: label used on phones, where the full labels don't fit
+    views: z.array(Link.extend({ short: Text })).length(3),
     links: z.array(Link).min(1),
     lifeLinks: z.array(Link).min(1),
     cta: Link,

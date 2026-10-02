@@ -114,11 +114,11 @@ test('no serious accessibility violations', async ({ page }) => {
 test('view switch moves between the professional and personal pages', async ({ page }) => {
   await page.goto('/');
   const sw = page.locator('header nav[aria-label="View"]');
-  await expect(sw.locator('a[aria-current="page"]')).toHaveText('Professional');
+  await expect(sw.locator('a[aria-current="page"]')).toHaveAttribute('aria-label', 'Professional');
   await expect(page.locator('#photography')).toHaveCount(0);
   await sw.getByRole('link', { name: 'Personal' }).click();
   await expect(page).toHaveURL(/\/life\/$/);
-  await expect(sw.locator('a[aria-current="page"]')).toHaveText('Personal');
+  await expect(sw.locator('a[aria-current="page"]')).toHaveAttribute('aria-label', 'Personal');
   await expect(page.locator('#photography')).toHaveCount(1);
   await expect(page.locator('#work')).toHaveCount(0);
 });
@@ -160,7 +160,10 @@ test.describe('card view', () => {
   test('visitors get the card, Save contact and links, but no sharing tools', async ({ page }) => {
     await page.goto('/card/?met=BCG%20<b>Finals</b>');
     await expect(page.locator('[data-greeting]')).toHaveText('Great meeting you at BCG bFinalsb');
-    await expect(page.locator('header nav[aria-label="View"] a[aria-current="page"]')).toHaveText('Card');
+    await expect(page.locator('header nav[aria-label="View"] a[aria-current="page"]')).toHaveAttribute(
+      'aria-label',
+      'Card',
+    );
     await expect(page.locator('[data-share-open]')).toBeHidden();
     await expect(page.locator('[data-flip-toggle]')).toBeHidden();
     await expect(page.locator('.owner-chip')).toBeHidden();
@@ -349,4 +352,25 @@ test.describe('card language', () => {
     await expect(page).toHaveURL(/\/card\/$/);
     await expect(page.getByRole('link', { name: 'Save contact' })).toBeVisible();
   });
+});
+
+test.describe('phone navbar', () => {
+  for (const [w, h] of [
+    [390, 844],
+    [320, 568],
+  ])
+    for (const path of ['/', '/card/', '/es/card/'])
+      test(`fits on one line at ${w}px on ${path}`, async ({ page }) => {
+        await page.setViewportSize({ width: w, height: h });
+        await page.goto(path);
+        const box = await page.locator('header .nav-inner').boundingBox();
+        expect(box!.height).toBeLessThanOrEqual(60);
+        for (const sel of ['.nav-brand', '.view-switch', '.lang, .nav-toggle'])
+          for (const el of await page.locator(`header .nav-inner ${sel}`).all()) {
+            if (!(await el.isVisible())) continue;
+            const b = (await el.boundingBox())!;
+            expect(b.x).toBeGreaterThanOrEqual(0);
+            expect(b.x + b.width).toBeLessThanOrEqual(w);
+          }
+      });
 });
