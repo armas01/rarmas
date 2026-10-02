@@ -10,14 +10,29 @@ const Hero = z.object({ eyebrow: Text, headline: Text, lede: Text, primary: Link
 export const ContentSchema = z.object({
   meta: Meta,
   lifeMeta: Meta,
+  cardMeta: Meta,
   nav: z.object({
-    views: z.array(Link).length(2),
+    views: z.array(Link).length(3),
     links: z.array(Link).min(1),
     lifeLinks: z.array(Link).min(1),
     cta: Link,
   }),
   hero: Hero,
   lifeHero: Hero,
+  card: z.object({
+    name: Text,
+    role: Text,
+    org: Text,
+    tagline: Text,
+    location: Text,
+    // {event} is replaced with the sanitized ?met= query value
+    greeting: Text.refine((v) => v.includes('{event}')),
+    save: Text,
+    share: Text,
+    flip: Text,
+    flipBack: Text,
+    qrHint: Text,
+  }),
   stats: z.array(z.object({ value: z.number(), suffix: z.string(), label: Text })).length(4),
   about: z.object({
     eyebrow: Text,

@@ -137,7 +137,7 @@ test('personal page has no serious accessibility violations', async ({ page }) =
     .toEqual([]);
 });
 
-for (const path of ['/', '/life/'])
+for (const path of ['/', '/life/', '/card/'])
   for (const [w, h] of [
     [390, 844],
     [360, 640],
@@ -153,3 +153,39 @@ for (const path of ['/', '/life/'])
       expect(scrollW).toBeLessThanOrEqual(clientW);
     });
   }
+
+test.describe('card view', () => {
+  test('greets by event, flips to the QR and offers the contact file', async ({ page }) => {
+    await page.goto('/card/?met=BCG%20<b>Finals</b>');
+    await expect(page.locator('[data-greeting]')).toHaveText('Great meeting you at BCG bFinalsb');
+    await expect(page.locator('header nav[aria-label="View"] a[aria-current="page"]')).toHaveText('Card');
+    const flip = page.locator('[data-flip]');
+    const toggle = page.locator('[data-flip-toggle]');
+    await toggle.click();
+    await expect(flip).toHaveAttribute('data-flipped', '');
+    await expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('.back')).toHaveAttribute('aria-hidden', 'false');
+    await expect(page.locator('.qr svg')).toBeVisible();
+    const save = page.locator('a[href="/rodo-armas.vcf"]');
+    await expect(save).toHaveAttribute('download', /\.vcf$/);
+    const res = await page.request.get('/rodo-armas.vcf');
+    expect(res.ok()).toBe(true);
+    expect(await res.text()).toContain('FN:Rodo Armas');
+  });
+  test('has link-preview tags', async ({ page }) => {
+    await page.goto('/card/');
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      'https://rarmas.cl/og/card.png',
+    );
+    expect((await page.request.get('/og/card.png')).ok()).toBe(true);
+  });
+  test('has no serious accessibility violations', async ({ page }) => {
+    await page.goto('/card/?met=BCG');
+    await page.waitForTimeout(800);
+    const results = await new AxeBuilder({ page }).analyze();
+    expect(
+      results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical').map((v) => v.id),
+    ).toEqual([]);
+  });
+});

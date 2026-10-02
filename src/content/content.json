@@ -7,6 +7,10 @@
     "title": "Rodo Armas — Off the clock",
     "description": "Photography, robotics, skiing, tennis and adventure: Rodo Armas outside work."
   },
+  "cardMeta": {
+    "title": "Rodo Armas — Card",
+    "description": "Strategy & Planning at Uber Eats. Save my contact or find me on LinkedIn and Instagram."
+  },
   "nav": {
     "views": [
       {
@@ -16,6 +20,10 @@
       {
         "label": "Personal",
         "href": "/life/"
+      },
+      {
+        "label": "Card",
+        "href": "/card/"
       }
     ],
     "links": [
@@ -80,6 +88,19 @@
       "label": "Interests",
       "href": "#life"
     }
+  },
+  "card": {
+    "name": "Rodo Armas",
+    "role": "Strategy & Planning Coordinator",
+    "org": "Uber Eats · LatAm",
+    "tagline": "Strategy, engineering and AI agents.",
+    "location": "Santiago, Chile",
+    "greeting": "Great meeting you at {event}",
+    "save": "Save contact",
+    "share": "Share",
+    "flip": "Show QR",
+    "flipBack": "Back to card",
+    "qrHint": "Scan to open this card"
   },
   "stats": [
     {
@@ -246,8 +267,8 @@
     "title": "Through my lens",
     "body": "A full gallery is on its way.",
     "cta": {
-      "label": "See the full gallery",
-      "href": "#photography"
+      "label": "More on Instagram",
+      "href": "https://www.instagram.com/rodo_armass/"
     },
     "photos": [
       {
