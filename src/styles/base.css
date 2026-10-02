@@ -89,3 +89,8 @@ html.reduced-motion * {
   padding-bottom: 0.16em;
   margin-bottom: -0.16em;
 }
+
+/* `hidden` must win over component display rules (e.g. buttons styled inline-flex). */
+[hidden] {
+  display: none !important;
+}

@@ -32,3 +32,18 @@ describe('share links', () => {
     expect(shareMessage('  ', 'x {event}', 'Hi')).toBe('Hi');
   });
 });
+
+describe('audience', () => {
+  it('?me turns on owner mode, strips the flag from the URL and persists', async () => {
+    const { resolveOwner } = await import('../../src/scripts/card');
+    localStorage.clear();
+    history.replaceState(null, '', '/card/?met=BCG');
+    expect(resolveOwner(window)).toBe(false);
+    history.replaceState(null, '', '/card/?me&met=BCG');
+    expect(resolveOwner(window)).toBe(true);
+    expect(location.search).toBe('?met=BCG');
+    history.replaceState(null, '', '/card/');
+    expect(resolveOwner(window)).toBe(true);
+    localStorage.clear();
+  });
+});

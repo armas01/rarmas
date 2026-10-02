@@ -1,6 +1,6 @@
 // Offline support for rarmas.cl/card/ only (scope: /card/).
 // Network-first for the page so updates show up; cache-first for hashed build assets.
-const CACHE = 'card-v2';
+const CACHE = 'card-v3';
 const PRECACHE = ['/card/', '/rodo-armas.vcf', '/logo.png'];
 
 self.addEventListener('install', (event) => {

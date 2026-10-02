@@ -1,5 +1,8 @@
 const CARD_URL = 'https://rarmas.cl/card/';
 const EVENT_KEY = 'card:lastEvent';
+const OWNER_KEY = 'card:owner';
+/** Opening rarmas.cl/card/?me on a device turns on the owner tools there (and strips the flag). */
+const OWNER_PARAM = 'me';
 
 /** Keep only letters, digits and a little punctuation; cap the length. Rendered via textContent. */
 export function cleanEvent(raw: string | null | undefined): string {
@@ -23,30 +26,47 @@ export function shareMessage(event: string, withEvent: string, plain: string): s
   return e ? withEvent.replace('{event}', e) : plain;
 }
 
+function read(win: Window, key: string): string {
+  try {
+    return win.localStorage.getItem(key) ?? '';
+  } catch {
+    return '';
+  }
+}
+function write(win: Window, key: string, v: string): void {
+  try {
+    if (v) win.localStorage.setItem(key, v);
+    else win.localStorage.removeItem(key);
+  } catch {
+    /* storage unavailable: just don't remember */
+  }
+}
 const store = {
-  get(win: Window): string {
-    try {
-      return win.localStorage.getItem(EVENT_KEY) ?? '';
-    } catch {
-      return '';
-    }
-  },
-  set(win: Window, v: string): void {
-    try {
-      if (v) win.localStorage.setItem(EVENT_KEY, v);
-      else win.localStorage.removeItem(EVENT_KEY);
-    } catch {
-      /* storage unavailable: just don't remember */
-    }
-  },
+  get: (win: Window) => read(win, EVENT_KEY),
+  set: (win: Window, v: string) => write(win, EVENT_KEY, v),
 };
+
+/**
+ * Audience: visitors (anyone who received the card) only see the card, Save contact and links.
+ * The owner's own device unlocks Share and QR once via ?me; the choice is stored locally.
+ * This is presentation only, not access control: the owner tools reveal nothing private.
+ */
+export function resolveOwner(win: Window): boolean {
+  const url = new URL(win.location.href);
+  if (url.searchParams.has(OWNER_PARAM)) {
+    write(win, OWNER_KEY, '1');
+    url.searchParams.delete(OWNER_PARAM);
+    win.history.replaceState(null, '', url.pathname + (url.search || '') + url.hash);
+  }
+  return read(win, OWNER_KEY) === '1';
+}
 
 /** Copy with the async Clipboard API, falling back to a selected field + execCommand. */
 async function copyText(
   doc: Document,
   win: Window,
   text: string,
-  field?: HTMLInputElement | null,
+  field?: HTMLInputElement | HTMLTextAreaElement | null,
 ): Promise<boolean> {
   try {
     await win.navigator.clipboard.writeText(text);
@@ -69,6 +89,13 @@ async function copyText(
 
 export function initCard(doc: Document, win: Window): void {
   const root = doc.querySelector<HTMLElement>('[data-card]');
+  const owner = resolveOwner(win);
+  root?.toggleAttribute('data-owner-mode', owner);
+  doc.querySelectorAll<HTMLElement>('[data-owner]').forEach((el) => (el.hidden = !owner));
+  doc.querySelector('[data-owner-exit]')?.addEventListener('click', () => {
+    write(win, OWNER_KEY, '');
+    win.location.replace(win.location.pathname + win.location.search);
+  });
   const greetTemplate = root?.dataset.greetingTemplate ?? 'Great meeting you at {event}';
 
   // Greeting for visitors: rarmas.cl/card/?met=BCG → "Great meeting you at BCG"
@@ -95,7 +122,7 @@ export function initCard(doc: Document, win: Window): void {
     back?.setAttribute('aria-hidden', String(!on));
   };
   toggle?.addEventListener('click', () => setFlipped(!flip?.hasAttribute('data-flipped')));
-  flip?.addEventListener('click', () => setFlipped(!flip.hasAttribute('data-flipped')));
+  if (owner) flip?.addEventListener('click', () => setFlipped(!flip.hasAttribute('data-flipped')));
 
   // The QR on the back follows the event you're sharing for (generated on demand, lazily).
   const qrBox = doc.querySelector<HTMLElement>('.qr');
@@ -124,7 +151,7 @@ export function initCard(doc: Document, win: Window): void {
   const open = doc.querySelector<HTMLButtonElement>('[data-share-open]');
   const input = doc.querySelector<HTMLInputElement>('[data-share-event]');
   const preview = doc.querySelector<HTMLElement>('[data-share-preview]');
-  const linkField = doc.querySelector<HTMLInputElement>('[data-share-link]');
+  const linkField = doc.querySelector<HTMLTextAreaElement>('[data-share-link]');
   const nativeBtn = doc.querySelector<HTMLButtonElement>('[data-share-native]');
   const copyBtn = doc.querySelector<HTMLButtonElement>('[data-share-copy]');
   const waLink = doc.querySelector<HTMLAnchorElement>('[data-share-whatsapp]');
@@ -132,8 +159,14 @@ export function initCard(doc: Document, win: Window): void {
   const status = doc.querySelector<HTMLElement>('[data-share-status]');
   const msgEvent = root?.dataset.message ?? '{event}';
   const msgPlain = root?.dataset.messagePlain ?? '';
-  const nav = win.navigator as Navigator & { share?: (d: ShareData) => Promise<void> };
-  if (nativeBtn && typeof nav.share === 'function') nativeBtn.hidden = false;
+  const nav = win.navigator as Navigator & {
+    share?: (d: ShareData) => Promise<void>;
+    canShare?: (d: ShareData) => boolean;
+  };
+  // The OS share sheet is reliable on phones; on desktops it's often missing or a no-op.
+  const coarse = typeof win.matchMedia === 'function' && win.matchMedia('(pointer: coarse)').matches;
+  const canNative = typeof nav.share === 'function' && coarse && (nav.canShare?.({ url: CARD_URL }) ?? true);
+  if (nativeBtn) nativeBtn.hidden = !canNative;
 
   const current = () => cleanEvent(input?.value);
   const render = () => {
@@ -141,8 +174,8 @@ export function initCard(doc: Document, win: Window): void {
     const link = cardLink(e);
     if (linkField) linkField.value = link;
     if (preview) {
-      preview.hidden = !e;
-      preview.textContent = e ? greetTemplate.replace('{event}', e) : '';
+      preview.toggleAttribute('data-empty', !e);
+      preview.textContent = e ? greetTemplate.replace('{event}', e) : (preview.dataset.none ?? '');
     }
     if (waLink) {
       waLink.href = `https://wa.me/?text=${encodeURIComponent(`${shareMessage(e, msgEvent, msgPlain)} ${link}`)}`;
@@ -170,22 +203,34 @@ export function initCard(doc: Document, win: Window): void {
     if (e.target === sheet) sheet.close(); // tap on the backdrop
   });
 
+  const copyAndSay = async (e: string) => {
+    const link = cardLink(e);
+    const ok = await copyText(doc, win, link, linkField);
+    // The link stays out of sight unless copying fails; then it's the only way to get it.
+    say(
+      ok
+        ? (root?.dataset.copied ?? 'Copied')
+        : `${root?.dataset.copyFailed ?? ''} ${link.replace(/^https:\/\//, '')}`,
+    );
+  };
   nativeBtn?.addEventListener('click', async () => {
     const e = current();
     store.set(win, e);
+    const started = Date.now();
     try {
-      await nav.share?.({ title: doc.title, text: shareMessage(e, msgEvent, msgPlain), url: cardLink(e) });
+      // Called synchronously inside the tap so the browser keeps the user gesture.
+      await nav.share!({ title: doc.title, text: shareMessage(e, msgEvent, msgPlain), url: cardLink(e) });
     } catch (err) {
-      if ((err as Error)?.name === 'AbortError') return; // user closed the share sheet
-      const ok = await copyText(doc, win, cardLink(e), linkField);
-      say(ok ? (root?.dataset.copied ?? 'Copied') : (root?.dataset.copyFailed ?? ''));
+      // A real "user closed the sheet" takes a moment; an instant rejection means the
+      // browser refused, so fall back to copying instead of silently doing nothing.
+      if ((err as Error)?.name === 'AbortError' && Date.now() - started > 600) return;
+      await copyAndSay(e);
     }
   });
   copyBtn?.addEventListener('click', async () => {
     const e = current();
     store.set(win, e);
-    const ok = await copyText(doc, win, cardLink(e), linkField);
-    say(ok ? (root?.dataset.copied ?? 'Copied') : (root?.dataset.copyFailed ?? ''));
+    await copyAndSay(e);
   });
   waLink?.addEventListener('click', () => store.set(win, current()));
   qrBtn?.addEventListener('click', async () => {
