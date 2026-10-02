@@ -105,15 +105,18 @@
     "eventLabel": "Where did you meet? (optional)",
     "eventPlaceholder": "e.g. BCG Case Competition",
     "previewLabel": "They'll see",
-    "shareNative": "Share…",
     "copy": "Copy link",
     "copied": "Link copied",
-    "copyFailed": "Couldn't copy. Select the link above instead.",
+    "copyFailed": "Couldn't copy here. The link is:",
     "whatsapp": "WhatsApp",
     "showEventQr": "Show QR",
     "close": "Close",
     "message": "Great meeting you at {event}! Here's my contact card:",
-    "messageNoEvent": "Here's my contact card:"
+    "messageNoEvent": "Here's my contact card:",
+    "more": "More…",
+    "previewNone": "Your card, without a greeting",
+    "ownerNote": "Owner view: only on this device.",
+    "ownerExit": "See it as a visitor"
   },
   "stats": [
     {
