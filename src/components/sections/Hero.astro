@@ -16,6 +16,7 @@ const { hero = content.hero, next = '#stats' } = Astro.props;
     <div class="orb orb-b" aria-hidden="true"></div>
     <div class="grid" aria-hidden="true"></div>
     <div class="glow" data-glow aria-hidden="true"></div>
+    <div class="dim" data-hero-dim aria-hidden="true"></div>
 
     <div class="shell hero-inner">
       <div class="hero-copy">
@@ -47,15 +48,22 @@ const { hero = content.hero, next = '#stats' } = Astro.props;
 
 <style>
   .hero {
+    overflow: clip;
     min-height: 100svh;
     background: var(--bg);
     color: var(--text);
     display: flex;
     padding: 0;
   }
+  /* The frame keeps a constant 28px radius and overhangs the viewport by 28px on each side,
+     so the corners are invisible at rest and appear as it scales down. Animating
+     border-radius instead would repaint the full-screen layer on every scroll frame. */
   .hero-frame {
     position: relative;
     flex: 1;
+    margin-inline: -28px;
+    padding-inline: 28px;
+    border-radius: 28px;
     min-height: 100svh;
     display: flex;
     align-items: flex-end;
@@ -64,27 +72,45 @@ const { hero = content.hero, next = '#stats' } = Astro.props;
     transform-origin: center top;
     will-change: transform;
   }
+  /* Soft glows are drawn with gradients rather than filter: blur(), so they rasterize cheaply
+     and stay composited while they drift. */
   .orb {
     position: absolute;
     border-radius: 50%;
-    filter: blur(90px);
     opacity: 0.55;
     pointer-events: none;
+    will-change: transform;
   }
   .orb-a {
-    width: min(60vw, 720px);
+    width: min(78vw, 940px);
     aspect-ratio: 1;
     top: -12%;
     right: -8%;
-    background: radial-gradient(circle at 30% 30%, var(--accent-a), transparent 70%);
+    /* stepped stops approximate a gaussian falloff (what the old 90px blur produced) */
+    background: radial-gradient(
+      closest-side,
+      var(--accent-a),
+      color-mix(in srgb, var(--accent-a) 62%, transparent) 22%,
+      color-mix(in srgb, var(--accent-a) 30%, transparent) 45%,
+      color-mix(in srgb, var(--accent-a) 10%, transparent) 70%,
+      transparent
+    );
     animation: drift-a 20s ease-in-out infinite alternate;
   }
   .orb-b {
-    width: min(55vw, 640px);
+    width: min(72vw, 840px);
     aspect-ratio: 1;
     bottom: -18%;
     left: -10%;
-    background: radial-gradient(circle at 60% 40%, var(--accent-b), transparent 70%);
+    /* stepped stops approximate a gaussian falloff (what the old 90px blur produced) */
+    background: radial-gradient(
+      closest-side,
+      var(--accent-b),
+      color-mix(in srgb, var(--accent-b) 62%, transparent) 22%,
+      color-mix(in srgb, var(--accent-b) 30%, transparent) 45%,
+      color-mix(in srgb, var(--accent-b) 10%, transparent) 70%,
+      transparent
+    );
     opacity: 0.45;
     animation: drift-b 26s ease-in-out infinite alternate;
   }
@@ -124,9 +150,17 @@ const { hero = content.hero, next = '#stats' } = Astro.props;
     margin: -240px 0 0 -240px;
     border-radius: 50%;
     pointer-events: none;
-    mix-blend-mode: screen;
-    opacity: 0.55;
+    opacity: 0.4;
+    will-change: transform;
     background: radial-gradient(circle, var(--accent-a) 0%, transparent 65%);
+  }
+  .dim {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
   }
   .hero-inner {
     position: relative;

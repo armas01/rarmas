@@ -31,6 +31,7 @@ const hues = [222, 268, 188];
             <span class="v v3"></span>
             <span class="ring"></span>
           </div>
+          <span class="card-dim" data-card-dim aria-hidden="true"></span>
         </article>
       ))}
     </div>
@@ -92,14 +93,30 @@ const hues = [222, 268, 188];
   .v {
     position: absolute;
     border-radius: 50%;
-    filter: blur(36px);
+    background: radial-gradient(
+      closest-side,
+      var(--c),
+      color-mix(in srgb, var(--c) 35%, transparent) 55%,
+      transparent
+    );
+  }
+  .card {
+    position: relative;
+  }
+  .card-dim {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: #000;
+    opacity: 0;
+    pointer-events: none;
   }
   .v1 {
     width: 60%;
     aspect-ratio: 1;
     right: -8%;
     top: -6%;
-    background: hsl(var(--hue) 90% 60%);
+    --c: hsl(var(--hue) 90% 60%);
     opacity: 0.8;
   }
   .v2 {
@@ -107,7 +124,7 @@ const hues = [222, 268, 188];
     aspect-ratio: 1;
     left: 6%;
     bottom: 4%;
-    background: hsl(calc(var(--hue) + 55) 85% 58%);
+    --c: hsl(calc(var(--hue) + 55) 85% 58%);
     opacity: 0.75;
   }
   .v3 {
@@ -115,7 +132,7 @@ const hues = [222, 268, 188];
     aspect-ratio: 1;
     left: 40%;
     top: 40%;
-    background: var(--text);
+    --c: var(--text);
     opacity: 0.5;
   }
   .ring {

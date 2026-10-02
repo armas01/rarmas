@@ -1,10 +1,17 @@
 import { describe, it, expect, vi } from 'vitest';
 
 const refresh = vi.fn();
+const stConfig = vi.fn();
 vi.mock('gsap', () => ({
-  gsap: { registerPlugin: vi.fn(), ticker: { add: vi.fn(), remove: vi.fn(), lagSmoothing: vi.fn() } },
+  gsap: {
+    registerPlugin: vi.fn(),
+    config: vi.fn(),
+    ticker: { add: vi.fn(), remove: vi.fn(), lagSmoothing: vi.fn() },
+  },
 }));
-vi.mock('gsap/ScrollTrigger', () => ({ ScrollTrigger: { refresh, update: vi.fn(), getAll: () => [] } }));
+vi.mock('gsap/ScrollTrigger', () => ({
+  ScrollTrigger: { refresh, config: stConfig, update: vi.fn(), getAll: () => [] },
+}));
 vi.mock('gsap/SplitText', () => ({ SplitText: {} }));
 vi.mock('lenis', () => ({
   default: class {
@@ -17,7 +24,7 @@ vi.mock('lenis', () => ({
 vi.mock('../../src/motion/modules/index', () => ({ modules: {}, reducedSafe: new Set<string>() }));
 
 describe('boot', () => {
-  it('adds motion-ready and refreshes ScrollTrigger after fonts load and on resize', async () => {
+  it('adds motion-ready, refreshes after fonts load, and leaves resizes to ScrollTrigger', async () => {
     vi.useFakeTimers();
     const { boot } = await import('../../src/motion/index');
     let resolveFonts!: () => void;
@@ -31,7 +38,9 @@ describe('boot', () => {
     window.dispatchEvent(new Event('resize'));
     window.dispatchEvent(new Event('resize'));
     vi.advanceTimersByTime(250);
-    expect(refresh).toHaveBeenCalledTimes(2);
+    // ScrollTrigger refreshes on real resizes itself; boot must not add a second refresh
+    expect(refresh).toHaveBeenCalledTimes(1);
+    expect(stConfig).toHaveBeenCalledWith({ ignoreMobileResize: true });
     vi.useRealTimers();
   });
   it('reduced: no lenis, still motion-ready', async () => {

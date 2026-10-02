@@ -6,7 +6,13 @@ function makeCtx() {
   const created: any[] = [];
   const tweens: any[] = [];
   const tween = () => {
-    const t = { kill: vi.fn(), timeScale: vi.fn(), scrollTrigger: { kill: vi.fn() } };
+    const t = {
+      kill: vi.fn(),
+      timeScale: vi.fn(),
+      play: vi.fn(),
+      pause: vi.fn(),
+      scrollTrigger: { kill: vi.fn() },
+    };
     tweens.push(t);
     return t;
   };
@@ -18,6 +24,16 @@ function makeCtx() {
       set: vi.fn(),
       quickTo: vi.fn(() => vi.fn()),
       killTweensOf: vi.fn(),
+      getProperty: vi.fn(() => 0),
+      delayedCall: vi.fn(),
+      ticker: { add: vi.fn(), remove: vi.fn() },
+      timeline: vi.fn(() => {
+        const tl: any = { kill: vi.fn(), scrollTrigger: { kill: vi.fn() } };
+        tl.to = vi.fn(() => tl);
+        tl.fromTo = vi.fn(() => tl);
+        TIMELINES.push(tl);
+        return tl;
+      }),
     },
     ScrollTrigger: {
       create: vi.fn((cfg) => {
@@ -32,8 +48,10 @@ function makeCtx() {
   };
   return { ctx, created, tweens };
 }
+const TIMELINES: any[] = [];
 beforeEach(() => {
   document.body.innerHTML = '';
+  TIMELINES.length = 0;
 });
 
 describe('modules B', () => {
@@ -60,9 +78,10 @@ describe('modules B', () => {
       '<div id="el"><div data-card></div><div data-card></div><div data-card></div></div>';
     const { ctx, tweens } = makeCtx();
     const cleanup = modules['stack-cards'](document.getElementById('el')!, ctx) as () => void;
-    expect(ctx.gsap.to).toHaveBeenCalledTimes(2);
+    expect(ctx.gsap.timeline).toHaveBeenCalledTimes(2);
     cleanup();
-    tweens.forEach((t) => expect(t.kill).toHaveBeenCalled());
+    TIMELINES.forEach((t) => expect(t.kill).toHaveBeenCalled());
+    expect(tweens).toHaveLength(0);
   });
   it('draw-line activates entries on enter and deactivates on leave back', () => {
     document.body.innerHTML =
@@ -78,14 +97,21 @@ describe('modules B', () => {
     cleanup();
     created.forEach((s) => expect(s.kill).toHaveBeenCalled());
   });
-  it('marquee pauses on hover and cleans up listeners', () => {
+  it('marquee glides to a stop on hover, pauses off-screen and cleans up', () => {
     document.body.innerHTML = '<div id="el"><div data-track></div></div>';
     const el = document.getElementById('el')!;
     const remove = vi.spyOn(el, 'removeEventListener');
-    const { ctx, tweens } = makeCtx();
+    const { ctx, tweens, created } = makeCtx();
     const cleanup = modules['marquee'](el, ctx) as () => void;
+    const st = created[0];
+    st.cfg.onToggle({ isActive: true });
+    const tick = ctx.gsap.ticker.add.mock.calls.at(-1)[0];
     el.dispatchEvent(new Event('pointerenter'));
-    expect(tweens[0].timeScale).toHaveBeenCalledWith(0);
+    for (let i = 0; i < 60; i++) tick(0, 16);
+    expect(tweens[0].timeScale).toHaveBeenLastCalledWith(0);
+    st.cfg.onToggle({ isActive: false });
+    expect(tweens[0].pause).toHaveBeenCalled();
+    expect(ctx.gsap.ticker.remove).toHaveBeenCalledWith(tick);
     cleanup();
     expect(tweens[0].kill).toHaveBeenCalled();
     expect(remove).toHaveBeenCalledWith('pointerenter', expect.any(Function));

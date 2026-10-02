@@ -5,6 +5,7 @@ import { createRegistry } from './registry';
 import { startLenis } from './lenis';
 import { modules, reducedSafe } from './modules/index';
 import { reducedMotion, finePointer } from './prefers';
+import { pauseOffscreen } from './idle';
 
 export interface BootEnv {
   reduced: boolean;
@@ -14,6 +15,9 @@ export interface BootEnv {
 
 export function boot(env: BootEnv) {
   gsap.registerPlugin(ScrollTrigger, SplitText);
+  // ScrollTrigger already refreshes on real resizes; skip the ones caused by mobile URL bars.
+  ScrollTrigger.config({ ignoreMobileResize: true });
+  gsap.config({ force3D: 'auto' });
   const lenis = env.reduced ? null : startLenis(gsap, ScrollTrigger);
   const registry = createRegistry({
     modules,
@@ -25,18 +29,12 @@ export function boot(env: BootEnv) {
     },
   });
   registry.start();
+  const stopIdle = pauseOffscreen(document, env.win);
   document.documentElement.classList.add('motion-ready');
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  const onResize = () => {
-    clearTimeout(timer);
-    timer = setTimeout(() => ScrollTrigger.refresh(), 200);
-  };
   env.fontsReady.then(() => ScrollTrigger.refresh());
-  env.win.addEventListener('resize', onResize);
   return {
     destroy() {
-      env.win.removeEventListener('resize', onResize);
-      clearTimeout(timer);
+      stopIdle();
       registry.destroy();
       lenis?.stop();
     },
