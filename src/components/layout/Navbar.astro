@@ -23,8 +23,11 @@ const langHref = otherLocalePath(Astro.url.pathname, Astro.currentLocale);
     </a>
     <nav aria-label={content.ui.viewNav} class="view-switch">
       {views.map((v, i) => (
-        <a href={v.href} aria-current={i === activeView ? 'page' : undefined}>
-          {v.label}
+        <a href={v.href} aria-current={i === activeView ? 'page' : undefined} aria-label={v.label}>
+          <span class="full">{v.label}</span>
+          <span class="short" aria-hidden="true">
+            {v.short}
+          </span>
         </a>
       ))}
     </nav>
@@ -423,6 +426,55 @@ const langHref = otherLocalePath(Astro.url.pathname, Astro.currentLocale);
   }
   .nav-brand img {
     flex: none;
+  }
+  .view-switch .short {
+    display: none;
+  }
+  /* Phones: a slimmer bar, short view labels and smaller controls. */
+  @media (max-width: 767px) {
+    .nav-inner {
+      gap: 10px;
+      padding-inline: 14px;
+    }
+    .nav[data-state='floating'] .nav-inner {
+      height: calc(var(--nav-h) - 8px);
+      margin: 8px 8px 0;
+      padding-inline: 10px;
+    }
+    .nav-brand img {
+      width: 30px;
+      height: 30px;
+      padding: 3px;
+      border-radius: 9px;
+    }
+    .view-switch {
+      padding: 2px;
+    }
+    .view-switch a {
+      padding: 5px 11px;
+      font-size: 0.8125rem;
+      line-height: 1.2;
+    }
+    .view-switch .full {
+      display: none;
+    }
+    .view-switch .short {
+      display: inline;
+    }
+    .nav-toggle {
+      width: 40px;
+      height: 40px;
+      margin-right: -6px;
+    }
+    .burger {
+      width: 20px;
+    }
+    .lang {
+      min-width: 34px;
+      height: 30px;
+      padding: 0 8px;
+      font-size: 0.6875rem;
+    }
   }
   :global(html.reduced-motion) .overlay-links a,
   :global(html.reduced-motion) .overlay-lang,
