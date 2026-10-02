@@ -9,3 +9,4 @@ Site copy lives in `src/content/content.json` (validated by `src/content/schema.
 - **Latest LinkedIn post:** the section shows the newest post from `npm run sync` (official API, run daily by the deploy workflow once `LINKEDIN_ACCESS_TOKEN` and `LINKEDIN_PERSON_URN` secrets exist), else the newest entry in `src/data/linkedin.json`. Until the API is approved, add a new post there (id, canonicalUrl, publishedAt, text, draft: false).
 - **CV:** `cvUrl` in `src/data/site.json` is `null`. Add a public PDF URL when ready.
 - **Hero imagery:** confirm any desired public attribution wording before launch.
+- **Card (/card):** copy lives in `card` in `content.json`; the contact file (`/rodo-armas.vcf`) is generated from it and `src/data/site.json`. Personalise links with `?met=Event` (e.g. `rarmas.cl/card/?met=BCG`). After changing headlines or the card, run `npm run og` to refresh the link-preview images in `public/og/`.

@@ -9,7 +9,7 @@ import Contact from '../components/sections/Contact.astro';
 import { content } from '../content/schema';
 ---
 
-<BaseLayout title={content.lifeMeta.title} description={content.lifeMeta.description}>
+<BaseLayout title={content.lifeMeta.title} description={content.lifeMeta.description} image="/og/life.png">
   <Navbar view="life" />
   <main id="main">
     <Hero hero={content.lifeHero} next="#life" />

@@ -1,0 +1,397 @@
+---
+import QRCode from 'qrcode';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/layout/Navbar.astro';
+import { content } from '../content/schema';
+import site from '../data/site.json';
+
+const { card, cardMeta } = content;
+const cardUrl = 'https://rarmas.cl/card/';
+// QR is rendered at build time: no QR library ships to the browser.
+const qrSvg = await QRCode.toString(cardUrl, {
+  type: 'svg',
+  margin: 0,
+  errorCorrectionLevel: 'M',
+  color: { dark: '#0a0a0b', light: '#ffffff' },
+});
+const email = site.identity.email;
+---
+
+<BaseLayout title={cardMeta.title} description={cardMeta.description} image="/og/card.png">
+  <Navbar view="card" />
+  <main id="main" class="card-page">
+    <div class="bg" aria-hidden="true">
+      <span class="orb orb-a"></span>
+      <span class="orb orb-b"></span>
+    </div>
+
+    <p class="greeting" data-greeting data-template={card.greeting} hidden></p>
+
+    <div class="stage" data-motion="reveal-up" data-motion-trigger="load">
+      <div class="tilt" data-motion="tilt">
+        <div class="flip" data-flip>
+          <section class="face front" aria-label="Business card">
+            <div class="front-top">
+              <img src="/logo.png" alt="" width="36" height="36" class="logo" />
+              <span class="loc">{card.location}</span>
+            </div>
+            <div class="front-body">
+              <h1 class="name">{card.name}</h1>
+              <p class="role">{card.role}</p>
+              <p class="org">{card.org}</p>
+            </div>
+            <p class="tagline">{card.tagline}</p>
+          </section>
+          <section class="face back" aria-label="QR code to this card" aria-hidden="true">
+            <div class="qr" set:html={qrSvg} role="img" aria-label={`QR code linking to ${cardUrl}`} />
+            <p class="qr-hint">{card.qrHint}</p>
+            <p class="qr-url">rarmas.cl/card</p>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions" data-motion="reveal-up" data-motion-trigger="load" data-motion-delay="0.15">
+      <a class="act primary" href="/rodo-armas.vcf" download="Rodo Armas.vcf">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19h14" />
+        </svg>
+        {card.save}
+      </a>
+      <button class="act" type="button" data-share data-copied="Link copied">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 15V4m0 0L8 8m4-4 4 4M6 12v6a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-6" />
+        </svg>
+        <span data-share-label>{card.share}</span>
+      </button>
+      <button class="act" type="button" aria-pressed="false" data-flip-toggle data-label-back={card.flipBack}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z" />
+        </svg>
+        <span data-flip-label>{card.flip}</span>
+      </button>
+    </div>
+
+    <ul class="links" data-motion="reveal-up" data-motion-trigger="load" data-motion-delay="0.25">
+      <li>
+        <a href={`mailto:${email}`}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 6h16v12H4zM4 7l8 6 8-6" />
+          </svg>
+          <span>Email</span>
+        </a>
+      </li>
+      <li>
+        <a href={site.links.linkedin} target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 10v9M5 5.5v.01M10 19v-9m0 4a4 4 0 0 1 8 0v5" />
+          </svg>
+          <span>LinkedIn</span>
+        </a>
+      </li>
+      <li>
+        <a href={site.links.instagram} target="_blank" rel="noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+            <circle cx="12" cy="12" r="3.6"></circle>
+            <path d="M16.8 7.2v.01"></path>
+          </svg>
+          <span>Instagram</span>
+        </a>
+      </li>
+    </ul>
+
+    <nav class="more" aria-label="More about me">
+      <a href="/">
+        Professional site <span aria-hidden="true">→</span>
+      </a>
+      <a href="/life/">
+        Personal <span aria-hidden="true">→</span>
+      </a>
+    </nav>
+  </main>
+</BaseLayout>
+
+<script>
+  import { initCard } from '../scripts/card';
+  initCard(document, window);
+</script>
+
+<style>
+  .card-page {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-5);
+    padding: calc(var(--nav-h) + 16px) 16px 40px;
+    overflow: clip;
+  }
+  .bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  .orb-a {
+    width: min(110vw, 900px);
+    aspect-ratio: 1;
+    top: -30%;
+    right: -35%;
+    background: radial-gradient(
+      closest-side,
+      var(--accent-a),
+      color-mix(in srgb, var(--accent-a) 30%, transparent) 45%,
+      transparent
+    );
+  }
+  .orb-b {
+    width: min(100vw, 820px);
+    aspect-ratio: 1;
+    bottom: -35%;
+    left: -35%;
+    background: radial-gradient(
+      closest-side,
+      var(--accent-b),
+      color-mix(in srgb, var(--accent-b) 30%, transparent) 45%,
+      transparent
+    );
+  }
+  .greeting {
+    position: relative;
+    padding: 8px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+  .greeting::before {
+    content: '👋 ';
+  }
+
+  /* --- the card --- */
+  .stage {
+    position: relative;
+    width: min(100%, 440px);
+    perspective: 1200px;
+  }
+  .tilt {
+    transform-style: preserve-3d;
+  }
+  .flip {
+    position: relative;
+    aspect-ratio: 1.6;
+    transform-style: preserve-3d;
+    transition: transform 0.9s var(--ease-out);
+  }
+  .flip[data-flipped] {
+    transform: rotateY(180deg);
+  }
+  .face {
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+  }
+  .front {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(18px, 6%, 28px);
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgb(61 123 255 / 0.35), transparent 55%),
+      radial-gradient(120% 140% at 0% 100%, rgb(139 92 246 / 0.3), transparent 55%), var(--surface);
+    border: 1px solid rgb(255 255 255 / 0.12);
+    box-shadow:
+      0 30px 80px -30px rgb(0 0 0 / 0.8),
+      inset 0 1px 0 rgb(255 255 255 / 0.08);
+  }
+  .front-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 10px;
+    background: #fff;
+  }
+  .loc {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .name {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+  }
+  .role {
+    margin-top: 8px;
+    font-weight: 600;
+    font-size: clamp(0.875rem, 3.6vw, 1rem);
+  }
+  .org {
+    color: var(--muted);
+    font-size: clamp(0.8125rem, 3.2vw, 0.9375rem);
+  }
+  .tagline {
+    font-size: clamp(0.75rem, 3vw, 0.875rem);
+    font-weight: 600;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .back {
+    transform: rotateY(180deg);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    column-gap: clamp(14px, 5%, 24px);
+    padding: clamp(16px, 6%, 26px);
+    background: #fff;
+    color: #0a0a0b;
+  }
+  .qr {
+    grid-row: span 2;
+    height: 100%;
+    aspect-ratio: 1;
+  }
+  .qr :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .qr-hint {
+    align-self: end;
+    font-weight: 700;
+    font-size: clamp(0.9375rem, 4vw, 1.125rem);
+    line-height: 1.2;
+  }
+  .qr-url {
+    align-self: start;
+    margin-top: 6px;
+    font-size: 0.8125rem;
+    color: rgb(10 10 11 / 0.6);
+  }
+
+  /* --- actions --- */
+  .actions {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: min(100%, 440px);
+  }
+  .act {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 52px;
+    padding: 0 16px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    cursor: pointer;
+    transition:
+      transform 0.25s var(--ease-out),
+      background-color 0.25s var(--ease-out);
+  }
+  .act:active {
+    transform: scale(0.97);
+  }
+  .act:hover {
+    background: var(--surface-2);
+  }
+  .act.primary {
+    grid-column: span 2;
+    background: var(--text);
+    color: var(--bg);
+    border-color: transparent;
+  }
+  .act:focus-visible,
+  .links a:focus-visible,
+  .more a:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+  .act svg,
+  .links svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .links {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: min(100%, 440px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .links a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 8px;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    background: rgb(20 20 22 / 0.6);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text);
+    transition: background-color 0.25s var(--ease-out);
+  }
+  .links a:hover {
+    background: var(--surface-2);
+  }
+  .more {
+    position: relative;
+    display: flex;
+    gap: var(--space-5);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .more a {
+    color: var(--muted);
+    border-radius: 8px;
+    padding: 4px;
+  }
+  .more a:hover {
+    color: var(--text);
+  }
+  @media (min-width: 900px) {
+    .stage,
+    .actions,
+    .links {
+      width: 480px;
+    }
+  }
+</style>
