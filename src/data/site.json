@@ -39,5 +39,10 @@
     "hero": "src/assets/hero-santiago.png",
     "heroStatus": "owner-supplied",
     "heroAttribution": null
+  },
+  "analytics": {
+    "url": "https://rxncdqmbnnaxdsnodlzc.supabase.co",
+    "key": "sb_publishable_p4s0eQpSuyl7r9LQ_rfqAw_H6kRJNc9",
+    "host": "rarmas.cl"
   }
 }

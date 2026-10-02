@@ -47,3 +47,34 @@ describe('audience', () => {
     localStorage.clear();
   });
 });
+
+describe('admin and tracking', () => {
+  it('?admin=key stores the key and owner flag, then strips them', async () => {
+    const { resolveOwner } = await import('../../src/scripts/card');
+    localStorage.clear();
+    history.replaceState(null, '', '/card/?admin=s3cret&met=BCG');
+    expect(resolveOwner(window)).toBe(true);
+    expect(localStorage.getItem('card:adminKey')).toBe('s3cret');
+    expect(location.search).toBe('?met=BCG');
+    localStorage.clear();
+  });
+  it('QR links carry src=qr', async () => {
+    const { cardLink } = await import('../../src/scripts/card');
+    expect(cardLink('', { qr: true })).toBe('https://rarmas.cl/card/?src=qr');
+    expect(cardLink('BCG', { qr: true })).toBe('https://rarmas.cl/card/?met=BCG&src=qr');
+  });
+  it('never tracks off the real domain, for owners, or with Do Not Track', async () => {
+    const { shouldTrack } = await import('../../src/scripts/track');
+    const mk = (host: string, dnt = '0', owner = false) =>
+      ({
+        location: { hostname: host },
+        navigator: { doNotTrack: dnt },
+        localStorage: { getItem: () => (owner ? '1' : null) },
+      }) as unknown as Window;
+    expect(shouldTrack(mk('localhost'))).toBe(false);
+    expect(shouldTrack(mk('rarmas.cl'))).toBe(true);
+    expect(shouldTrack(mk('rarmas.cl', '1'))).toBe(false);
+    expect(shouldTrack(mk('rarmas.cl', '0', true))).toBe(false);
+    expect(shouldTrack(mk('rarmas.cl', '0', true), { owner: true })).toBe(true);
+  });
+});
