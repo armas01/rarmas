@@ -75,3 +75,17 @@ html.reduced-motion * {
   animation: none !important;
   transition: none !important;
 }
+
+/* Off-screen sections (see src/motion/idle.ts) pause their looping CSS animations. */
+[data-idle] *,
+[data-idle] *::before,
+[data-idle] *::after {
+  animation-play-state: paused !important;
+}
+
+/* Word-reveal masks (SplitText mask: 'words') clip to the line box, which cut off descenders
+   (g, y, q). Extend the clip downward without changing layout. */
+.word-mask {
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}

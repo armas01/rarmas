@@ -34,8 +34,12 @@ const { contact } = content;
     aspect-ratio: 1;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    background: radial-gradient(circle, var(--accent-a), var(--accent-b) 45%, transparent 70%);
-    filter: blur(90px);
+    background: radial-gradient(
+      closest-side,
+      var(--accent-a),
+      color-mix(in srgb, var(--accent-b) 55%, transparent) 50%,
+      transparent
+    );
     opacity: 0.3;
     pointer-events: none;
   }

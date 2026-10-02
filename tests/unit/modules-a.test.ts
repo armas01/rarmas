@@ -22,6 +22,16 @@ function makeCtx(finePointer = true) {
       set: vi.fn(),
       quickTo: vi.fn(quick),
       killTweensOf: vi.fn(),
+      getProperty: vi.fn(() => 0),
+      delayedCall: vi.fn(),
+      ticker: { add: vi.fn(), remove: vi.fn() },
+      timeline: vi.fn(() => {
+        const tl: any = { kill: vi.fn(), scrollTrigger: { kill: vi.fn() } };
+        tl.to = vi.fn(() => tl);
+        tl.fromTo = vi.fn(() => tl);
+        TIMELINES.push(tl);
+        return tl;
+      }),
     },
     ScrollTrigger: { create: vi.fn(() => ({ kill: vi.fn() })) },
     SplitText: { create: vi.fn(() => split) },
@@ -31,8 +41,10 @@ function makeCtx(finePointer = true) {
   };
   return { ctx, kills, split };
 }
+const TIMELINES: any[] = [];
 beforeEach(() => {
   document.body.innerHTML = '';
+  TIMELINES.length = 0;
 });
 
 const names = [

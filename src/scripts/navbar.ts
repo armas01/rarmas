@@ -13,16 +13,27 @@ export function initNavbar(root: HTMLElement, win: Window = window): () => void 
   let ticking = false;
   let open = false;
   let observer: IntersectionObserver | null = null;
+  const bar = root.querySelector<HTMLElement>('.nav-progress span');
+  let maxScroll = -1;
+  let state = '';
+  let lastP = -1;
 
   const isOpen = () => open;
 
   const update = () => {
     ticking = false;
     const y = win.scrollY;
-    root.dataset.state = y < 40 ? 'top' : 'floating';
-    const max = doc.documentElement.scrollHeight - win.innerHeight;
-    const p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
-    root.style.setProperty('--progress', String(p));
+    const nextState = y < 40 ? 'top' : 'floating';
+    if (nextState !== state) root.dataset.state = state = nextState;
+    if (maxScroll < 0) maxScroll = doc.documentElement.scrollHeight - win.innerHeight;
+    const p = maxScroll > 0 ? Math.min(1, Math.max(0, y / maxScroll)) : 0;
+    // Write the bar's transform directly: a custom property on the header would restyle
+    // the whole header subtree on every scroll frame.
+    if (Math.abs(p - lastP) > 0.0005) {
+      lastP = p;
+      if (bar) bar.style.transform = `scaleX(${p})`;
+      else root.style.setProperty('--progress', String(p));
+    }
     const delta = y - lastY;
     if (isOpen() || root.contains(doc.activeElement)) {
       root.removeAttribute('data-hidden');
@@ -32,6 +43,10 @@ export function initNavbar(root: HTMLElement, win: Window = window): () => void 
       root.removeAttribute('data-hidden');
     }
     if (Math.abs(delta) > 8 || delta < 0) lastY = y;
+  };
+  const onResize = () => {
+    maxScroll = -1;
+    onScroll();
   };
   const onScroll = () => {
     if (ticking) return;
@@ -129,7 +144,11 @@ export function initNavbar(root: HTMLElement, win: Window = window): () => void 
   root.addEventListener('click', onLinkClick);
   doc.addEventListener('keydown', onKey);
   win.addEventListener('scroll', onScroll, { passive: true });
-  win.addEventListener('resize', onScroll, { passive: true });
+  win.addEventListener('resize', onResize, { passive: true });
+  // Page height also changes when fonts and images load: re-measure the scroll range then.
+  const RO = (win as Window & { ResizeObserver?: typeof ResizeObserver }).ResizeObserver;
+  const ro = RO ? new RO(onResize) : null;
+  ro?.observe(doc.body);
   mq.addEventListener?.('change', onMq);
   update();
 
@@ -138,7 +157,8 @@ export function initNavbar(root: HTMLElement, win: Window = window): () => void 
     root.removeEventListener('click', onLinkClick);
     doc.removeEventListener('keydown', onKey);
     win.removeEventListener('scroll', onScroll);
-    win.removeEventListener('resize', onScroll);
+    win.removeEventListener('resize', onResize);
+    ro?.disconnect();
     mq.removeEventListener?.('change', onMq);
     observer?.disconnect();
     html.classList.remove('menu-open');

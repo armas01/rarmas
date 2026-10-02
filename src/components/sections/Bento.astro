@@ -135,6 +135,7 @@ const { bento } = content;
     background: conic-gradient(from 0deg, var(--accent-a), var(--accent-b), #22d3ee, var(--accent-a));
     filter: blur(48px);
     opacity: 0.55;
+    will-change: transform;
     animation: spin 18s linear infinite;
   }
   /* pulse */
@@ -231,22 +232,34 @@ const { bento } = content;
   .dots {
     position: absolute;
     inset: 0;
+    overflow: hidden;
     background-image: radial-gradient(circle, rgb(10 10 11 / 0.22) 1.5px, transparent 1.6px);
     background-size: 22px 22px;
+    /* dot pattern ∩ vertical fade: the sweeping band below shows only through the dots */
+    -webkit-mask-image: linear-gradient(180deg, #000, transparent 75%);
     mask-image: linear-gradient(180deg, #000, transparent 75%);
   }
+  /* A light band sweeps under a static stencil whose holes are the dots: the band moves
+     with a compositor transform instead of repainting background-position every frame. */
   .dots::after {
     content: '';
     position: absolute;
-    inset: 0;
-    background: linear-gradient(100deg, transparent 35%, var(--accent-a) 50%, transparent 65%);
-    background-size: 250% 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 300%;
+    background: linear-gradient(100deg, transparent 40%, var(--accent-a) 50%, transparent 60%);
     opacity: 0.6;
+    will-change: transform;
     animation: sweep 6s ease-in-out infinite;
-    -webkit-mask-image: radial-gradient(circle, #000 1.5px, transparent 1.6px);
-    -webkit-mask-size: 22px 22px;
-    mask-image: radial-gradient(circle, #000 1.5px, transparent 1.6px);
-    mask-size: 22px 22px;
+  }
+  .dots::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: radial-gradient(circle, transparent 1.6px, var(--surface) 1.7px) 0 0 / 22px 22px;
   }
   /* number */
   .num {
@@ -288,11 +301,11 @@ const { bento } = content;
     }
   }
   @keyframes sweep {
-    0% {
-      background-position: 120% 0;
+    from {
+      transform: translateX(-66.667%);
     }
-    100% {
-      background-position: -120% 0;
+    to {
+      transform: translateX(0);
     }
   }
   :global(html.reduced-motion) .conic,
