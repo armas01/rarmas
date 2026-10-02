@@ -1,7 +1,8 @@
 ---
-import { content } from '../../content/schema';
+import { getContent } from '../../content/schema';
 import site from '../../data/site.json';
 import Button from '../ui/Button.astro';
+const content = getContent(Astro.currentLocale);
 const year = new Date().getFullYear();
 ---
 

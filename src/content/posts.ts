@@ -10,7 +10,6 @@ const Post = z.object({
   text: z.string().min(1),
   draft: z.boolean(),
 });
-const fmt = new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeZone: 'UTC' });
 
 function valid(source: unknown) {
   if (!Array.isArray(source)) return [];
@@ -24,7 +23,12 @@ export function selectPosts(
   generated: unknown,
   fallback: unknown,
   placeholders: PlaceholderPost[],
+  locale = 'en',
 ): DisplayPost[] {
+  const fmt = new Intl.DateTimeFormat(locale === 'es' ? 'es-CL' : 'en', {
+    dateStyle: 'medium',
+    timeZone: 'UTC',
+  });
   const g = valid(generated);
   const posts = g.length ? g : valid(fallback);
   if (!posts.length) return placeholders.map((p) => ({ ...p, external: false }));

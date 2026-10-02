@@ -1,7 +1,8 @@
 // Offline support for rarmas.cl/card/ only (scope: /card/).
 // Network-first for the page so updates show up; cache-first for hashed build assets.
-const CACHE = 'card-v4';
-const PRECACHE = ['/card/', '/rodo-armas.vcf', '/logo.png'];
+const CACHE = `card-v5:${new URL(self.registration.scope).pathname}`;
+const SCOPE = new URL(self.registration.scope).pathname; // '/card/' or '/es/card/'
+const PRECACHE = [SCOPE, '/rodo-armas.vcf', '/logo.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -16,7 +17,14 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) =>
+        Promise.all(
+          // Only clean this scope's old caches (and pre-v5 names); the other language's card keeps its own.
+          keys
+            .filter((k) => k !== CACHE && (k.endsWith(`:${SCOPE}`) || !k.includes(':')))
+            .map((k) => caches.delete(k)),
+        ),
+      )
       .then(() => self.clients.claim()),
   );
 });
@@ -31,10 +39,10 @@ self.addEventListener('fetch', (event) => {
       fetch(req)
         .then((res) => {
           const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(url.pathname === '/card' ? '/card/' : req, copy));
+          caches.open(CACHE).then((c) => c.put(url.pathname === SCOPE.slice(0, -1) ? SCOPE : req, copy));
           return res;
         })
-        .catch(() => caches.match(req, { ignoreSearch: true }).then((r) => r || caches.match('/card/'))),
+        .catch(() => caches.match(req, { ignoreSearch: true }).then((r) => r || caches.match(SCOPE))),
     );
     return;
   }

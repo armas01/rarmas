@@ -1,0 +1,496 @@
+{
+  "meta": {
+    "title": "Rodo Armas — Estrategia e IA agéntica",
+    "description": "Strategy & Planning Coordinator en Uber Eats LatAm. Ingeniero civil industrial UC con major en robótica, construyendo con agentes de IA."
+  },
+  "lifeMeta": {
+    "title": "Rodo Armas — Fuera de la oficina",
+    "description": "Fotografía, robótica, ski, tenis y aventura: Rodo Armas fuera del trabajo."
+  },
+  "cardMeta": {
+    "title": "Rodo Armas — Tarjeta",
+    "description": "Strategy & Planning en Uber Eats. Guarda mi contacto o encuéntrame en LinkedIn e Instagram."
+  },
+  "nav": {
+    "views": [
+      {
+        "label": "Profesional",
+        "href": "/es/"
+      },
+      {
+        "label": "Personal",
+        "href": "/es/life/"
+      },
+      {
+        "label": "Tarjeta",
+        "href": "/es/card/"
+      }
+    ],
+    "links": [
+      {
+        "label": "Sobre mí",
+        "href": "#about"
+      },
+      {
+        "label": "Proyectos",
+        "href": "#work"
+      },
+      {
+        "label": "Agentes IA",
+        "href": "#agents"
+      },
+      {
+        "label": "Habilidades",
+        "href": "#skills"
+      },
+      {
+        "label": "Trayectoria",
+        "href": "#timeline"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "#linkedin"
+      }
+    ],
+    "lifeLinks": [
+      {
+        "label": "Intereses",
+        "href": "#life"
+      },
+      {
+        "label": "Fotografía",
+        "href": "#photography"
+      },
+      {
+        "label": "Deporte",
+        "href": "#sport"
+      },
+      {
+        "label": "Aventura",
+        "href": "#adventure"
+      },
+      {
+        "label": "Proyectos",
+        "href": "#making"
+      }
+    ],
+    "cta": {
+      "label": "Hablemos",
+      "href": "#contact"
+    }
+  },
+  "hero": {
+    "eyebrow": "Rodo Armas · Santiago, Chile",
+    "headline": "Curiosidad, con ingeniería.",
+    "lede": "Strategy & Planning en Uber Eats. Ingeniero de corazón. Combino pensamiento estratégico con agentes de IA para convertir ideas en acción.",
+    "primary": {
+      "label": "Ver mi trabajo",
+      "href": "#work"
+    },
+    "secondary": {
+      "label": "Sobre mí",
+      "href": "#about"
+    }
+  },
+  "lifeHero": {
+    "eyebrow": "Rodo Armas · Fuera de la oficina",
+    "headline": "La vida, en foco.",
+    "lede": "Fotografía, robótica, montañas y canchas. Lo que me mantiene curioso.",
+    "primary": {
+      "label": "Ver mis fotos",
+      "href": "#photography"
+    },
+    "secondary": {
+      "label": "Intereses",
+      "href": "#life"
+    }
+  },
+  "card": {
+    "name": "Rodo Armas",
+    "role": "Strategy & Planning Coordinator",
+    "org": "Uber Eats · LatAm",
+    "tagline": "Estrategia, ingeniería y agentes de IA.",
+    "location": "Santiago, Chile",
+    "greeting": "Un gusto conocerte en {event}",
+    "save": "Guardar contacto",
+    "share": "Compartir",
+    "flip": "Ver QR",
+    "flipBack": "Volver a la tarjeta",
+    "qrHint": "Escanea para abrir esta tarjeta",
+    "shareTitle": "Compartir mi tarjeta",
+    "eventLabel": "¿Dónde se conocieron? (opcional)",
+    "eventPlaceholder": "ej. BCG Case Competition",
+    "previewLabel": "Verán",
+    "copy": "Copiar link",
+    "copied": "Link copiado",
+    "copyFailed": "No se pudo copiar aquí. El link es:",
+    "whatsapp": "WhatsApp",
+    "showEventQr": "Ver QR",
+    "close": "Cerrar",
+    "message": "¡Un gusto conocerte en {event}! Aquí está mi tarjeta de contacto:",
+    "messageNoEvent": "Aquí está mi tarjeta de contacto:",
+    "more": "Más…",
+    "previewNone": "Tu tarjeta, sin saludo",
+    "ownerNote": "Vista de dueño: solo en este dispositivo.",
+    "ownerExit": "Verla como visitante",
+    "cv": "CV"
+  },
+  "stats": [
+    {
+      "value": 1,
+      "suffix": "",
+      "label": "Puntaje nacional en la PTU"
+    },
+    {
+      "value": 13,
+      "suffix": "",
+      "label": "Lugar de 931 en mi generación UC"
+    },
+    {
+      "value": 36,
+      "suffix": "h",
+      "label": "Para lanzar un MVP de IA en Platanus Hack"
+    },
+    {
+      "value": 4,
+      "suffix": "",
+      "label": "Años haciendo clases en la universidad"
+    }
+  ],
+  "about": {
+    "eyebrow": "Sobre mí",
+    "body": "Ingeniero civil industrial UC con major en robótica. Hoy coordino Strategy & Planning en Uber Eats LatAm, donde construyo con agentes de IA para dedicar más tiempo a las decisiones que importan.",
+    "portrait": {
+      "src": null,
+      "alt": "Retrato de Rodo Armas"
+    }
+  },
+  "work": {
+    "eyebrow": "Trabajo",
+    "title": "Donde las ideas se vuelven reales",
+    "projects": [
+      {
+        "tag": "Estrategia · En desarrollo",
+        "title": "Strategy & Planning en Uber Eats",
+        "summary": "Preguntas de planificación y crecimiento en Latinoamérica, del diagnóstico a la decisión. La historia completa viene pronto.",
+        "href": "#timeline",
+        "cta": "Ver trayectoria"
+      },
+      {
+        "tag": "IA agéntica",
+        "title": "Estrategia y desarrollo agéntico",
+        "summary": "Un puente MCP de conocimiento para que los agentes de IA de mi equipo encuentren queries, docs, decks y skills. Además: Lucas, un analista financiero con IA lanzado en 36 horas.",
+        "href": "#agents",
+        "cta": "Cómo funciona"
+      },
+      {
+        "tag": "Robótica",
+        "title": "Spotter autónomo para press de banca",
+        "summary": "Proyecto de título en equipo donde lideré el diseño mecánico. Detecta una repetición fallida y ayuda, por menos de US$100.",
+        "href": "#skills",
+        "cta": "Ver habilidades"
+      }
+    ]
+  },
+  "bento": {
+    "eyebrow": "Enfoque",
+    "title": "Cómo trabajo",
+    "tiles": [
+      {
+        "title": "Pensar en sistemas",
+        "body": "Toda causa tiene un efecto, en máquinas y en mercados.",
+        "size": "lg",
+        "visual": "gradient"
+      },
+      {
+        "title": "Trabajar con agentes",
+        "body": "La IA hace el trabajo pesado. Yo pongo el criterio.",
+        "size": "sm",
+        "visual": "pulse"
+      },
+      {
+        "title": "Que hablen los datos",
+        "body": "Los buenos números terminan discusiones.",
+        "size": "sm",
+        "visual": "chart"
+      },
+      {
+        "title": "Enmarcar el problema",
+        "body": "Decidir qué queda dentro de la foto.",
+        "size": "md",
+        "visual": "orbit"
+      },
+      {
+        "title": "Prototipar rápido",
+        "body": "Probarlo en 36 horas, no en 36 días.",
+        "size": "md",
+        "visual": "grid"
+      },
+      {
+        "title": "Explicarlo simple",
+        "body": "Cuatro años haciendo clases lo volvieron hábito.",
+        "size": "md",
+        "visual": "number"
+      }
+    ]
+  },
+  "skills": {
+    "eyebrow": "Habilidades",
+    "title": "Las herramientas",
+    "rows": [
+      ["Estrategia", "Planificación", "Forecasting", "Market sizing", "Escenarios", "Resolución de casos"],
+      ["IA agéntica", "Python", "React", "Java", "C++", "Robótica", "ROS", "Fusion 360"]
+    ]
+  },
+  "timeline": {
+    "eyebrow": "Trayectoria",
+    "title": "El camino hasta ahora",
+    "entries": [
+      {
+        "date": "2025 - Hoy",
+        "role": "Strategy & Planning Coordinator",
+        "org": "Uber Eats, LatAm",
+        "body": "Coordinator desde julio de 2026, tras entrar como practicante en 2025."
+      },
+      {
+        "date": "2025 - 2026",
+        "role": "Competencias y hackatones",
+        "org": "BCG · Itaú · Platanus Hack",
+        "body": "Finalista en BCG e Itaú; lancé un MVP de IA en Platanus Hack."
+      },
+      {
+        "date": "2022 - 2025",
+        "role": "Ayudante Coordinador",
+        "org": "Pontificia Universidad Católica de Chile",
+        "body": "Lideré el equipo de ayudantes de Procesos de Manufactura; fui ayudante en otros cuatro ramos."
+      },
+      {
+        "date": "2021 - 2026",
+        "role": "Ingeniero Civil Industrial, mención TI",
+        "org": "Pontificia Universidad Católica de Chile",
+        "body": "Top 1,4% de mi generación. Licenciatura con distinción, major en Robótica."
+      }
+    ]
+  },
+  "linkedin": {
+    "eyebrow": "Lo último en LinkedIn",
+    "title": "Lo que estoy compartiendo",
+    "cta": "Seguir en LinkedIn"
+  },
+  "life": {
+    "eyebrow": "Intereses",
+    "title": "Lo que me mantiene curioso",
+    "interests": [
+      {
+        "title": "Fotografía",
+        "body": "Siempre con una cámara."
+      },
+      {
+        "title": "Robótica y fabricación",
+        "body": "Motores, sensores y piezas impresas en 3D."
+      },
+      {
+        "title": "Ski, tenis y aventura",
+        "body": "Montañas, canchas y senderos nuevos."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contacto",
+    "headline": "Tráeme una pregunta difícil.",
+    "cta": {
+      "label": "rodoarmas@gmail.com",
+      "href": "mailto:rodoarmas@gmail.com"
+    },
+    "footerNote": "Hecho en Santiago. Las fotos son mías."
+  },
+  "galleries": [
+    {
+      "id": "photography",
+      "eyebrow": "Fotografía",
+      "title": "A través de mi lente",
+      "body": "Lugares y momentos que me detuve a encuadrar.",
+      "cta": {
+        "label": "Más en Instagram",
+        "href": "https://www.instagram.com/rodo_armass/"
+      },
+      "photos": [
+        {
+          "src": null,
+          "alt": "Foto de paisaje próximamente",
+          "caption": "Paisaje"
+        },
+        {
+          "src": null,
+          "alt": "Foto de calle próximamente",
+          "caption": "Calle"
+        },
+        {
+          "src": null,
+          "alt": "Foto de retrato próximamente",
+          "caption": "Retrato"
+        },
+        {
+          "src": null,
+          "alt": "Foto de viaje próximamente",
+          "caption": "Viaje"
+        },
+        {
+          "src": null,
+          "alt": "Foto de detalle próximamente",
+          "caption": "Detalle"
+        },
+        {
+          "src": null,
+          "alt": "Foto de noche próximamente",
+          "caption": "Noche"
+        }
+      ]
+    },
+    {
+      "id": "sport",
+      "eyebrow": "Deporte",
+      "title": "Ski y tenis",
+      "body": "Inviernos en la nieve, el resto del año en la cancha.",
+      "cta": null,
+      "photos": [
+        {
+          "src": null,
+          "alt": "Foto de ski próximamente",
+          "caption": "Ski"
+        },
+        {
+          "src": null,
+          "alt": "Foto de tenis próximamente",
+          "caption": "Tenis"
+        },
+        {
+          "src": null,
+          "alt": "Foto de ski próximamente",
+          "caption": "Ski"
+        },
+        {
+          "src": null,
+          "alt": "Foto de tenis próximamente",
+          "caption": "Tenis"
+        }
+      ]
+    },
+    {
+      "id": "adventure",
+      "eyebrow": "Aventura",
+      "title": "Allá afuera",
+      "body": "Senderos, montañas y los viajes entre medio.",
+      "cta": null,
+      "photos": [
+        {
+          "src": null,
+          "alt": "Foto de sendero próximamente",
+          "caption": "Sendero"
+        },
+        {
+          "src": null,
+          "alt": "Foto de cumbre próximamente",
+          "caption": "Cumbre"
+        },
+        {
+          "src": null,
+          "alt": "Foto de viaje en auto próximamente",
+          "caption": "Viaje en auto"
+        },
+        {
+          "src": null,
+          "alt": "Foto de campamento próximamente",
+          "caption": "Campamento"
+        }
+      ]
+    },
+    {
+      "id": "making",
+      "eyebrow": "Robótica y fabricación",
+      "title": "Cosas que he construido",
+      "body": "Robots, piezas impresas en 3D y proyectos en el taller.",
+      "cta": null,
+      "photos": [
+        {
+          "src": null,
+          "alt": "Foto de spotter de press de banca próximamente",
+          "caption": "Spotter de press de banca"
+        },
+        {
+          "src": null,
+          "alt": "Foto de impresión 3D próximamente",
+          "caption": "Impresión 3D"
+        },
+        {
+          "src": null,
+          "alt": "Foto de macropad próximamente",
+          "caption": "Macropad"
+        },
+        {
+          "src": null,
+          "alt": "Foto de taller próximamente",
+          "caption": "Taller"
+        }
+      ]
+    }
+  ],
+  "ui": {
+    "skip": "Saltar al contenido",
+    "emailMenu": {
+      "title": "Escribirle a Rodo",
+      "mailApp": "App de correo",
+      "gmail": "Gmail",
+      "outlook": "Outlook",
+      "copy": "Copiar correo",
+      "copied": "Correo copiado",
+      "copyFailed": "No se pudo copiar aquí.",
+      "close": "Cerrar"
+    },
+    "downloadCv": "Descargar CV",
+    "scrollNext": "Ir a la siguiente sección",
+    "menu": "Menú",
+    "photoSoon": "Foto próximamente",
+    "readOnLinkedIn": "Leer en LinkedIn",
+    "postsSoon": "Las nuevas publicaciones aparecerán aquí.",
+    "mainNav": "Principal",
+    "viewNav": "Vista",
+    "langSwitch": "English",
+    "langShort": "EN",
+    "cardAria": "Tarjeta de presentación",
+    "qrAria": "Código QR de esta tarjeta",
+    "moreAboutMe": "Más sobre mí",
+    "proSite": "Sitio profesional",
+    "personalSite": "Personal",
+    "printQr": "QR para imprimir:",
+    "linkToShare": "Link para compartir"
+  },
+  "agents": {
+    "eyebrow": "Agentes IA",
+    "title": "Un puente entre agentes de IA y el conocimiento del equipo",
+    "body": "En mi equipo en Uber Eats, cada análisis partía buscando la query, el deck o la persona correcta. Construí un servidor MCP que conecta nuestros agentes de IA con el conocimiento que el equipo ya tiene, para que cualquiera pregunte en lenguaje natural y parta desde lo que ya funciona.",
+    "left": {
+      "title": "El equipo y sus agentes",
+      "body": "Pregunta en lenguaje natural"
+    },
+    "hub": {
+      "title": "MCP de conocimiento",
+      "body": "Un puente, el contexto del equipo"
+    },
+    "sources": ["Queries", "Servidores MCP", "Docs y guías", "Decks", "Skills", "Conocimiento del equipo"],
+    "points": [
+      {
+        "title": "Encontrar, no rehacer",
+        "body": "Los agentes traen la query, el doc o el deck que ya responde la pregunta."
+      },
+      {
+        "title": "Contexto de manager, para todos",
+        "body": "El know-how que vivía en pocas cabezas ahora es buscable por todo el equipo."
+      },
+      {
+        "title": "Agentes que actúan con contexto",
+        "body": "Skills y guías viajan con el agente, así los resultados siguen cómo trabaja el equipo."
+      }
+    ]
+  }
+}

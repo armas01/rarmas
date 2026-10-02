@@ -62,6 +62,7 @@ export function initCard(doc: Document, win: Window): void {
 
   // Offline: cache the card so it opens instantly even with bad signal at events
   if ('serviceWorker' in win.navigator && win.location.protocol === 'https:') {
-    win.navigator.serviceWorker.register('/card/sw.js', { scope: '/card/' }).catch(() => {});
+    const scope = win.location.pathname.startsWith('/es/') ? '/es/card/' : '/card/';
+    win.navigator.serviceWorker.register(`${scope}sw.js`, { scope }).catch(() => {});
   }
 }

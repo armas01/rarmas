@@ -1,6 +1,7 @@
 ---
 import Section from '../layout/Section.astro';
-import { content } from '../../content/schema';
+import { getContent } from '../../content/schema';
+const content = getContent(Astro.currentLocale);
 
 const { about } = content;
 const { portrait } = about;
@@ -17,7 +18,7 @@ const { portrait } = about;
             <circle cx="12" cy="8.5" r="4" />
             <path d="M4 21c1.2-4.2 4.3-6.5 8-6.5s6.8 2.3 8 6.5" />
           </svg>
-          <span>Photo coming soon</span>
+          <span>{content.ui.photoSoon}</span>
         </div>
       )}
     </figure>

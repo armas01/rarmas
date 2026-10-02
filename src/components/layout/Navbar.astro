@@ -1,6 +1,7 @@
 ---
-import { content } from '../../content/schema';
+import { getContent, otherLocalePath } from '../../content/schema';
 import Button from '../ui/Button.astro';
+const content = getContent(Astro.currentLocale);
 interface Props {
   view?: 'pro' | 'life' | 'card';
 }
@@ -10,6 +11,8 @@ const { views, cta } = content.nav;
 const links = view === 'life' ? content.nav.lifeLinks : view === 'card' ? [] : content.nav.links;
 const activeView = { pro: 0, life: 1, card: 2 }[view];
 const compact = view === 'card';
+const otherLang = Astro.currentLocale === 'es' ? 'en' : 'es';
+const langHref = otherLocalePath(Astro.url.pathname, Astro.currentLocale);
 ---
 
 <header class:list={['nav', { compact }]} data-nav data-state="top">
@@ -18,7 +21,7 @@ const compact = view === 'card';
       <img src="/logo.png" alt="" width="32" height="32" />
       <span>Rodo Armas</span>
     </a>
-    <nav aria-label="View" class="view-switch">
+    <nav aria-label={content.ui.viewNav} class="view-switch">
       {views.map((v, i) => (
         <a href={v.href} aria-current={i === activeView ? 'page' : undefined}>
           {v.label}
@@ -26,13 +29,23 @@ const compact = view === 'card';
       ))}
     </nav>
     {!compact && (
-      <nav aria-label="Main" class="nav-links">
+      <nav aria-label={content.ui.mainNav} class="nav-links">
         {links.map((l) => (
           <a href={l.href}>{l.label}</a>
         ))}
         <span class="nav-indicator" aria-hidden="true"></span>
       </nav>
     )}
+    <a
+      class="lang"
+      href={langHref}
+      hreflang={otherLang}
+      lang={otherLang}
+      aria-label={content.ui.langSwitch}
+      data-lang-switch={otherLang}
+    >
+      {content.ui.langShort}
+    </a>
     {!compact && (
       <div class="nav-cta">
         <Button variant="primary" magnetic href={cta.href}>
@@ -42,7 +55,7 @@ const compact = view === 'card';
     )}
     {!compact && (
       <button class="nav-toggle" aria-expanded="false" aria-controls="mobile-menu" type="button">
-        <span class="visually-hidden">Menu</span>
+        <span class="visually-hidden">{content.ui.menu}</span>
         <span class="burger" aria-hidden="true">
           <i></i>
           <i></i>
@@ -59,7 +72,17 @@ const compact = view === 'card';
           </a>
         ))}
       </div>
-      <div class="overlay-cta" style={`--i:${links.length}`}>
+      <a
+        class="overlay-lang"
+        href={langHref}
+        hreflang={otherLang}
+        lang={otherLang}
+        style={`--i:${links.length}`}
+        data-lang-switch={otherLang}
+      >
+        {content.ui.langSwitch}
+      </a>
+      <div class="overlay-cta" style={`--i:${links.length + 1}`}>
         <Button variant="light" href={cta.href}>
           {cta.label}
         </Button>
@@ -147,6 +170,27 @@ const compact = view === 'card';
   }
   .nav.compact .nav-progress {
     display: none;
+  }
+  .lang {
+    display: inline-grid;
+    place-items: center;
+    min-width: 40px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--line);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .lang:hover {
+    color: var(--text);
+  }
+  .lang:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
   }
   .view-switch {
     display: inline-flex;
@@ -312,12 +356,21 @@ const compact = view === 'card';
     line-height: 1.15;
     border-radius: 12px;
   }
+  .overlay-lang {
+    align-self: flex-start;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--muted);
+    border-radius: 8px;
+  }
   .overlay-links a,
+  .overlay-lang,
   .overlay-cta {
     opacity: 0;
     transform: translateY(16px);
   }
   :global(html.menu-open) .overlay-links a,
+  :global(html.menu-open) .overlay-lang,
   :global(html.menu-open) .overlay-cta {
     animation: nav-rise var(--dur-3) var(--ease-out) both;
     animation-delay: calc(var(--i) * 50ms + 60ms);
@@ -355,6 +408,11 @@ const compact = view === 'card';
     }
   }
   /* Tablet widths: section links move into the menu so the bar never overflows. */
+  @media (max-width: 919px) {
+    .nav:not(.compact) .lang {
+      display: none;
+    }
+  }
   @media (max-width: 919px) and (min-width: 768px) {
     .nav-links {
       display: none;
@@ -367,6 +425,7 @@ const compact = view === 'card';
     flex: none;
   }
   :global(html.reduced-motion) .overlay-links a,
+  :global(html.reduced-motion) .overlay-lang,
   :global(html.reduced-motion) .overlay-cta {
     opacity: 1;
     transform: none;

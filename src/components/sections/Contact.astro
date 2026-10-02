@@ -1,8 +1,9 @@
 ---
 import Section from '../layout/Section.astro';
 import Button from '../ui/Button.astro';
-import { content } from '../../content/schema';
+import { getContent } from '../../content/schema';
 import site from '../../data/site.json';
+const content = getContent(Astro.currentLocale);
 
 const { contact } = content;
 ---

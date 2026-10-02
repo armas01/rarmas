@@ -1,5 +1,6 @@
 import { z } from 'zod';
-import raw from './content.json';
+import en from './content.json';
+import es from './content.es.json';
 
 const Text = z.string().min(1);
 const Link = z.object({ label: Text, href: Text });
@@ -117,6 +118,22 @@ export const ContentSchema = z.object({
     .min(1),
   ui: z.object({
     skip: Text,
+    scrollNext: Text,
+    menu: Text,
+    photoSoon: Text,
+    readOnLinkedIn: Text,
+    postsSoon: Text,
+    mainNav: Text,
+    viewNav: Text,
+    langSwitch: Text,
+    langShort: Text,
+    cardAria: Text,
+    qrAria: Text,
+    moreAboutMe: Text,
+    proSite: Text,
+    personalSite: Text,
+    printQr: Text,
+    linkToShare: Text,
     downloadCv: Text,
     emailMenu: z.object({
       title: Text,
@@ -133,4 +150,19 @@ export const ContentSchema = z.object({
 });
 
 export type Content = z.infer<typeof ContentSchema>;
-export const content: Content = ContentSchema.parse(raw);
+export const locales = ['en', 'es'] as const;
+export type Locale = (typeof locales)[number];
+
+const byLocale: Record<Locale, Content> = { en: ContentSchema.parse(en), es: ContentSchema.parse(es) };
+
+/** Content for a locale (Astro.currentLocale); English is the default. */
+export function getContent(locale?: string): Content {
+  return locale === 'es' ? byLocale.es : byLocale.en;
+}
+export const content: Content = byLocale.en;
+
+/** The same page in the other language: /life/ ⇄ /es/life/. */
+export function otherLocalePath(pathname: string, locale?: string): string {
+  if (locale === 'es') return pathname.replace(/^\/es(?=\/|$)/, '') || '/';
+  return `/es${pathname === '/' ? '/' : pathname}`;
+}

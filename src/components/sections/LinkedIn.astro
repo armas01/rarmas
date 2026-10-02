@@ -5,17 +5,18 @@
 import { readFile } from 'node:fs/promises';
 import Section from '../layout/Section.astro';
 import Button from '../ui/Button.astro';
-import { content } from '../../content/schema';
+import { getContent } from '../../content/schema';
 import { selectPosts } from '../../content/posts';
 import fallbackPosts from '../../data/linkedin.json';
 import site from '../../data/site.json';
+const content = getContent(Astro.currentLocale);
 
 const { linkedin } = content;
 let generated: unknown = undefined;
 try {
   generated = JSON.parse(await readFile(new URL('../../generated/linkedin.json', import.meta.url), 'utf8'));
 } catch {}
-const [latest] = selectPosts(generated, fallbackPosts, []);
+const [latest] = selectPosts(generated, fallbackPosts, [], Astro.currentLocale);
 ---
 
 <Section id="linkedin" labelledby="linkedin-title">
@@ -36,12 +37,12 @@ const [latest] = selectPosts(generated, fallbackPosts, []);
         <p class="date">{latest.date}</p>
         <p class="text">{latest.title}</p>
         <span class="read">
-          Read on LinkedIn <span aria-hidden="true">↗</span>
+          {content.ui.readOnLinkedIn} <span aria-hidden="true">↗</span>
         </span>
       </a>
     ) : (
       <a class="post empty" href={site.links.linkedin} target="_blank" rel="noreferrer">
-        <p class="text">New posts will appear here.</p>
+        <p class="text">{content.ui.postsSoon}</p>
       </a>
     )}
   </div>

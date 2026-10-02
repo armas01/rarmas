@@ -1,7 +1,8 @@
 ---
 import Tag from '../ui/Tag.astro';
 import Button from '../ui/Button.astro';
-import { content } from '../../content/schema';
+import { getContent } from '../../content/schema';
+const content = getContent(Astro.currentLocale);
 
 interface Props {
   hero?: typeof content.hero;
@@ -36,7 +37,7 @@ const { hero = content.hero, next = '#stats' } = Astro.props;
           </Button>
         </div>
       </div>
-      <a class="scroll-cue" href={next} aria-label="Scroll to next section">
+      <a class="scroll-cue" href={next} aria-label={content.ui.scrollNext}>
         <span class="line" aria-hidden="true"></span>
         <span class="arrow" aria-hidden="true">
           ↓
