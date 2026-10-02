@@ -184,6 +184,11 @@ const email = site.identity.email;
       <a href="/life/">
         Personal <span aria-hidden="true">→</span>
       </a>
+      {site.links.cvUrl && (
+        <a href={site.links.cvUrl} target="_blank" rel="noreferrer">
+          {card.cv} <span aria-hidden="true">↓</span>
+        </a>
+      )}
     </nav>
   </main>
 </BaseLayout>

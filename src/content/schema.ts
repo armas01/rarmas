@@ -47,6 +47,7 @@ export const ContentSchema = z.object({
     messageNoEvent: Text,
     flip: Text,
     flipBack: Text,
+    cv: Text,
     qrHint: Text,
   }),
   stats: z.array(z.object({ value: z.number(), suffix: z.string(), label: Text })).length(4),
@@ -60,6 +61,15 @@ export const ContentSchema = z.object({
     eyebrow: Text,
     title: Text,
     projects: z.array(z.object({ tag: Text, title: Text, summary: Text, href: Text, cta: Text })).length(3),
+  }),
+  agents: z.object({
+    eyebrow: Text,
+    title: Text,
+    body: Text,
+    left: z.object({ title: Text, body: Text }),
+    hub: z.object({ title: Text, body: Text }),
+    sources: z.array(Text).min(3),
+    points: z.array(z.object({ title: Text, body: Text })).length(3),
   }),
   bento: z.object({
     eyebrow: Text,
@@ -91,13 +101,33 @@ export const ContentSchema = z.object({
     title: Text,
     interests: z.array(z.object({ title: Text, body: Text })).length(3),
   }),
-  photography: z.object({
-    eyebrow: Text,
-    title: Text,
-    body: Text,
-    cta: Link,
-    // src: a path under public/ (e.g. "/photos/andes.jpg"); null renders a placeholder tile.
-    photos: z.array(z.object({ src: Text.nullable(), alt: Text, caption: z.string() })).min(1),
+  // Galleries on the Personal page. Photo src: a path under public/ (e.g. "/photos/andes.jpg");
+  // null renders a placeholder tile. The first photo of each gallery is shown large.
+  galleries: z
+    .array(
+      z.object({
+        id: z.string().regex(/^[a-z][a-z0-9-]*$/),
+        eyebrow: Text,
+        title: Text,
+        body: Text,
+        cta: Link.nullable(),
+        photos: z.array(z.object({ src: Text.nullable(), alt: Text, caption: z.string() })).min(1),
+      }),
+    )
+    .min(1),
+  ui: z.object({
+    skip: Text,
+    downloadCv: Text,
+    emailMenu: z.object({
+      title: Text,
+      mailApp: Text,
+      gmail: Text,
+      outlook: Text,
+      copy: Text,
+      copied: Text,
+      copyFailed: Text,
+      close: Text,
+    }),
   }),
   contact: z.object({ eyebrow: Text, headline: Text, cta: Link, footerNote: Text }),
 });

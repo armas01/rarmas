@@ -4,7 +4,7 @@ import Navbar from '../components/layout/Navbar.astro';
 import Footer from '../components/layout/Footer.astro';
 import Hero from '../components/sections/Hero.astro';
 import Life from '../components/sections/Life.astro';
-import Photography from '../components/sections/Photography.astro';
+import Gallery from '../components/sections/Gallery.astro';
 import Contact from '../components/sections/Contact.astro';
 import { content } from '../content/schema';
 ---
@@ -14,7 +14,9 @@ import { content } from '../content/schema';
   <main id="main">
     <Hero hero={content.lifeHero} next="#life" />
     <Life />
-    <Photography />
+    {content.galleries.map((g, i) => (
+      <Gallery gallery={g} theme={i % 2 ? 'light' : 'dark'} />
+    ))}
     <Contact />
   </main>
   <Footer />

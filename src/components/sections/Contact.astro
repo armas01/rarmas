@@ -2,6 +2,7 @@
 import Section from '../layout/Section.astro';
 import Button from '../ui/Button.astro';
 import { content } from '../../content/schema';
+import site from '../../data/site.json';
 
 const { contact } = content;
 ---
@@ -17,6 +18,11 @@ const { contact } = content;
       <Button href={contact.cta.href} variant="light" magnetic>
         {contact.cta.label}
       </Button>
+      {site.links.cvUrl && (
+        <Button href={site.links.cvUrl} variant="ghost" external>
+          {content.ui.downloadCv}
+        </Button>
+      )}
     </div>
   </div>
 </Section>
@@ -71,5 +77,9 @@ const { contact } = content;
   }
   .cta {
     margin-top: var(--space-8);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
   }
 </style>

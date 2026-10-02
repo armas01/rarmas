@@ -36,6 +36,10 @@
         "href": "#work"
       },
       {
+        "label": "AI agents",
+        "href": "#agents"
+      },
+      {
         "label": "Skills",
         "href": "#skills"
       },
@@ -56,6 +60,18 @@
       {
         "label": "Photography",
         "href": "#photography"
+      },
+      {
+        "label": "Sport",
+        "href": "#sport"
+      },
+      {
+        "label": "Adventure",
+        "href": "#adventure"
+      },
+      {
+        "label": "Making",
+        "href": "#making"
       }
     ],
     "cta": {
@@ -116,7 +132,8 @@
     "more": "More…",
     "previewNone": "Your card, without a greeting",
     "ownerNote": "Owner view: only on this device.",
-    "ownerExit": "See it as a visitor"
+    "ownerExit": "See it as a visitor",
+    "cv": "CV"
   },
   "stats": [
     {
@@ -162,9 +179,9 @@
       {
         "tag": "Agentic AI",
         "title": "Agentic strategy & development",
-        "summary": "AI agents that research, model and build with me. Lucas, an AI finance analyst, shipped in 36 hours.",
-        "href": "https://grupo-29-platanus-client.vercel.app/",
-        "cta": "Try Lucas"
+        "summary": "An MCP knowledge bridge that lets my team's AI agents find queries, docs, decks and skills. Also: Lucas, an AI finance analyst shipped in 36 hours.",
+        "href": "#agents",
+        "cta": "How it works"
       },
       {
         "tag": "Robotics",
@@ -278,47 +295,6 @@
       }
     ]
   },
-  "photography": {
-    "eyebrow": "Photography",
-    "title": "Through my lens",
-    "body": "A full gallery is on its way.",
-    "cta": {
-      "label": "More on Instagram",
-      "href": "https://www.instagram.com/rodo_armass/"
-    },
-    "photos": [
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      },
-      {
-        "src": null,
-        "alt": "Photo coming soon",
-        "caption": "Coming soon"
-      }
-    ]
-  },
   "contact": {
     "eyebrow": "Contact",
     "headline": "Bring me a hard question.",
@@ -327,5 +303,178 @@
       "href": "mailto:rodoarmas@gmail.com"
     },
     "footerNote": "Built in Santiago. Photos are my own."
+  },
+  "galleries": [
+    {
+      "id": "photography",
+      "eyebrow": "Photography",
+      "title": "Through my lens",
+      "body": "Places and moments I stopped to frame.",
+      "cta": {
+        "label": "More on Instagram",
+        "href": "https://www.instagram.com/rodo_armass/"
+      },
+      "photos": [
+        {
+          "src": null,
+          "alt": "Landscape photo coming soon",
+          "caption": "Landscape"
+        },
+        {
+          "src": null,
+          "alt": "Street photo coming soon",
+          "caption": "Street"
+        },
+        {
+          "src": null,
+          "alt": "Portrait photo coming soon",
+          "caption": "Portrait"
+        },
+        {
+          "src": null,
+          "alt": "Travel photo coming soon",
+          "caption": "Travel"
+        },
+        {
+          "src": null,
+          "alt": "Detail photo coming soon",
+          "caption": "Detail"
+        },
+        {
+          "src": null,
+          "alt": "Night photo coming soon",
+          "caption": "Night"
+        }
+      ]
+    },
+    {
+      "id": "sport",
+      "eyebrow": "Sport",
+      "title": "Ski & tennis",
+      "body": "Winters on the slopes, the rest of the year on court.",
+      "cta": null,
+      "photos": [
+        {
+          "src": null,
+          "alt": "Ski photo coming soon",
+          "caption": "Ski"
+        },
+        {
+          "src": null,
+          "alt": "Tennis photo coming soon",
+          "caption": "Tennis"
+        },
+        {
+          "src": null,
+          "alt": "Ski photo coming soon",
+          "caption": "Ski"
+        },
+        {
+          "src": null,
+          "alt": "Tennis photo coming soon",
+          "caption": "Tennis"
+        }
+      ]
+    },
+    {
+      "id": "adventure",
+      "eyebrow": "Adventure",
+      "title": "Out there",
+      "body": "Trails, mountains and the trips in between.",
+      "cta": null,
+      "photos": [
+        {
+          "src": null,
+          "alt": "Trail photo coming soon",
+          "caption": "Trail"
+        },
+        {
+          "src": null,
+          "alt": "Summit photo coming soon",
+          "caption": "Summit"
+        },
+        {
+          "src": null,
+          "alt": "Road trip photo coming soon",
+          "caption": "Road trip"
+        },
+        {
+          "src": null,
+          "alt": "Camp photo coming soon",
+          "caption": "Camp"
+        }
+      ]
+    },
+    {
+      "id": "making",
+      "eyebrow": "Robotics & making",
+      "title": "Things I've built",
+      "body": "Robots, 3D-printed parts and side projects on the workbench.",
+      "cta": null,
+      "photos": [
+        {
+          "src": null,
+          "alt": "Bench-press spotter photo coming soon",
+          "caption": "Bench-press spotter"
+        },
+        {
+          "src": null,
+          "alt": "3D printing photo coming soon",
+          "caption": "3D printing"
+        },
+        {
+          "src": null,
+          "alt": "Macropad photo coming soon",
+          "caption": "Macropad"
+        },
+        {
+          "src": null,
+          "alt": "Workbench photo coming soon",
+          "caption": "Workbench"
+        }
+      ]
+    }
+  ],
+  "ui": {
+    "skip": "Skip to content",
+    "emailMenu": {
+      "title": "Email Rodo",
+      "mailApp": "Mail app",
+      "gmail": "Gmail",
+      "outlook": "Outlook",
+      "copy": "Copy address",
+      "copied": "Address copied",
+      "copyFailed": "Couldn't copy here.",
+      "close": "Close"
+    },
+    "downloadCv": "Download CV"
+  },
+  "agents": {
+    "eyebrow": "AI agents",
+    "title": "A bridge between AI agents and team knowledge",
+    "body": "On my team at Uber Eats, every analysis used to start by hunting for the right query, deck or person. I built an MCP server that connects our AI agents to the knowledge the team already has, so anyone can ask in plain language and start from what already works.",
+    "left": {
+      "title": "Teammates & their agents",
+      "body": "Ask a question in plain language"
+    },
+    "hub": {
+      "title": "Knowledge MCP",
+      "body": "One bridge, the team's context"
+    },
+    "sources": ["Queries", "MCP servers", "Docs & guides", "Decks", "Skills", "Team knowledge"],
+    "points": [
+      {
+        "title": "Find, don't rebuild",
+        "body": "Agents surface the query, doc or deck that already answers the question."
+      },
+      {
+        "title": "Manager context, for everyone",
+        "body": "Know-how that lived in a few heads becomes searchable by the whole team."
+      },
+      {
+        "title": "Agents that act with context",
+        "body": "Skills and guides travel with the agent, so outputs follow how the team works."
+      }
+    ]
   }
 }
