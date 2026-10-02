@@ -214,6 +214,46 @@ test.describe('card view', () => {
     await expect(page.getByLabel('Where did you meet? (optional)')).toHaveValue('BCG Finals');
   });
 
+  test('?admin=key shows stats from the private function and offers QR downloads', async ({ page }) => {
+    let tracked = 0;
+    await page.route('**/rest/v1/card_events', (r) => {
+      tracked++;
+      return r.fulfill({ status: 201, body: '' });
+    });
+    await page.route('**/rest/v1/rpc/card_stats', async (r) => {
+      const body = r.request().postDataJSON();
+      if (body.admin_key !== 'test-key') return r.fulfill({ status: 401, body: '{}' });
+      return r.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          totals: { view: 12, save: 5, copy: 2, whatsapp: 1 },
+          bySource: { qr: 7, link: 4, direct: 1 },
+          byEvent: [{ event: '<b>BCG</b>', views: 9, saves: 4, shares: 3, last: '2026-10-01' }],
+          byDay: [{ day: '2026-10-01', views: 12, saves: 5 }],
+        }),
+      });
+    });
+    await page.goto('/card/?admin=test-key');
+    await expect(page).toHaveURL(/\/card\/$/);
+    const panel = page.locator('[data-admin]');
+    await expect(panel).toBeVisible();
+    await expect(panel.locator('.tile b').first()).toHaveText('12');
+    await expect(panel.locator('.events td').first()).toHaveText('<b>BCG</b>'); // rendered as text, not HTML
+    await page.locator('[data-share-open]').click();
+    await page.getByLabel('Where did you meet? (optional)').fill('BCG Finals');
+    const dl = page.waitForEvent('download');
+    await page.locator('[data-qr-dl="svg"]').click();
+    expect((await dl).suggestedFilename()).toBe('rarmas-card-qr-bcg-finals.svg');
+    expect(tracked).toBe(0); // localhost never sends stats
+  });
+
+  test('a wrong admin key shows a clear message', async ({ page }) => {
+    await page.route('**/rest/v1/rpc/card_stats', (r) => r.fulfill({ status: 401, body: '{}' }));
+    await page.goto('/card/?admin=nope');
+    await expect(page.locator('[data-admin] .admin-msg')).toContainText('not accepted');
+  });
+
   test('has link-preview tags', async ({ page }) => {
     await page.goto('/card/');
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(

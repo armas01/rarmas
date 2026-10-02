@@ -12,11 +12,14 @@ interface Props {
   description?: string;
   /** Link-preview image under public/ (1200×630). */
   image?: string;
+  /** Page name for anonymous view counts (the card counts its own views). */
+  track?: 'pro' | 'life';
 }
 const {
   title = content.meta.title,
   description = content.meta.description,
   image = '/og/pro.png',
+  track,
 } = Astro.props;
 const pageUrl = new URL(Astro.url.pathname, 'https://rarmas.cl');
 const imageUrl = new URL(image, 'https://rarmas.cl');
@@ -81,8 +84,12 @@ const person = {
     </a>
     <slot />
     <EmailMenu />
+    {track && <span hidden data-track-page={track}></span>}
     <script>
       import '../motion/index';
+      import { track } from '../scripts/track';
+      const page = document.querySelector<HTMLElement>('[data-track-page]')?.dataset.trackPage;
+      if (page === 'pro' || page === 'life') track('view', { page, source: 'direct' });
     </script>
   </body>
 </html>

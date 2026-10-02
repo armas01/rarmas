@@ -10,3 +10,4 @@ Site copy lives in `src/content/content.json` (validated by `src/content/schema.
 - **CV:** `cvUrl` in `src/data/site.json` is `null`. Add a public PDF URL when ready.
 - **Hero imagery:** confirm any desired public attribution wording before launch.
 - **Card (/card):** copy lives in `card` in `content.json`; the contact file (`/rodo-armas.vcf`) is generated from it and `src/data/site.json`. Personalise links with `?met=Event` (e.g. `rarmas.cl/card/?met=BCG`). After changing headlines or the card, run `npm run og` to refresh the link-preview images in `public/og/`.
+- **Owner tools & stats:** open the private `rarmas.cl/card/?admin=<key>` link once per device (tools + stats); `?me` gives tools only. Stats are anonymous counts stored in the `rarmas-stats` Supabase project (`card_events`, insert-only for the public; totals via the key-protected `card_stats` function). `npm run cv` rebuilds the CV PDF from `scripts/cv/cv.json`.
